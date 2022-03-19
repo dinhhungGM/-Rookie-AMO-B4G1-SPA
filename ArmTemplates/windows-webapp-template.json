@@ -4,7 +4,7 @@
     "parameters": {
         "blogStorage": {
             "type": "string",
-            "defaultValue": "b3g1amo"
+            "defaultValue": "b4g1amo"
         }
     },
     "variables": {},
