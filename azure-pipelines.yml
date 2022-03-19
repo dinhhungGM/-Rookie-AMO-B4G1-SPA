@@ -5,9 +5,10 @@
 
 trigger:
 - main
+- develop
 
 pool:
-  name: rookies-b3g1
+  name: rookies-2022
   demands: npm
 
 steps:
