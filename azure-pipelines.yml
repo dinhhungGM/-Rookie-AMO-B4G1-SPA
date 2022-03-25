@@ -38,11 +38,11 @@ steps:
     SourceFolder: amo-admin/build
     TargetFolder: '$(build.artifactstagingdirectory)'
 
-# - task: CopyFiles@2
-#   displayName: 'Copy ARM templates'
-#   inputs:
-#     SourceFolder: ArmTemplates
-#     TargetFolder: '$(build.artifactstagingdirectory)'
+- task: CopyFiles@2
+  displayName: 'Copy ARM templates'
+  inputs:
+    SourceFolder: ArmTemplates
+    TargetFolder: '$(build.artifactstagingdirectory)'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
