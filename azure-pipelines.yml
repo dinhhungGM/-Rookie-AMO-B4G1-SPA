@@ -37,6 +37,12 @@ steps:
   inputs:
     SourceFolder: amo-admin/build
     TargetFolder: '$(build.artifactstagingdirectory)'
+    
+- task: CopyFiles@2
+  displayName: 'Copy web.config'
+  inputs:
+    SourceFolder: amo-admin/web.config
+    TargetFolder: '$(build.artifactstagingdirectory)'
 
 - task: CopyFiles@2
   displayName: 'Copy ARM templates'
