@@ -41,7 +41,9 @@ steps:
 - task: CopyFiles@2
   displayName: 'Copy web.config'
   inputs:
-    SourceFolder: amo-admin/web.config
+    SourceFolder: amo-admin
+    Contents: |
+      web.config
     TargetFolder: '$(build.artifactstagingdirectory)'
 
 - task: CopyFiles@2
