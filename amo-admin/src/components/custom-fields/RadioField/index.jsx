@@ -26,23 +26,6 @@ function RadioField(props) {
   const { field, form, options, label, placeholder, disabled } = props;
   const { name, value } = field;
 
-  const { errors, touched } = form;
-  const showError = errors[name] && touched[name];
-
-  const handleSelectedOptionChange = (selectedOption) => {
-    const selectedValue = selectedOption
-      ? selectedOption.value
-      : selectedOption;
-
-    const changeEvent = {
-      target: {
-        name: name,
-        value: selectedValue,
-      },
-    };
-    field.onChange(changeEvent);
-  };
-
   return (
     <FormGroup row>
       {label && (
@@ -53,7 +36,7 @@ function RadioField(props) {
       <Col className="d-flex flex-column">
         {options.map((opt, i) => (
           <label key={i}>
-            <Field type="radio" name={name} value={opt.value} picked />
+            <Field type="radio" name={name} value={opt.value} />
             {opt.label}
           </label>
         ))}

@@ -63,6 +63,10 @@ const EditAsset = () => {
 
           isSubmitting,
 
+          isValid,
+
+          dirty,
+
           /* and other goodies */
         }) => (
           <form onSubmit={handleSubmit}>
@@ -114,8 +118,6 @@ const EditAsset = () => {
               label="State"
               field={{
                 name: "state",
-                onChange: handleChange,
-                onBlur: handleBlur,
                 value: values.state,
               }}
               options={stateOptions}
@@ -125,7 +127,12 @@ const EditAsset = () => {
               <Button
                 color="danger"
                 type="submit"
-                disabled={isSubmitting}
+                disabled={
+                  isSubmitting ||
+                  !isValid ||
+                  (Object.keys(touched).length === 0 &&
+                    touched.constructor === Object)
+                }
                 className="mx-2"
               >
                 Save
