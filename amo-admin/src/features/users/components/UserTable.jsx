@@ -1,6 +1,6 @@
 import { useTable, useSortBy } from 'react-table'
 
-function Table({ columns, data }) {
+function Table({ columns, data,onRowClick }) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -24,19 +24,20 @@ function Table({ columns, data }) {
       <table class="table" {...getTableProps()}>
         <thead>
           {headerGroups.map(headerGroup => (
-            <tr scope="col" {...headerGroup.getHeaderGroupProps()}>
+            <tr scope="col" className='' {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
                 // Add the sorting props to control sorting. For this example
                 // we can add them into the header props
+                // column.getSortByToggleProps()
                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                   {column.render('Header')}
                   {/* Add a sort direction indicator */}
                   <span>
                     {column.isSorted
                       ? column.isSortedDesc
-                        ? '🔽'
-                        : '🔼'
-                      : ''}
+                        ? ' ▲'
+                        : ' ▼'
+                      :   <span style={{opacity:0}}> ▼</span>}
                   </span>
                 </th>
               ))}
@@ -48,10 +49,18 @@ function Table({ columns, data }) {
             (row, i) => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()}>
+                <tr {...row.getRowProps()} onClick={()=>onRowClick(row.original)}>
                   {row.cells.map(cell => {
                     return (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                        <>
+                            {cell.column.Header=='Joined Date'?(
+                                <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                            ):(
+                                <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                            )}
+                        </>
+                        
+                      
                     )
                   })}
                 </tr>
