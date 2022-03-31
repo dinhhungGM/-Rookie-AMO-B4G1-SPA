@@ -40,7 +40,7 @@ const TheHeader = () => {
                     <DropdownMenu
                     >
                         <DropdownItem onClick={HandleChangePassword}>Change Password</DropdownItem>
-                        <DropdownItem onClick={onLogoutButtonClick}>Sign out</DropdownItem>
+                        <DropdownItem id="logout" onClick={onLogoutButtonClick}>Sign out</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </Container>
