@@ -23,7 +23,7 @@ const Main = () => {
     //const params = useSelector((state) => state.asset.params);
 
     const [Filterlist, setFilterlist] = useState();
-    const [Assets, setAssets] = useState();
+    const [Assets, setAssets] = useState([]);
     const [isRefresh, setIsRefresh] = useState(false);
     const [Filter] = useState(initialFilter);
     const [params, setparams] = useState(initialFilter)
@@ -95,14 +95,14 @@ const Main = () => {
         const fetchAssetList = async () => {
             try {
                 console.log(params);
-                const response = await assetApi.find(params);
+                const response = await assetApi.getAll();
                 console.log(response);
                 setAssets(response);
             } catch (error) {
                 console.log("Failed to fetch asset list: ", error);
             }
         };
-        fetchFilterlist();
+        //fetchFilterlist();
         fetchAssetList(Filter);
     }, [isRefresh, Filter, params]);
 
@@ -220,7 +220,7 @@ const Main = () => {
             {Assets !== undefined && (
                 <>
                     <ManageAssetTable
-                        listitem={Assets.items}
+                        listitem={Assets}
                         onRefresh={handleRefresh}
                         params={params}
                         setparams={setparams}

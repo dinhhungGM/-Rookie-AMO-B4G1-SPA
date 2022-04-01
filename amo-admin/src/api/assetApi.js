@@ -2,7 +2,7 @@ import axiosClient from "./axiosClient";
 
 const assetApi = {
   getAll: (params) => {
-    const url = "api/Asset";
+    const url = "api/Asset/GetAssetList";
         return axiosClient.get(url, { params });
   },
 
