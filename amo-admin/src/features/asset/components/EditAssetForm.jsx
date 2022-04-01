@@ -1,19 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik } from "formik";
 import { Input, FormGroup, Label, Col, Button } from "reactstrap";
 import { useDispatch } from "react-redux";
-import { getAssetCodeAsync } from "../assetSlice";
+
+import { useSelector } from "react-redux";
+import RadioFieldV2 from "../../../components/custom-fields/RadioFieldV2";
+
+const convertDate = (date) => {
+    var day = ("0" + date.getDate()).slice(-2);
+    var month = ("0" + (date.getMonth() + 1)).slice(-2);
+
+    return date.getFullYear()+"-"+(month)+"-"+(day) ;
+}
+
 export default function EditAssetForm(props) {
+    const stateOptions = [
+        { value: 0, label: "Available" },
+        { value: 1, label: "Not Available" },
+        { value: 2, label: "Waiting for Recycling" },
+        { value: 3, label: "Recycled" },
+
+      ];
   const dispatch = useDispatch();
+  const { assetDetail, loading, error } = useSelector((state) => state.asset);
+  useEffect(()=>{
+      //console.log(new Date(assetDetail.installedDate).toISOString());
+
+  },[assetDetail]);
   return (
     <Formik
+        enableReinitialize
       initialValues={{
-        name: "",
-        specification: "",
-        installedDate: "",
-        category: "",
-        state: "Available",
-        categoryId: "",
+        id:assetDetail.id,
+        name: assetDetail.name,
+        specification: assetDetail.specification,
+        installedDate: convertDate(new Date(assetDetail.installedDate)),
+        category: assetDetail.category.desc,
+        state: assetDetail.state,
+        categoryId: assetDetail.categoryId,
       }}
       validate={(values) => {
         const errors = {};
@@ -33,7 +57,8 @@ export default function EditAssetForm(props) {
       }}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
-          dispatch(getAssetCodeAsync({ code: values.category, data: values }));
+         // dispatch(getAssetCodeAsync({ code: values.category, data: values }));
+         console.log(values)
           setSubmitting(false);
         }, 400);
       }}
@@ -58,6 +83,7 @@ export default function EditAssetForm(props) {
                 id="name"
                 onChange={handleChange}
                 onBlur={handleBlur}
+                name="name"
                 value={values.name}
                 placeholder={"Required"}
               />
@@ -74,8 +100,9 @@ export default function EditAssetForm(props) {
                 type="select"
                 onChange={() => {
                   values.category = document.getElementById("category").value;
-                  document.getElementById("installedDate-hidden").click();
+                  
                 }}
+                value={values.category}
                 disabled
               >
                 <option value="" selected disabled hidden>
@@ -106,6 +133,7 @@ export default function EditAssetForm(props) {
                 rows="3"
                 onChange={handleChange}
                 onBlur={handleBlur}
+                name="specification"
                 value={values.specification}
                 placeholder={"Required"}
               />
@@ -117,57 +145,27 @@ export default function EditAssetForm(props) {
             </Label>
             <Col sm={5}>
               <Input
-                id="installeddate-input"
-                name="date"
+                //id="installeddate-input"
+                name="installedDate"
                 type="date"
-                onChange={(target) => {
-                  values.installedDate = new Date(
-                    target.target.value
-                  ).toISOString();
-                  document.getElementById("installedDate-hidden").click();
-                }}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.installedDate}
               />
               <span id="installedDate-hidden" hidden onClick={handleChange} />
             </Col>
           </FormGroup>
-          <FormGroup row>
-            <Label for="state" sm={2}>
-              State
-            </Label>
-            <Col sm={5}>
-              <Input
-                checked={true}
-                id="state-available"
-                value="Available"
-                name="state"
-                type="radio"
-                onClick={(target) => {
-                  if (values.state !== target.target.value) {
-                    values.state = target.target.value;
-                    document.getElementById("installedDate-hidden").click();
-                  }
-                }}
-              />
-              <Label for="state-available">Available</Label>
-              <br></br>
-              <Input
-                id="state-notavailable"
-                value="NotAvailable"
-                name="state"
-                type="radio"
-                onClick={(target) => {
-                  if (values.state !== target.target.value) {
-                    values.state = target.target.value;
-                    document.getElementById("installedDate-hidden").click();
-                  }
-                }}
-              />
-              <Label for="state-notavailable">Not available</Label>
-            </Col>
-          </FormGroup>
-          {/* <button type="submit" disabled={isSubmitting}>
-                    Submit
-                </button> */}
+          <RadioFieldV2
+              label="State"
+              field={{
+                name: "state",
+                onChange: handleChange,
+                onBlur: handleBlur,
+                value: values.state,
+              }}
+              options={stateOptions}
+              form={{ errors, touched }}
+            />
           <div className="text-center">
             <Button
               id="btn-save"

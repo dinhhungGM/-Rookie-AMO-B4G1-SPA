@@ -15,7 +15,7 @@ const routes = [
     name: "Create Asset",
     component: CreateAsset,
   },
-  { path: "/manageasset/edit/:id", name: "Edit Asset", component: EditAsset },
+  { path: "/manageasset/editasset/:id", name: "Edit Asset", component: EditAsset },
   { path: "/manageuser/create", name: "Create User", component: AddEdit },
   { path: "/manageuser", exact: true, name: "User", component: UserManager },
 ];
