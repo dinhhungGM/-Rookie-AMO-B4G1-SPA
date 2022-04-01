@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 
 import { useSelector } from "react-redux";
 import RadioFieldV2 from "../../../components/custom-fields/RadioFieldV2";
+import { updateAssetDetailAsync } from "../assetSlice";
 
 const convertDate = (date) => {
     var day = ("0" + date.getDate()).slice(-2);
@@ -15,10 +16,10 @@ const convertDate = (date) => {
 
 export default function EditAssetForm(props) {
     const stateOptions = [
-        { value: 0, label: "Available" },
-        { value: 1, label: "Not Available" },
-        { value: 2, label: "Waiting for Recycling" },
-        { value: 3, label: "Recycled" },
+        { value: "0", label: "Available" },
+        { value: "1", label: "Not Available" },
+        { value: "2", label: "Waiting for Recycling" },
+        { value: "3", label: "Recycled" },
 
       ];
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ export default function EditAssetForm(props) {
         specification: assetDetail.specification,
         installedDate: convertDate(new Date(assetDetail.installedDate)),
         category: assetDetail.category.desc,
-        state: assetDetail.state,
+        state: String(assetDetail.state),
         categoryId: assetDetail.categoryId,
       }}
       validate={(values) => {
@@ -56,11 +57,8 @@ export default function EditAssetForm(props) {
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-         // dispatch(getAssetCodeAsync({ code: values.category, data: values }));
-         console.log(values)
-          setSubmitting(false);
-        }, 400);
+        dispatch(updateAssetDetailAsync({ ...values }));
+        setSubmitting(false);
       }}
     >
       {({
