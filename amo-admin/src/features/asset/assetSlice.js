@@ -4,6 +4,9 @@ import axiosClient from "../../api/axiosClient";
 
 const initialState = {
     assets: [],
+    assetDetail:{
+        category:{}
+    },
     code: "",
     loading: false,
     error: null
@@ -36,7 +39,35 @@ export const CreateAssetAsync = createAsyncThunk(
         }
     }
 );
-
+export const getAssetDetailAsync = createAsyncThunk(
+    "asset/getAssetDetail",
+    async (values, { rejectWithValue }) => {
+        try {
+            const response = await axiosClient.get("api/asset/" + values.id);
+            
+            return response;
+        } catch (error) {
+            return rejectWithValue(error.response);
+        }
+    }
+);
+export const updateAssetDetailAsync = createAsyncThunk(
+    "asset/updateAssetDetail",
+    async (values, { rejectWithValue }) => {
+        try {
+            await axiosClient.put("api/asset/",{
+                id: values.id,
+                name: values.name,
+                state: parseInt(values.state),
+                specification: values.specification,
+                installedDate: new Date(values.installedDate).toISOString(),
+            });
+            alert("Update asset successfully !");
+        } catch (error) {
+            return rejectWithValue(error.response);
+        }
+    }
+);
 const assetSlice = createSlice({
     name: "asset",
     initialState,
@@ -54,7 +85,32 @@ const assetSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+            .addCase(getAssetDetailAsync.pending, (state, action) => {
+                state.loading = true;
+            })
+            .addCase(getAssetDetailAsync.fulfilled, (state, action) => {
+                state.assetDetail = action.payload;
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(getAssetDetailAsync.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(updateAssetDetailAsync.pending, (state, action) => {
+                state.loading = true;
+            })
+            .addCase(updateAssetDetailAsync.fulfilled, (state, action) => {
+
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(updateAssetDetailAsync.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
     }
+    
 });
 
 const { reducer, actions } = assetSlice;

@@ -2,9 +2,10 @@ import { ErrorMessage } from "formik";
 import PropTypes from "prop-types";
 import React from "react";
 import Select from "react-select";
+import { Field } from "formik";
 import { FormFeedback, FormGroup, Label, Col } from "reactstrap";
 
-SelectField.propTypes = {
+RadioFieldV2.propTypes = {
   field: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
 
@@ -14,21 +15,16 @@ SelectField.propTypes = {
   options: PropTypes.array,
 };
 
-SelectField.defaultProps = {
+RadioFieldV2.defaultProps = {
   label: "",
   placeholder: "",
   disabled: false,
   options: [],
 };
 
-function SelectField(props) {
+function RadioFieldV2(props) {
   const { field, form, options, label, placeholder, disabled } = props;
   const { name, value } = field;
-
-  const selectedOption =
-    value === "00000000-0000-0000-0000-000000000000"
-      ? null
-      : options.find((option) => option.value + "" === value + "");
 
   const { errors, touched } = form;
   const showError = errors[name] && touched[name];
@@ -50,21 +46,17 @@ function SelectField(props) {
   return (
     <FormGroup row>
       {label && (
-        <Label for={name} className="col-3">
+        <Label for={name} sm={2}>
           {label}
         </Label>
       )}
-      <Col>
-        <Select
-          id={name}
-          {...field}
-          value={selectedOption}
-          onChange={handleSelectedOptionChange}
-          placeholder={placeholder}
-          isDisabled={disabled}
-          options={options}
-          className={showError ? "is-invalid" : ""}
-        />
+      <Col className="d-flex flex-column">
+        {options.map((opt, i) => (
+          <label key={i}>
+            <Field type="radio" name={name} value={opt.value} />
+            {opt.label}
+          </label>
+        ))}
 
         <ErrorMessage name={name} component={FormFeedback} />
       </Col>
@@ -72,4 +64,4 @@ function SelectField(props) {
   );
 }
 
-export default SelectField;
+export default RadioFieldV2;
