@@ -11,7 +11,7 @@ const assetApi = {
       return axiosClient.get(url);
   },
 
-  find: (category) => {
+  search: (category) => {
     const url = `api/Asset/search`;
       return axiosClient.post(url, category);
   },
