@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
+import axiosClient from "../../api/axiosClient";
 
 const initialState = {
     assets: [],
@@ -8,24 +9,18 @@ const initialState = {
     error: null
 };
 
-export const getAssetCodeAsync = createAsyncThunk(
+export const CreateAssetAsync = createAsyncThunk(
     "asset/getAssetCode",
     async (values, { rejectWithValue }) => {
         try {
             const user = localStorage.getItem("user");
-            const response = await axios.post(process.env.REACT_APP_API_URL_END_POINT + "api/asset/code",
+            const response = await axiosClient.post("api/asset/code",
                 {
                     "code": values.code
-                },
-                {
-                    headers: {
-                        'Authorization': `Basic ${JSON.parse(user).access_token}`
-                    }
                 });
-            
-            await axios.post(process.env.REACT_APP_API_URL_END_POINT + "api/asset",
+            await axiosClient.post("api/asset",
             {
-                "code": response.data,
+                "code": response,
                 "name": values.data.name,
                 "location": "HN",
                 "state": values.data.state,
@@ -33,11 +28,6 @@ export const getAssetCodeAsync = createAsyncThunk(
                 "installedDate": values.data.installedDate,
                 "creatorId": JSON.parse(user).sub,
                 "categoryId": values.data.categoryId
-            },
-            {
-                headers: {
-                    'Authorization': `Basic ${JSON.parse(user).access_token}`
-                }
             });
             alert("Create asset successfull !");
             return response;
@@ -52,15 +42,15 @@ const assetSlice = createSlice({
     initialState,
     extraReducers: (builder) => {
         builder
-            .addCase(getAssetCodeAsync.pending, (state, action) => {
+            .addCase(CreateAssetAsync.pending, (state, action) => {
                 state.loading = true;
             })
-            .addCase(getAssetCodeAsync.fulfilled, (state, action) => {
-                state.code = action.payload.data;
+            .addCase(CreateAssetAsync.fulfilled, (state, action) => {
+                state.code = action.payload;
                 state.loading = false;
                 state.error = null;
             })
-            .addCase(getAssetCodeAsync.rejected, (state, action) => {
+            .addCase(CreateAssetAsync.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
