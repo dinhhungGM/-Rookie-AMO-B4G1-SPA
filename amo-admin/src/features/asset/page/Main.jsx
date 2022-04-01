@@ -9,6 +9,7 @@ import SearchField from "react-search-field";
 import { Button } from "reactstrap";
 import { useHistory } from "react-router";
 
+
 const initialFilter = {
     categoryId: "",
     state: "",
@@ -153,53 +154,94 @@ const Main = () => {
                                 background: "red",
                             },
                             multiselectContainer: {
-                                width: "150px",
+                                width: "175px",
                             },
                             searchBox: {
                                 borderRadius: "5px",
-                                width: "150px",
-                                height: "39px",
+                                width: "175px",
+                                height: "auto",
                                 background:
                                     "url(https://i.ibb.co/1mTS0k7/Capture.png) no-repeat right center",
                             },
                         }}
                     />
-                    {Filterlist !== undefined && (
-                        <Multiselect
-                            placeholder="Filter by Category"
-                            avoidHighlightFirstOption
-                            hidePlaceholder
-                            displayValue="key"
-                            onKeyPressFn={function noRefCheck() { }}
-                            onRemove={(selectedList, selectedItem) =>
-                                oncategoryChange(selectedList, selectedItem)
+                    <Multiselect
+                        placeholder="Filter by Category"
+                        avoidHighlightFirstOption
+                        hidePlaceholder
+                        displayValue="cat"
+                        onKeyPressFn={function noRefCheck() { }}
+                        onRemove={(selectedList, selectedItem) => oncategoryChange(selectedList, selectedItem)}
+                        onSearch={function noRefCheck() { }}
+                        onSelect={(selectedList, selectedItem) => oncategoryChange(selectedList, selectedItem)}
+                        options={[
+                            {
+                                cat: 'Person Computer',
+                                key: 'PC'
+                            },
+                            {
+                                cat: 'Monitor',
+                                key: 'MO'
+                            },
+                              {
+                                cat: 'Laptop',
+                                key: 'LA'
                             }
-                            onSearch={function noRefCheck() { }}
-                            onSelect={(selectedList, selectedItem) =>
-                                oncategoryChange(selectedList, selectedItem)
+                        ]}
+                        showCheckbox
+                        closeOnSelect={false}
+                        style={{
+                            chips: {
+                                background: 'red'
+                            },
+                            multiselectContainer: {
+                                'width': '175px',
+                            },
+                            searchBox: {
+                                'borderRadius': '5px',
+                                'width': '175px',
+                                'height': 'auto',
+                                'background':
+                                    'url(https://i.ibb.co/1mTS0k7/Capture.png) no-repeat right center',
                             }
-                            options={Filterlist.categoryList.map((category) => {
-                                return { cat: category.id, key: category.name };
-                            })}
-                            showCheckbox
-                            closeOnSelect={false}
-                            style={{
-                                chips: {
-                                    background: "red",
-                                },
-                                multiselectContainer: {
-                                    width: "150px",
-                                },
-                                searchBox: {
-                                    borderRadius: "5px",
-                                    width: "150px",
-                                    height: "39px",
-                                    background:
-                                        "url(https://i.ibb.co/1mTS0k7/Capture.png) no-repeat right center",
-                                },
-                            }}
-                        />
-                    )}
+                        }}
+                    />
+                    {/*{Filterlist !== undefined && (*/}
+                    {/*    <Multiselect*/}
+                    {/*        placeholder="Filter by Category"*/}
+                    {/*        avoidHighlightFirstOption*/}
+                    {/*        hidePlaceholder*/}
+                    {/*        displayValue="key"*/}
+                    {/*        onKeyPressFn={function noRefCheck() { }}*/}
+                    {/*        onRemove={(selectedList, selectedItem) =>*/}
+                    {/*            oncategoryChange(selectedList, selectedItem)*/}
+                    {/*        }*/}
+                    {/*        onSearch={function noRefCheck() { }}*/}
+                    {/*        onSelect={(selectedList, selectedItem) =>*/}
+                    {/*            oncategoryChange(selectedList, selectedItem)*/}
+                    {/*        }*/}
+                    {/*        options={Filterlist.categoryList.map((category) => {*/}
+                    {/*            return { cat: category.id, key: category.name };*/}
+                    {/*        })}*/}
+                    {/*        showCheckbox*/}
+                    {/*        closeOnSelect={false}*/}
+                    {/*        style={{*/}
+                    {/*            chips: {*/}
+                    {/*                background: "red",*/}
+                    {/*            },*/}
+                    {/*            multiselectContainer: {*/}
+                    {/*                width: "150px",*/}
+                    {/*            },*/}
+                    {/*            searchBox: {*/}
+                    {/*                borderRadius: "5px",*/}
+                    {/*                width: "150px",*/}
+                    {/*                height: "39px",*/}
+                    {/*                background:*/}
+                    {/*                    "url(https://i.ibb.co/1mTS0k7/Capture.png) no-repeat right center",*/}
+                    {/*            },*/}
+                    {/*        }}*/}
+                    {/*    />*/}
+                    {/*)}*/}
                 </div>
                 <div id="filter-and-search-asset-grp__search-and-btn">
                     <SearchField
@@ -210,7 +252,7 @@ const Main = () => {
                     />
                     <Button
                         className="btn btn-danger"
-                        onClick={() => history.push("/manageasset/add")}
+                        onClick={() => history.push("/manageasset/createasset")}
                     >
                         Create new asset
                     </Button>
