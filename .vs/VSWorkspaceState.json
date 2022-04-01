@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\amo-admin",
+    "\\amo-admin\\src",
+    "\\amo-admin\\src\\features",
+    "\\amo-admin\\src\\features\\asset",
+    "\\amo-admin\\src\\features\\asset\\components",
+    "\\amo-admin\\src\\features\\asset\\page",
+    "\\amo-admin\\src\\features\\category",
+    "\\amo-admin\\src\\Redux",
+    "\\amo-admin\\src\\utils"
+  ],
+  "PreviewInSolutionExplorer": false
+}
