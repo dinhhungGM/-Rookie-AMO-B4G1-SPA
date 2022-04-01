@@ -2,7 +2,7 @@ import React from 'react'
 import { Formik } from 'formik';
 import { Input, FormGroup, Label, Col, Button } from 'reactstrap';
 import { useDispatch } from "react-redux";
-import { getAssetCodeAsync } from '../assetSlice';
+import { CreateAssetAsync } from '../assetSlice';
 export default function CreateAssetForm(props) {
     const dispatch = useDispatch();
     return (<Formik
@@ -25,7 +25,7 @@ export default function CreateAssetForm(props) {
         }}
         onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
-                dispatch(getAssetCodeAsync({code:values.category,data:values}))
+                dispatch(CreateAssetAsync({code:values.category,data:values}))
                 setSubmitting(false);
             }, 400);
         }}
