@@ -22,7 +22,7 @@ const Welcome = () => {
     return (
         <div>
             <div className="welcomeheader">
-                <Container className="namepage">Welcome</Container>
+                <Container className="namepage">welcome</Container>
             </div>
             <div className="welcomecard">
                 <Card

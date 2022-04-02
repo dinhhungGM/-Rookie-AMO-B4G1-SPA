@@ -8,7 +8,7 @@ import { Button, Input } from "reactstrap";
 import RookieModal from "../../../components/rookiemodal/RookieModal";
 import YesNoModal from "../../../components/rookiemodal/YesNoModal";
 import Pagination from "react-js-pagination";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Multiselect from 'multiselect-react-dropdown';
 import UserTable from "../components/UserTable";
 import { JsonTable } from 'react-json-to-html';
@@ -84,8 +84,9 @@ export default function User(){
     const [userInfor, setUserInfor] = useState(null);
     const [deleteUser, setDeleteUser] = useState(null);
 
+    const history = useHistory();
     const dispatch = useDispatch();
-    
+    console.log(JSON.parse(localStorage.getItem('user')))
     useEffect(() => {
        dispatch(
            getPagedUsersAsync(
@@ -216,6 +217,7 @@ export default function User(){
             <div className="rookie-group-btn">
               <Editbtn 
                 disabled={false}
+                onClick={() => history.push(`/manageuser/${row.original.id}`)}
               />          
               <Xcirclebtn
                 onClick={() =>{
@@ -231,10 +233,11 @@ export default function User(){
       ]
 
       return(
-        <div id='user-listing'>
-            <div id="user-search-filter">
+        <div id='user-listing' style={{paddingTop:'50px'}}>
+          <span style={{ color:'red',fontFamily: 'Segoe UI, Arial',fontStyle:'normal', fontWeight:'bold',fontSize:'20px'}}>User List </span>
+            <div id="user-search-filter" style={{paddingTop:'10px', paddingBottom:'10px'}}>
                   <Multiselect
-                    placeholder="Filter by Type"
+                    placeholder="Type"
                     avoidHighlightFirstOption
                     hidePlaceholder
                     displayValue="cat"
@@ -287,6 +290,7 @@ export default function User(){
                     </Button>
                 </div>
                 </div>
+                
                 {!UserLoading?(
                   <div>
                     <UserTable columns={columns} data={UserList}  onRowClick={(e) => handleRowClick(e)} ></UserTable>
