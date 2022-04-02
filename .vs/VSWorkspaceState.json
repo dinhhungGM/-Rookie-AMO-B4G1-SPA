@@ -3,13 +3,14 @@
     "",
     "\\amo-admin",
     "\\amo-admin\\src",
+    "\\amo-admin\\src\\api",
+    "\\amo-admin\\src\\components",
     "\\amo-admin\\src\\features",
     "\\amo-admin\\src\\features\\asset",
     "\\amo-admin\\src\\features\\asset\\components",
     "\\amo-admin\\src\\features\\asset\\page",
-    "\\amo-admin\\src\\features\\category",
-    "\\amo-admin\\src\\Redux",
-    "\\amo-admin\\src\\utils"
+    "\\ArmTemplates"
   ],
+  "SelectedNode": "\\amo-admin\\src\\features\\asset\\components\\CreateAssetForm.jsx",
   "PreviewInSolutionExplorer": false
 }

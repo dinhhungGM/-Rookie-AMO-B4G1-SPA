@@ -23,7 +23,7 @@ const initialFilter = {
 const Main = () => {
     //const params = useSelector((state) => state.asset.params);
 
-    const [Filterlist, setFilterlist] = useState();
+    //const [Filterlist, setFilterlist] = useState();
     const [Assets, setAssets] = useState([]);
     const [isRefresh, setIsRefresh] = useState(false);
     const [Filter] = useState(initialFilter);
@@ -85,14 +85,14 @@ const Main = () => {
     };
 
     useEffect(() => {
-        const fetchFilterlist = async () => {
-            try {
-                const response = await assetApi.getFilter();
-                setFilterlist(response);
-            } catch (error) {
-                console.log("Failed to fetch asset list: ", error);
-            }
-        };
+        //const fetchFilterlist = async () => {
+        //    try {
+        //        const response = await assetApi.getFilter();
+        //        setFilterlist(response);
+        //    } catch (error) {
+        //        console.log("Failed to fetch asset list: ", error);
+        //    }
+        //};
         const fetchAssetList = async () => {
             try {
                 console.log(params);
@@ -103,7 +103,7 @@ const Main = () => {
                 console.log("Failed to fetch asset list: ", error);
             }
         };
-        //fetchFilterlist();
+        /*fetchFilterlist();*/
         fetchAssetList(Filter);
     }, [isRefresh, Filter, params]);
 
@@ -206,42 +206,42 @@ const Main = () => {
                             }
                         }}
                     />
-                    {/*{Filterlist !== undefined && (*/}
-                    {/*    <Multiselect*/}
-                    {/*        placeholder="Filter by Category"*/}
-                    {/*        avoidHighlightFirstOption*/}
-                    {/*        hidePlaceholder*/}
-                    {/*        displayValue="key"*/}
-                    {/*        onKeyPressFn={function noRefCheck() { }}*/}
-                    {/*        onRemove={(selectedList, selectedItem) =>*/}
-                    {/*            oncategoryChange(selectedList, selectedItem)*/}
-                    {/*        }*/}
-                    {/*        onSearch={function noRefCheck() { }}*/}
-                    {/*        onSelect={(selectedList, selectedItem) =>*/}
-                    {/*            oncategoryChange(selectedList, selectedItem)*/}
-                    {/*        }*/}
-                    {/*        options={Filterlist.categoryList.map((category) => {*/}
-                    {/*            return { cat: category.id, key: category.name };*/}
-                    {/*        })}*/}
-                    {/*        showCheckbox*/}
-                    {/*        closeOnSelect={false}*/}
-                    {/*        style={{*/}
-                    {/*            chips: {*/}
-                    {/*                background: "red",*/}
-                    {/*            },*/}
-                    {/*            multiselectContainer: {*/}
-                    {/*                width: "150px",*/}
-                    {/*            },*/}
-                    {/*            searchBox: {*/}
-                    {/*                borderRadius: "5px",*/}
-                    {/*                width: "150px",*/}
-                    {/*                height: "39px",*/}
-                    {/*                background:*/}
-                    {/*                    "url(https://i.ibb.co/1mTS0k7/Capture.png) no-repeat right center",*/}
-                    {/*            },*/}
-                    {/*        }}*/}
-                    {/*    />*/}
-                    {/*)}*/}
+                    {Filterlist !== undefined && (
+                        <Multiselect
+                            placeholder="Filter by Category"
+                            avoidHighlightFirstOption
+                            hidePlaceholder
+                            displayValue="key"
+                            onKeyPressFn={function noRefCheck() { }}
+                            onRemove={(selectedList, selectedItem) =>
+                                oncategoryChange(selectedList, selectedItem)
+                            }
+                            onSearch={function noRefCheck() { }}
+                            onSelect={(selectedList, selectedItem) =>
+                                oncategoryChange(selectedList, selectedItem)
+                            }
+                            options={Filterlist.categoryList.map((category) => {
+                                return { cat: category.id, key: category.name };
+                            })}
+                            showCheckbox
+                            closeOnSelect={false}
+                            style={{
+                                chips: {
+                                    background: "red",
+                                },
+                                multiselectContainer: {
+                                    width: "150px",
+                                },
+                                searchBox: {
+                                    borderRadius: "5px",
+                                    width: "150px",
+                                    height: "39px",
+                                    background:
+                                        "url(https://i.ibb.co/1mTS0k7/Capture.png) no-repeat right center",
+                                },
+                            }}
+                        />
+                    )}
                 </div>
                 <div id="filter-and-search-asset-grp__search-and-btn">
                     <SearchField

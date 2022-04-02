@@ -101,7 +101,7 @@ const ManageAssetTable = ({ listitem, onRefresh }) => {
         },
         {
             Header: "Category",
-            accessor: "categoryName",
+            accessor: "category.name",
         },
         {
             Header: "State",
