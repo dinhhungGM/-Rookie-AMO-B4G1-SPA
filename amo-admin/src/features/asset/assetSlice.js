@@ -114,5 +114,5 @@ const assetSlice = createSlice({
 });
 
 const { reducer, actions } = assetSlice;
-export const { onChangePageName } = actions;
+export const { onChangePageName, onChangeParam, onListChange } = actions;
 export default reducer;
