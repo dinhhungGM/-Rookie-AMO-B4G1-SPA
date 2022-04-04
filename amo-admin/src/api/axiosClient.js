@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // Please have a look at here `https://github.com/axios/axios#request-config` for the full list of configs
 const axiosClient = axios.create({
-    baseURL: 'https://localhost:5011',
+    baseURL: process.env.REACT_APP_API_URL_END_POINT,
     headers: {
         'content-type': 'application/json',
     },

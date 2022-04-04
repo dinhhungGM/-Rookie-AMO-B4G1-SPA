@@ -1,6 +1,5 @@
 import React from 'react';
 import User from './features/users/page/userList';
-
 const Home = React.lazy(() => import('./features/home/page/Home'));
 const AddEdit = React.lazy(() => import('./features/users/page/AddEdit'));
 const UserManager = React.lazy(() => import('./features/users/page/userList'));
