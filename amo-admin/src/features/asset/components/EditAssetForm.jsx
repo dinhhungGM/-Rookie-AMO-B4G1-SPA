@@ -8,31 +8,29 @@ import RadioFieldV2 from "../../../components/custom-fields/RadioFieldV2";
 import { updateAssetDetailAsync } from "../assetSlice";
 
 const convertDate = (date) => {
-    var day = ("0" + date.getDate()).slice(-2);
-    var month = ("0" + (date.getMonth() + 1)).slice(-2);
+  var day = ("0" + date.getDate()).slice(-2);
+  var month = ("0" + (date.getMonth() + 1)).slice(-2);
 
-    return date.getFullYear()+"-"+(month)+"-"+(day) ;
-}
+  return date.getFullYear() + "-" + month + "-" + day;
+};
 
 export default function EditAssetForm(props) {
-    const stateOptions = [
-        { value: "0", label: "Available" },
-        { value: "1", label: "Not Available" },
-        { value: "2", label: "Waiting for Recycling" },
-        { value: "3", label: "Recycled" },
-
-      ];
+  const stateOptions = [
+    { value: "0", label: "Available" },
+    { value: "1", label: "Not Available" },
+    { value: "3", label: "Waiting for Recycling" },
+    { value: "4", label: "Recycled" },
+  ];
   const dispatch = useDispatch();
   const { assetDetail, loading, error } = useSelector((state) => state.asset);
-  useEffect(()=>{
-      //console.log(new Date(assetDetail.installedDate).toISOString());
-
-  },[assetDetail]);
+  useEffect(() => {
+    //console.log(new Date(assetDetail.installedDate).toISOString());
+  }, [assetDetail]);
   return (
     <Formik
-        enableReinitialize
+      enableReinitialize
       initialValues={{
-        id:assetDetail.id,
+        id: assetDetail.id,
         name: assetDetail.name,
         specification: assetDetail.specification,
         installedDate: convertDate(new Date(assetDetail.installedDate)),
@@ -98,7 +96,6 @@ export default function EditAssetForm(props) {
                 type="select"
                 onChange={() => {
                   values.category = document.getElementById("category").value;
-                  
                 }}
                 value={values.category}
                 disabled
@@ -154,16 +151,16 @@ export default function EditAssetForm(props) {
             </Col>
           </FormGroup>
           <RadioFieldV2
-              label="State"
-              field={{
-                name: "state",
-                onChange: handleChange,
-                onBlur: handleBlur,
-                value: values.state,
-              }}
-              options={stateOptions}
-              form={{ errors, touched }}
-            />
+            label="State"
+            field={{
+              name: "state",
+              onChange: handleChange,
+              onBlur: handleBlur,
+              value: values.state,
+            }}
+            options={stateOptions}
+            form={{ errors, touched }}
+          />
           <div className="text-center">
             <Button
               id="btn-save"
