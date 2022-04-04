@@ -9,13 +9,14 @@ import SearchField from "react-search-field";
 import { Button } from "reactstrap";
 import { useHistory } from "react-router";
 import { getAssetListAsync } from "../assetSlice";
+import { Link } from "react-router-dom";
 
 const initialFilter = {
-  categoryId: "",
+  category: "",
   state: "",
   keySearch: "",
   orderProperty: "UpdatedDate",
-  desc: true,
+  direction: "none",
   page: 1,
   limit: 5,
 };
@@ -40,7 +41,7 @@ const ManageAsset = () => {
     // );
     setparams({
       ...params,
-      State: selectedList.map((x) => x.cat).join(" "),
+      state: selectedList.map((x) => x.cat).join(" "),
       page: 1,
     });
     setActivePage(1);
@@ -55,7 +56,7 @@ const ManageAsset = () => {
     // );
     setparams({
       ...params,
-      Category: selectedList.map((x) => x.key).join(" "),
+      category: selectedList.map((x) => x.key).join(" "),
       page: 1,
     });
     setActivePage(1);
@@ -71,7 +72,7 @@ const ManageAsset = () => {
 
   const onSearchSubmit = (key, value) => {
     //dispatch(onChangeParam({ ...params, KeySearch: key }));
-    setparams({ ...params, KeySearch: key, page: 1 });
+    setparams({ ...params, keySearch: key, page: 1 });
     setActivePage(1);
     //setparams({ ...params, page: pageNumber });
   };
@@ -81,7 +82,7 @@ const ManageAsset = () => {
   };
 
   useEffect(() => {
-    dispatch(getAssetListAsync("page=1&limit=5"));
+    dispatch(getAssetListAsync(params));
   }, []);
 
   useEffect(() => {
@@ -93,7 +94,7 @@ const ManageAsset = () => {
     //        console.log("Failed to fetch asset list: ", error);
     //    }
     //};
-    dispatch(getAssetListAsync("page=" + params.page + "&limit=5"));
+    dispatch(getAssetListAsync(params));
   }, [isRefresh, Filter, params]);
 
   return (
@@ -117,23 +118,23 @@ const ManageAsset = () => {
             }
             options={[
               {
-                cat: "Assigned",
+                cat: "2",
                 key: "Assigned",
               },
               {
-                cat: "Available",
+                cat: "0",
                 key: "Available",
               },
               {
-                cat: "Notavailable",
+                cat: "1",
                 key: "Not available",
               },
               {
-                cat: "WaitingForRecycl",
+                cat: "3",
                 key: "Waiting For Recycle",
               },
               {
-                cat: "Recycled",
+                cat: "4",
                 key: "Recycled",
               },
             ]}
@@ -241,23 +242,24 @@ const ManageAsset = () => {
           id="filter-and-search-asset-grp__search-and-btn"
           className="d-flex"
         >
-          <SearchField
-            placeholder="Search..."
-            onSearchClick={(key, value) => onSearchSubmit(key, value)}
-            onEnter={(key, value) => onSearchSubmit(key, value)}
-            classNames="search-field-asset me-1 h-auto"
-            style={{
-              "*": {
-                height: "auto",
-              },
-            }}
-          />
-          <Button
-            className="btn btn-danger"
-            onClick={() => history.push("/manageasset/createasset")}
-          >
-            Create new asset
-          </Button>
+          <div>
+            <SearchField
+              placeholder="Search..."
+              onSearchClick={(key, value) => onSearchSubmit(key, value)}
+              onEnter={(key, value) => onSearchSubmit(key, value)}
+              classNames="search-field-asset me-1 h-auto"
+            />
+          </div>
+          <div>
+            <Button
+              className="btn btn-danger"
+              tag={Link}
+              to="/manageasset/createasset"
+              //onClick={() => history.push("/manageasset/createasset")}
+            >
+              Create new asset
+            </Button>
+          </div>
         </div>
       </div>
 
