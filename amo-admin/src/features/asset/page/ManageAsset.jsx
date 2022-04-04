@@ -8,6 +8,7 @@ import { onChangeParam } from "../assetSlice";
 import SearchField from "react-search-field";
 import { Button } from "reactstrap";
 import { useHistory } from "react-router";
+import { getAssetListAsync } from "../assetSlice";
 
 const initialFilter = {
   categoryId: "",
@@ -20,17 +21,15 @@ const initialFilter = {
 };
 
 const ManageAsset = () => {
-  //const params = useSelector((state) => state.asset.params);
-
+  const { assets } = useSelector((state) => state.asset);
   const [Filterlist, setFilterlist] = useState();
-  const [Assets, setAssets] = useState([]);
   const [isRefresh, setIsRefresh] = useState(false);
   const [Filter] = useState(initialFilter);
   const [params, setparams] = useState(initialFilter);
 
   const history = useHistory();
 
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const onstateChange = (selectedList) => {
     // dispatch(
@@ -82,6 +81,10 @@ const ManageAsset = () => {
   };
 
   useEffect(() => {
+    dispatch(getAssetListAsync("page=1&limit=5"));
+  }, []);
+
+  useEffect(() => {
     //const fetchFilterlist = async () => {
     //    try {
     //        const response = await assetApi.getFilter();
@@ -90,18 +93,7 @@ const ManageAsset = () => {
     //        console.log("Failed to fetch asset list: ", error);
     //    }
     //};
-    const fetchAssetList = async () => {
-      try {
-        console.log(params);
-        const response = await assetApi.getAll();
-        console.log(response);
-        setAssets(response);
-      } catch (error) {
-        console.log("Failed to fetch asset list: ", error);
-      }
-    };
-    /*fetchFilterlist();*/
-    fetchAssetList(Filter);
+    dispatch(getAssetListAsync("page=" + params.page + "&limit=5"));
   }, [isRefresh, Filter, params]);
 
   return (
@@ -269,10 +261,10 @@ const ManageAsset = () => {
         </div>
       </div>
 
-      {Assets !== undefined && (
+      {assets !== undefined && (
         <>
           <ManageAssetTable
-            listitem={Assets}
+            listitem={assets.items}
             onRefresh={handleRefresh}
             params={params}
             setparams={setparams}
@@ -280,7 +272,7 @@ const ManageAsset = () => {
           <Pagination
             activePage={activePage}
             itemsCountPerPage={5}
-            totalItemsCount={Assets.totalItems}
+            totalItemsCount={assets.totalItems}
             pageRangeDisplayed={5}
             hideFirstLastPages={true}
             prevPageText="Previous"
