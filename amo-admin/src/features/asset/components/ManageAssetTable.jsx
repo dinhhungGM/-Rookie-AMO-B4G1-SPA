@@ -48,9 +48,9 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
     setAssetInfor({
       "Asset Code": code,
       "Asset Name": dataRow.name,
-      Category: dataRow.categoryName,
-      "Installed Date": ParseDateTime(dataRow.installedDate),
-      State: dataRow.state,
+      Category: dataRow.category.name,
+        "Installed Date": ParseDateTime(dataRow.installedDate),
+        State: dataRow.state,
       Location: dataRow.location,
       Specification: dataRow.specification,
       //History: dataRow.id,

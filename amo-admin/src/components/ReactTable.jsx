@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useTable, useSortBy } from "react-table";
 
-function Table({ columns, data, onHeaderClick }) {
+function Table({ columns, data, onHeaderClick, onRowClick }) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -56,7 +56,7 @@ function Table({ columns, data, onHeaderClick }) {
           {firstPageRows.map((row, i) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+                <tr {...row.getRowProps()} onClick={() => onRowClick(row.original)}>
                 {row.cells.map((cell) => {
                   return (
                     <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
