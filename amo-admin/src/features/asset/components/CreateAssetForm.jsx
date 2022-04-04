@@ -71,14 +71,16 @@ export default function CreateAssetForm(props) {
                             name="select"
                             type="select"
                             onChange={() => {
-                                values.category = document.getElementById('category').value;
+                                var cate = document.getElementById('category').value.split('/');
+                                values.category = cate[0];
+                                values.categoryId = cate[1];
                                 document.getElementById('installedDate-hidden').click();
                             }}
                         >
                             <option value="" selected disabled hidden>Choose here</option>
                             {props.categories.map((cat) => {
                                 return (
-                                    <option key={cat.id} value={cat.desc} onClick={values.categoryId = cat.id}>
+                                    <option key={cat.id} value={cat.desc+"/"+cat.id}>
                                         {cat.name}
                                     </option>)
                             })}
@@ -152,9 +154,6 @@ export default function CreateAssetForm(props) {
                         <Label for='state-notavailable'>Not available</Label>
                     </Col>
                 </FormGroup>
-                {/* <button type="submit" disabled={isSubmitting}>
-                    Submit
-                </button> */}
                 <div className='text-center'>
                     <Button
                         id='btn-save'

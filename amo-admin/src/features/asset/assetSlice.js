@@ -3,7 +3,7 @@ import axios from 'axios';
 import axiosClient from "../../api/axiosClient";
 
 const initialState = {
-    assets: [],
+    assets: {items:[]},
     assetDetail:{
         category:{}
     },
@@ -44,7 +44,18 @@ export const getAssetDetailAsync = createAsyncThunk(
     async (values, { rejectWithValue }) => {
         try {
             const response = await axiosClient.get("api/asset/" + values.id);
-            
+            return response;
+        } catch (error) {
+            return rejectWithValue(error.response);
+        }
+    }
+);
+export const getAssetListAsync = createAsyncThunk(
+    "asset/getAssetList",
+    async (values, { rejectWithValue }) => {
+        try {
+            const response = await axiosClient.get('api/asset/search?'+values);
+            console.log(response)
             return response;
         } catch (error) {
             return rejectWithValue(error.response);
@@ -82,6 +93,18 @@ const assetSlice = createSlice({
                 state.error = null;
             })
             .addCase(CreateAssetAsync.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(getAssetListAsync.pending, (state, action) => {
+                state.loading = true;
+            })
+            .addCase(getAssetListAsync.fulfilled, (state, action) => {
+                state.assets = action.payload;
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(getAssetListAsync.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
