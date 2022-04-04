@@ -23,7 +23,7 @@ const initialFilter = {
 const Main = () => {
     //const params = useSelector((state) => state.asset.params);
 
-    //const [Filterlist, setFilterlist] = useState();
+    const [Filterlist, setFilterlist] = useState();
     const [Assets, setAssets] = useState([]);
     const [isRefresh, setIsRefresh] = useState(false);
     const [Filter] = useState(initialFilter);
