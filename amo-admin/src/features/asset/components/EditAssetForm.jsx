@@ -2,11 +2,10 @@ import React, { useEffect } from "react";
 import { Formik } from "formik";
 import { Input, FormGroup, Label, Col, Button } from "reactstrap";
 import { useDispatch } from "react-redux";
-
 import { useSelector } from "react-redux";
 import RadioFieldV2 from "../../../components/custom-fields/RadioFieldV2";
 import { updateAssetDetailAsync } from "../assetSlice";
-
+import { useHistory } from "react-router-dom";
 const convertDate = (date) => {
   var day = ("0" + date.getDate()).slice(-2);
   var month = ("0" + (date.getMonth() + 1)).slice(-2);
@@ -15,6 +14,7 @@ const convertDate = (date) => {
 };
 
 export default function EditAssetForm(props) {
+  const history = useHistory();
   const stateOptions = [
     { value: "0", label: "Available" },
     { value: "1", label: "Not Available" },
@@ -57,6 +57,7 @@ export default function EditAssetForm(props) {
       onSubmit={(values, { setSubmitting }) => {
         dispatch(updateAssetDetailAsync({ ...values }));
         setSubmitting(false);
+        history.push("/manageasset");
       }}
     >
       {({
@@ -175,6 +176,7 @@ export default function EditAssetForm(props) {
               outline
               disabled={isSubmitting}
               className="mx-2"
+              onClick={() => history.push("/manageasset")}
             >
               Cancel
             </Button>

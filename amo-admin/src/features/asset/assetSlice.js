@@ -75,7 +75,6 @@ export const updateAssetDetailAsync = createAsyncThunk(
       });
 
       dispatch(getAssetDetailAsync({ id: values.id }));
-      alert("Update asset successfully !");
     } catch (error) {
       return rejectWithValue(error.response);
     }
