@@ -1,7 +1,7 @@
-import { ErrorMessage } from 'formik';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
+import { ErrorMessage } from "formik";
+import PropTypes from "prop-types";
+import React, { useEffect } from "react";
+import { Col, FormFeedback, FormGroup, Input, Label } from "reactstrap";
 
 InputField.propTypes = {
   field: PropTypes.object.isRequired,
@@ -14,37 +14,39 @@ InputField.propTypes = {
 };
 
 InputField.defaultProps = {
-  type: 'text',
-  label: '',
-  placeholder: '',
+  type: "text",
+  label: "",
+  placeholder: "",
   disabled: false,
-}
+};
 
 function InputField(props) {
-  const {
-    field, form,
-    type, label, placeholder, disabled,
-  } = props;
+  const { field, form, type, label, placeholder, disabled } = props;
   const { name } = field;
   const { errors, touched } = form;
   const showError = errors[name] && touched[name];
-
+  useEffect(() => {
+    console.log(field);
+  }, []);
   return (
-    <FormGroup>
-      {label && <Label htmlFor={name}>{label}</Label>}
+    <FormGroup row={true}>
+      {label && (
+        <Label htmlFor={name} className="col-3">
+          {label}
+        </Label>
+      )}
+      <Col>
+        <Input
+          id={name}
+          {...field}
+          type={type}
+          disabled={disabled}
+          placeholder={placeholder}
+          invalid={showError}
+        />
 
-      <Input
-        id={name}
-        {...field}
-
-        type={type}
-        disabled={disabled}
-        placeholder={placeholder}
-
-        invalid={showError}
-      />
-
-      <ErrorMessage name={name} component={FormFeedback} />
+        <ErrorMessage name={name} component={FormFeedback} />
+      </Col>
     </FormGroup>
   );
 }

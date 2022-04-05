@@ -9,7 +9,7 @@ const userManagerConfig = {
     redirect_uri: `${frontend}callback`,
     post_logout_redirect_uri: `${frontend}`,
     response_type: 'id_token token',
-    scope: 'openid profile roles',
+    scope: 'openid profile roles locations',
     authority: `${identity}`,
     silent_redirect_uri: `${frontend}silent_renew.html`,
     automaticSilentRenew: true,

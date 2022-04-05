@@ -2,11 +2,18 @@ import React from 'react'
 import { Formik } from 'formik';
 import { Input, FormGroup, Label, Col, Button } from 'reactstrap';
 import { useDispatch } from "react-redux";
-import { getAssetCodeAsync } from '../assetSlice';
+import { CreateAssetAsync } from '../assetSlice';
+import { useHistory } from 'react-router-dom';
+import { sortAssetByUpdatedDate } from '../page/ManageAsset';
+const user = JSON.parse(localStorage.getItem("user"));
 export default function CreateAssetForm(props) {
+    const history = useHistory();
     const dispatch = useDispatch();
+    const handleCancel = () => {
+        history.push("/manageasset")
+    }
     return (<Formik
-        initialValues={{ name: '', specification: '', installedDate: '', category: '', state: 'Available', categoryId: '' }}
+        initialValues={{ name: '', specification: '', installedDate: '', category: '', state: 'Available', categoryId: '', location: user.profile.location}}
         validate={values => {
             const errors = {};
             if (!values.name) {
@@ -24,9 +31,11 @@ export default function CreateAssetForm(props) {
             return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-                dispatch(getAssetCodeAsync({code:values.category,data:values}))
+            setTimeout(async() => {
+                await dispatch(CreateAssetAsync({code:values.category,data:values}))
                 setSubmitting(false);
+                sortAssetByUpdatedDate();
+                history.push("/manageasset");
             }, 400);
         }}
     >
@@ -71,14 +80,16 @@ export default function CreateAssetForm(props) {
                             name="select"
                             type="select"
                             onChange={() => {
-                                values.category = document.getElementById('category').value;
+                                var cate = document.getElementById('category').value.split('/');
+                                values.category = cate[0];
+                                values.categoryId = cate[1];
                                 document.getElementById('installedDate-hidden').click();
                             }}
                         >
                             <option value="" selected disabled hidden>Choose here</option>
                             {props.categories.map((cat) => {
                                 return (
-                                    <option key={cat.id} value={cat.desc} onClick={values.categoryId = cat.id}>
+                                    <option key={cat.id} value={cat.desc+"/"+cat.id}>
                                         {cat.name}
                                     </option>)
                             })}
@@ -152,9 +163,6 @@ export default function CreateAssetForm(props) {
                         <Label for='state-notavailable'>Not available</Label>
                     </Col>
                 </FormGroup>
-                {/* <button type="submit" disabled={isSubmitting}>
-                    Submit
-                </button> */}
                 <div className='text-center'>
                     <Button
                         id='btn-save'
@@ -168,6 +176,7 @@ export default function CreateAssetForm(props) {
                         id='btn-cancel'
                         outline
                         disabled={isSubmitting}
+                        onClick={() => handleCancel()}
                     >
                         Cancel
                     </Button>
