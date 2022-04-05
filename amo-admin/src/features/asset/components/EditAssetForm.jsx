@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import RadioFieldV2 from "../../../components/custom-fields/RadioFieldV2";
 import { updateAssetDetailAsync } from "../assetSlice";
 import { useHistory } from "react-router-dom";
+import { sortAssetByUpdatedDate } from "../page/ManageAsset";
 const convertDate = (date) => {
   var day = ("0" + date.getDate()).slice(-2);
   var month = ("0" + (date.getMonth() + 1)).slice(-2);
@@ -57,6 +58,7 @@ export default function EditAssetForm(props) {
       onSubmit={(values, { setSubmitting }) => {
         dispatch(updateAssetDetailAsync({ ...values }));
         setSubmitting(false);
+        sortAssetByUpdatedDate();
         history.push("/manageasset");
       }}
     >

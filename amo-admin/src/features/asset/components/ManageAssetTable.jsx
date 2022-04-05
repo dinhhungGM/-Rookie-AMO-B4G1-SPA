@@ -6,7 +6,7 @@ import assetApi from "../../../api/assetApi";
 import ReactTable from "../../../components/ReactTable";
 
 import { ParseDateTime } from "../../../utils/ParseDateTime";
-import { onListChange, onChangeParam } from "../assetSlice";
+import { onListChange, onChangeParam, deleteAssetAsync } from "../assetSlice";
 import RookieModal from "../../../components/rookiemodal/RookieModal";
 import YesNoModal from "../../../components/rookiemodal/YesNoModal";
 import Xcirclebtn from "../../../components/Button/Xcirclebtn";
@@ -80,8 +80,7 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
 
   const handleConfirmDeleteAsset = async () => {
     try {
-      await assetApi.delete(deleteAsset);
-      dispatch(onListChange());
+      await dispatch(deleteAssetAsync({id:deleteAsset}));
     } catch (error) {
       console.log("Failed to post user: ", error);
     }

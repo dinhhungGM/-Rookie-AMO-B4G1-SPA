@@ -3,8 +3,14 @@ import { Formik } from 'formik';
 import { Input, FormGroup, Label, Col, Button } from 'reactstrap';
 import { useDispatch } from "react-redux";
 import { CreateAssetAsync } from '../assetSlice';
+import { useHistory } from 'react-router-dom';
+import { sortAssetByUpdatedDate } from '../page/ManageAsset';
 export default function CreateAssetForm(props) {
+    const history = useHistory();
     const dispatch = useDispatch();
+    const handleCancel = () => {
+        history.push("/manageasset")
+    }
     return (<Formik
         initialValues={{ name: '', specification: '', installedDate: '', category: '', state: 'Available', categoryId: '' }}
         validate={values => {
@@ -24,9 +30,11 @@ export default function CreateAssetForm(props) {
             return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-                dispatch(CreateAssetAsync({code:values.category,data:values}))
+            setTimeout(async() => {
+                await dispatch(CreateAssetAsync({code:values.category,data:values}))
                 setSubmitting(false);
+                sortAssetByUpdatedDate();
+                history.push("/manageasset");
             }, 400);
         }}
     >
@@ -167,6 +175,7 @@ export default function CreateAssetForm(props) {
                         id='btn-cancel'
                         outline
                         disabled={isSubmitting}
+                        onClick={() => handleCancel()}
                     >
                         Cancel
                     </Button>

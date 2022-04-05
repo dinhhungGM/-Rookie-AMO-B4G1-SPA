@@ -9,7 +9,6 @@ import SearchField from "react-search-field";
 import { Button } from "reactstrap";
 import { useHistory } from "react-router";
 import { getAssetListAsync } from "../assetSlice";
-import { Link } from "react-router-dom";
 
 const initialFilter = {
   category: "",
@@ -21,15 +20,18 @@ const initialFilter = {
   limit: 5,
 };
 
+export const sortAssetByUpdatedDate = () => {
+  initialFilter.direction = "DESC"
+}
+
 const ManageAsset = () => {
   const { assets } = useSelector((state) => state.asset);
   const [Filterlist, setFilterlist] = useState();
   const [isRefresh, setIsRefresh] = useState(false);
-  const [Filter] = useState(initialFilter);
   const [params, setparams] = useState(initialFilter);
+  const [activePage, setActivePage] = useState();
 
   const history = useHistory();
-
   const dispatch = useDispatch();
 
   const onstateChange = (selectedList) => {
@@ -62,8 +64,6 @@ const ManageAsset = () => {
     setActivePage(1);
   };
 
-  const [activePage, setActivePage] = useState();
-
   const handlePageChange = (pageNumber) => {
     //dispatch(onChangeParam({ ...params, page: pageNumber }));
     setparams({ ...params, page: pageNumber });
@@ -82,10 +82,6 @@ const ManageAsset = () => {
   };
 
   useEffect(() => {
-    dispatch(getAssetListAsync(params));
-  }, []);
-
-  useEffect(() => {
     //const fetchFilterlist = async () => {
     //    try {
     //        const response = await assetApi.getFilter();
@@ -95,7 +91,7 @@ const ManageAsset = () => {
     //    }
     //};
     dispatch(getAssetListAsync(params));
-  }, [isRefresh, Filter, params]);
+  }, [isRefresh, params, dispatch]);
 
   return (
     <div>
@@ -242,24 +238,23 @@ const ManageAsset = () => {
           id="filter-and-search-asset-grp__search-and-btn"
           className="d-flex"
         >
-          <div>
-            <SearchField
-              placeholder="Search..."
-              onSearchClick={(key, value) => onSearchSubmit(key, value)}
-              onEnter={(key, value) => onSearchSubmit(key, value)}
-              classNames="search-field-asset me-1 h-auto"
-            />
-          </div>
-          <div>
-            <Button
-              className="btn btn-danger"
-              tag={Link}
-              to="/manageasset/createasset"
-              //onClick={() => history.push("/manageasset/createasset")}
-            >
-              Create new asset
-            </Button>
-          </div>
+          <SearchField
+            placeholder="Search..."
+            onSearchClick={(key, value) => onSearchSubmit(key, value)}
+            onEnter={(key, value) => onSearchSubmit(key, value)}
+            classNames="search-field-asset me-1 h-auto"
+            style={{
+              "*": {
+                height: "auto",
+              },
+            }}
+          />
+          <Button
+            className="btn btn-danger"
+            onClick={() => history.push("/manageasset/createasset")}
+          >
+            Create new asset
+          </Button>
         </div>
       </div>
 
@@ -268,8 +263,8 @@ const ManageAsset = () => {
           <ManageAssetTable
             listitem={assets.items}
             onRefresh={handleRefresh}
-            params={params}
-            setparams={setparams}
+            params = {params}
+            setparams = {setparams}
           ></ManageAssetTable>
           <Pagination
             activePage={activePage}
