@@ -21,8 +21,8 @@ const initialFilter = {
 };
 
 export const sortAssetByUpdatedDate = () => {
-  initialFilter.direction = "DESC"
-}
+  initialFilter.direction = "DESC";
+};
 
 const ManageAsset = () => {
   const { assets } = useSelector((state) => state.asset);
@@ -215,23 +215,27 @@ const ManageAsset = () => {
           id="filter-and-search-asset-grp__search-and-btn"
           className="d-flex"
         >
-          <SearchField
-            placeholder="Search..."
-            onSearchClick={(key, value) => onSearchSubmit(key, value)}
-            onEnter={(key, value) => onSearchSubmit(key, value)}
-            classNames="search-field-asset me-1 h-auto"
-            style={{
-              "*": {
-                height: "auto",
-              },
-            }}
-          />
-          <Button
-            className="btn btn-danger"
-            onClick={() => history.push("/manageasset/createasset")}
-          >
-            Create new asset
-          </Button>
+          <div>
+            <SearchField
+              placeholder="Search..."
+              onSearchClick={(key, value) => onSearchSubmit(key, value)}
+              onEnter={(key, value) => onSearchSubmit(key, value)}
+              classNames="search-field-asset me-1 h-auto"
+              style={{
+                "*": {
+                  height: "auto",
+                },
+              }}
+            />
+          </div>
+          <div>
+            <Button
+              className="btn btn-danger"
+              onClick={() => history.push("/manageasset/createasset")}
+            >
+              Create new asset
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -240,8 +244,8 @@ const ManageAsset = () => {
           <ManageAssetTable
             listitem={assets.items}
             onRefresh={handleRefresh}
-            params = {params}
-            setparams = {setparams}
+            params={params}
+            setparams={setparams}
           ></ManageAssetTable>
           <Pagination
             activePage={activePage}

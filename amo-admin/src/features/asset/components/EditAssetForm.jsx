@@ -55,8 +55,8 @@ export default function EditAssetForm(props) {
         }
         return errors;
       }}
-      onSubmit={(values, { setSubmitting }) => {
-        dispatch(updateAssetDetailAsync({ ...values }));
+      onSubmit={async (values, { setSubmitting }) => {
+        await dispatch(updateAssetDetailAsync({ ...values }));
         setSubmitting(false);
         sortAssetByUpdatedDate();
         history.push("/manageasset");
