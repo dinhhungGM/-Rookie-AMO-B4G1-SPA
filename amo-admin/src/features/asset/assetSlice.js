@@ -7,7 +7,6 @@ const initialState = {
     assetDetail: {
         category: {}
     },
-    direction: "none",
     loading: false,
     error: null
 };
@@ -25,7 +24,7 @@ export const CreateAssetAsync = createAsyncThunk(
                 {
                     "code": response,
                     "name": values.data.name,
-                    "location": "HN",
+                    "location": values.data.location,
                     "state": values.data.state,
                     "specification": values.data.specification,
                     "installedDate": values.data.installedDate,

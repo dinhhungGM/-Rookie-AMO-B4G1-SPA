@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { CreateAssetAsync } from '../assetSlice';
 import { useHistory } from 'react-router-dom';
 import { sortAssetByUpdatedDate } from '../page/ManageAsset';
+const user = JSON.parse(localStorage.getItem("user"));
 export default function CreateAssetForm(props) {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -12,7 +13,7 @@ export default function CreateAssetForm(props) {
         history.push("/manageasset")
     }
     return (<Formik
-        initialValues={{ name: '', specification: '', installedDate: '', category: '', state: 'Available', categoryId: '' }}
+        initialValues={{ name: '', specification: '', installedDate: '', category: '', state: 'Available', categoryId: '', location: user.profile.location}}
         validate={values => {
             const errors = {};
             if (!values.name) {

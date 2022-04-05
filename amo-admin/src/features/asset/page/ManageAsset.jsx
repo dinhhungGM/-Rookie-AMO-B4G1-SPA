@@ -10,12 +10,15 @@ import { Button } from "reactstrap";
 import { useHistory } from "react-router";
 import { getAssetListAsync } from "../assetSlice";
 
+const user = JSON.parse(localStorage.getItem("user"));
+
 const initialFilter = {
   category: "",
   state: "0 1 2",
   keySearch: "",
   orderProperty: "UpdatedDate",
   direction: "none",
+  location: user.profile.location,
   page: 1,
   limit: 5,
 };
