@@ -115,7 +115,7 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
 
   const handleConfirmDeleteAsset = async () => {
     try {
-      await dispatch(deleteAssetAsync({id:deleteAsset}));
+      await dispatch(deleteAssetAsync({ id: deleteAsset }));
     } catch (error) {
       console.log("Failed to post user: ", error);
     }
@@ -166,7 +166,7 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
       Cell: ({ row }) => (
         <div className="rookie-group-btn">
           <Editbtn
-            disabled={false}
+            disabled={stateArr[row.original.state] === "Assigned"}
             onClick={() =>
               history.push("/manageasset/editasset/" + row.original.id)
             }
@@ -235,12 +235,26 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
         customStyles={customStyles}
       >
         {deleteAsset ? (
-          <>
-            <div>Do you want to delete this asset?</div>
-            <Button color="danger" onClick={() => handleConfirmDeleteAsset()}>
-              Delete
-            </Button>
-          </>
+          <div
+            style={{
+              paddingTop: "10px",
+              paddingBottom: "20px",
+            }}
+          >
+            <div className="mb-3">Do you want to delete this asset?</div>
+            <div className="d-flex">
+              <Button
+                color="danger"
+                onClick={() => handleConfirmDeleteAsset()}
+                className="me-2"
+              >
+                Delete
+              </Button>
+              <Button color="secondary" outline={true} onClick={closeModal}>
+                Cancel
+              </Button>
+            </div>
+          </div>
         ) : assetInfor ? (
           <JsonTable json={assetInfor} css={Css} />
         ) : (
