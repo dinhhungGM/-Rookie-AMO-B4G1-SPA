@@ -105,7 +105,7 @@ export const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(createNewUserAsync.fulfilled, (state, action) => {
-        state.users.push(action.payload.data);
+        state.users.unshift(action.payload);
         state.loading = false;
         state.error = null;
         alert("User created successfully");

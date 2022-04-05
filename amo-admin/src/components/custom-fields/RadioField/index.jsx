@@ -13,7 +13,12 @@ const index = ({ options, name, label }) => {
           {options.map((option, idx) => (
             <div key={idx}>
               <label>
-                <Field type="radio" name={name} value={option.value} />
+                <Field
+                  type="radio"
+                  name={name}
+                  value={option.value}
+                  id={`${idx}_${option.value}`}
+                />
                 {" " + option.label}
               </label>{" "}
             </div>

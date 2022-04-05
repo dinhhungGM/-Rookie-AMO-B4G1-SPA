@@ -84,8 +84,9 @@
   font-weight: bold;
   color: rgba(207, 35, 56, 1);
   border-style: solid;
-  border-color: black;
-  border-radius: 8px;
+  border-color: rgb(148, 141, 141);
+  border-top-left-radius:12px;
+  border-top-right-radius:12px;
   border-width: 1px;
   background-color: rgba(239, 241, 245, 1);
   padding: 10px 35px 10px 35px;
@@ -96,7 +97,7 @@
 }
 .rookiemodal-body-content {
   border-style: solid;
-  border-color: black;
+  border-color: rgb(148, 141, 141);
   border-width: 1px;
   padding: 10px 35px 10px 35px;
 }
@@ -408,4 +409,13 @@
   font-size: 27px !important;
   padding-bottom: 8px !important;
   padding-left: 0px !important;
+}
+
+.modal-backdrop
+{
+  background-color: white !important;
+}
+
+.modal-backdrop.show {
+  opacity: .1 !important;
 }
