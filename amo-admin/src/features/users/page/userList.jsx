@@ -79,13 +79,11 @@ export default function User(){
         sort:SortBy,
         desc:Desc
       } = useSelector((state) => state.user);
-    const [list, setList]=useState();
     const [modalIsOpen, setIsOpen] = useState(false);
     const [relateModalIsOpen, setRelateIsOpen] = useState(false);
     const [deleteModalIsOpen, setDeleteIsOpen] = useState(false);
     const [userInfor, setUserInfor] = useState(null);
-    const [deleteUser, setDeleteUser] = useState(null);
-
+    const [Id, setID] = useState(null);
     const history = useHistory();
     const dispatch = useDispatch();
     console.log(JSON.parse(localStorage.getItem('user')))
@@ -110,7 +108,7 @@ export default function User(){
     }
 
       const handleDisableUser = async (id) => {
-        dispatch(setUser(id))
+        setID(id)
         setUserInfor(null);
         try{
           //  dispatch(  checkUserIsRelatoAssignment(id))
@@ -171,7 +169,7 @@ export default function User(){
     
       function closeModal() {
         setUserInfor(null);
-        dispatch(setUser(null))
+        setID(null)
         setIsOpen(false);
       }
       function openRelateModal() {
@@ -183,7 +181,7 @@ export default function User(){
       }
       const handleConfirmDisableUser = async () => {
         try {
-          await dispatch(disableUser(UserID))
+          await dispatch(disableUser(Id))
           await dispatch(onListChange());
 
         } catch (error) {
@@ -328,7 +326,7 @@ export default function User(){
                     <span>Loading...</span>
                 )}
 
-      {UserID ?
+      {Id ?
         <YesNoModal
           title={"Are You Sure?"}
           modalIsOpen={deleteModalIsOpen}
