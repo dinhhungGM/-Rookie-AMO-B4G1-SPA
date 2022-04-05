@@ -12,7 +12,7 @@ import { getAssetListAsync } from "../assetSlice";
 
 const initialFilter = {
   category: "",
-  state: "",
+  state: "0 1 2",
   keySearch: "",
   orderProperty: "UpdatedDate",
   direction: "none",
@@ -26,7 +26,6 @@ export const sortAssetByUpdatedDate = () => {
 
 const ManageAsset = () => {
   const { assets } = useSelector((state) => state.asset);
-  const [Filterlist, setFilterlist] = useState();
   const [isRefresh, setIsRefresh] = useState(false);
   const [params, setparams] = useState(initialFilter);
   const [activePage, setActivePage] = useState();
@@ -99,6 +98,20 @@ const ManageAsset = () => {
       <div id="filter-and-search-asset-grp" className="mb-2">
         <div id="filter-and-search-asset-grp__filter">
           <Multiselect
+            selectedValues={[
+              {
+                cat: "0",
+                key: "Available",
+              },
+              {
+                cat: "1",
+                key: "Not available",
+              },
+              {
+                cat: "2",
+                key: "Assigned",
+              },
+            ]}
             className="me-1"
             placeholder="Filter by State"
             avoidHighlightFirstOption
@@ -114,16 +127,16 @@ const ManageAsset = () => {
             }
             options={[
               {
-                cat: "2",
-                key: "Assigned",
-              },
-              {
                 cat: "0",
                 key: "Available",
               },
               {
                 cat: "1",
                 key: "Not available",
+              },
+              {
+                cat: "2",
+                key: "Assigned",
               },
               {
                 cat: "3",
@@ -197,42 +210,6 @@ const ManageAsset = () => {
               },
             }}
           />
-          {Filterlist !== undefined && (
-            <Multiselect
-              placeholder="Filter by Category"
-              avoidHighlightFirstOption
-              hidePlaceholder
-              displayValue="key"
-              onKeyPressFn={function noRefCheck() {}}
-              onRemove={(selectedList, selectedItem) =>
-                oncategoryChange(selectedList, selectedItem)
-              }
-              onSearch={function noRefCheck() {}}
-              onSelect={(selectedList, selectedItem) =>
-                oncategoryChange(selectedList, selectedItem)
-              }
-              options={Filterlist.categoryList.map((category) => {
-                return { cat: category.id, key: category.name };
-              })}
-              showCheckbox
-              closeOnSelect={false}
-              style={{
-                chips: {
-                  background: "red",
-                },
-                multiselectContainer: {
-                  width: "150px",
-                },
-                searchBox: {
-                  borderRadius: "5px",
-                  width: "150px",
-                  height: "39px",
-                  background:
-                    "url(https://i.ibb.co/1mTS0k7/Capture.png) no-repeat right center",
-                },
-              }}
-            />
-          )}
         </div>
         <div
           id="filter-and-search-asset-grp__search-and-btn"

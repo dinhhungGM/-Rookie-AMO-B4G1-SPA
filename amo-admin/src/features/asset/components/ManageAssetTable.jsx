@@ -48,9 +48,9 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
     setAssetInfor({
       "Asset Code": code,
       "Asset Name": dataRow.name,
-      Category: dataRow.categoryName,
+      Category: dataRow.category.name,
       "Installed Date": ParseDateTime(dataRow.installedDate),
-      State: dataRow.state,
+      State: stateArr[dataRow.state],
       Location: dataRow.location,
       Specification: dataRow.specification,
       //History: dataRow.id,
@@ -67,6 +67,41 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
       bottom: "auto",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
+    },
+  };
+  const Css = {
+    jsonTr: {
+      height: "25px",
+    },
+    jsonTd: {
+      padding: "5px",
+      borderSpacing: "2px",
+      borderRadius: "5px",
+    },
+    rowSpacer: {
+      height: "2px",
+    },
+    rootElement: {
+      padding: "5px",
+      borderSpacing: "2px",
+      backgroundColor: "#FFFFFF",
+      fontWeight: "bold",
+      fontFamily: "Arial",
+      borderRadius: "5px",
+    },
+    subElement: {
+      padding: "5px",
+      borderSpacing: "2px",
+      backgroundColor: "#DDDDDD",
+      fontWeight: "bold",
+      fontFamily: "Arial",
+      borderRadius: "5px",
+    },
+    dataCell: {
+      borderSpacing: "2px",
+      backgroundColor: "#FFFFFF",
+      fontFamily: "Arial",
+      borderRadius: "5px",
     },
   };
 
@@ -207,7 +242,7 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
             </Button>
           </>
         ) : assetInfor ? (
-          <JsonTable json={assetInfor} />
+          <JsonTable json={assetInfor} css={Css} />
         ) : (
           ""
         )}
