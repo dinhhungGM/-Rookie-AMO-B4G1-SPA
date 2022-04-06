@@ -76,6 +76,13 @@ function UserForm(props) {
             );
         }
       })
+      .test(
+        "JoinedDate",
+        "Join Date must be less than or equal to today",
+        (value) => {
+          return value <= Date.now();
+        }
+      )
       .nullable(),
 
     Gender: Yup.string().required("A radio option is required"),
@@ -153,17 +160,22 @@ function UserForm(props) {
               options={TYPE_OPTIONS}
             />
 
-            <FormGroup>
+            <FormGroup style={{
+              float: "right"
+            }}>
               <Button
                 type="submit"
                 id="submit"
                 disabled={!(formikProps.dirty && formikProps.isValid)}
                 color="danger"
+                style={{
+                  marginRight: "18px"
+                }}
               >
                 {isSubmitting && <Spinner size="sm" />}
                 {isAddMode ? "Save" : "Update"}
               </Button>{" "}
-              <Button onClick={() => history.push("/manageuser")} id="cancel">
+              <Button onClick={() => history.push("/manageuser")} id="cancel" outline>
                 Cancel
               </Button>
             </FormGroup>

@@ -6,18 +6,19 @@ const index = ({ options, name, label }) => {
   return (
     <FormGroup className="myformgroup">
       <div className="row">
-        <div className="col-md-4" id="my-radio-group">
+        <div className="col-md-4" >
           {label}
         </div>
-        <div className="col-md-8" role="group" aria-labelledby="my-radio-group">
+        <div className="col-md-8" role="group" aria-labelledby="my-radio-group" id="my-radio-group">
           {options.map((option, idx) => (
-            <div key={idx}>
+            <div key={idx} >
               <label>
                 <Field
                   type="radio"
                   name={name}
                   value={option.value}
                   id={`${idx}_${option.value}`}
+                  className="myradio"
                 />
                 {" " + option.label}
               </label>{" "}
