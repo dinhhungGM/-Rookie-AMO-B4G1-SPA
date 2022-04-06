@@ -73,6 +73,8 @@ export default function EditAssetForm(props) {
               errors.installedDate = "Invalid date";
             } else {
               // date object is valid
+              if (new Date(values.installedDate).getFullYear() > 9999)
+                errors.installedDate = "Invalid date";
             }
           } else {
             // not a date object
@@ -83,11 +85,10 @@ export default function EditAssetForm(props) {
         return errors;
       }}
       onSubmit={async (values, { setSubmitting }) => {
-        console.log(new Date(values.installedDate));
-        //await dispatch(updateAssetDetailAsync({ ...values }));
+        await dispatch(updateAssetDetailAsync({ ...values }));
         setSubmitting(false);
         sortAssetByUpdatedDate();
-        //history.push("/manageasset");
+        history.push("/manageasset");
       }}
     >
       {({

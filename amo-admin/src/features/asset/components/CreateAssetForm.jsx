@@ -52,6 +52,8 @@ export default function CreateAssetForm(props) {
               errors.installedDate = "Invalid date";
             } else {
               // date object is valid
+              if (new Date(values.installedDate).getFullYear() > 9999)
+                errors.installedDate = "Invalid date";
             }
           } else {
             // not a date object
