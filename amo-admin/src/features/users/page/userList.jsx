@@ -301,7 +301,7 @@ export default function User(){
                         id="add-user-btn"
                     >
                       
-                        <Link className="btn-user-text" to="/manageuser/create">Add new user</Link>
+                        <Link className="btn-user-text" to="/manageuser/create">Create new user</Link>
                     </Button>
                 </div>
                 </div>
@@ -340,7 +340,7 @@ export default function User(){
                 handleConfirmDisableUser()
               }
             >
-              Delete
+              Disable
             </Button>
             <Button onClick={() => closeDeleteModal()} id='cancelUserBtn'>Cancel</Button>
           </div>
