@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPagedUsersAsync, onChangePage, setUser, disableUser, onListChange,checkUserIsRelatoAssignment,setFilter,setSearch } from "../userSlice";
+import { getPagedUsersAsync, onChangePage, setUser, disableUser, onListChange,checkUserIsRelatoAssignment,setFilter,setSearch,setSort,setDesc } from "../userSlice";
 import Editbtn from "../../../components/Button/Editbtn";
 import SearchField from "react-search-field";
 import Xcirclebtn from "../../../components/Button/Xcirclebtn";
@@ -75,15 +75,15 @@ export default function User(){
         listChange: ListChange,
         isRelatetoAssignment:IsRelaToAssignment,
         filter:Filter,
-        searchname:SearchName
+        searchname:SearchName,
+        sort:SortBy,
+        desc:Desc
       } = useSelector((state) => state.user);
-    const [list, setList]=useState();
     const [modalIsOpen, setIsOpen] = useState(false);
     const [relateModalIsOpen, setRelateIsOpen] = useState(false);
     const [deleteModalIsOpen, setDeleteIsOpen] = useState(false);
     const [userInfor, setUserInfor] = useState(null);
-    const [deleteUser, setDeleteUser] = useState(null);
-
+    const [Id, setID] = useState(null);
     const history = useHistory();
     const dispatch = useDispatch();
     console.log(JSON.parse(localStorage.getItem('user')))
@@ -94,28 +94,25 @@ export default function User(){
               page: UserCurrentPage,
               limit: 5,
               type:Filter,
-              name: SearchName
+              name: SearchName,
+              sort:SortBy,
+              desc:Desc,
+              id:UserID
             })
            )
            )
-           console.log(parseObjectToUrlQuery({
-            page: UserCurrentPage,
-            limit: 5,
-            state:Filter
-          })
-       )
-       console.log(Filter)
-      }, [dispatch,UserCurrentPage,ListChange,Filter,SearchName]);
+           console.log(UserID)
+      }, [dispatch,UserCurrentPage,ListChange,Filter,SearchName,SortBy,Desc,UserID]);
       const handlePageChange = (pageNumber) => {
         dispatch(onChangePage(pageNumber))
     }
 
       const handleDisableUser = async (id) => {
-        dispatch(setUser(id))
+        setID(id)
         setUserInfor(null);
         try{
-           dispatch(  checkUserIsRelatoAssignment(id))
-          if( IsRelaToAssignment == true){
+          //  dispatch(  checkUserIsRelatoAssignment(id))
+          if(  false){
             openRelateModal();
           }else{
             openDeleteModal();
@@ -126,7 +123,25 @@ export default function User(){
         }
         
       }
+    const onSort=(e)=>{
+      if(e[0]){
+        if(e[0].desc!=Desc)
+        {
+          dispatch(setSort(e[0].id))
+          dispatch(setDesc(e[0].desc))
+        }
+        else{
+          dispatch(setSort(e[0].id))
+          dispatch(setDesc(!e[0].desc))
+        }
+        console.log(SortBy)
 
+      }else{
+        // dispatch(setSort(''))
+        // dispatch(setDesc(false))
+      }
+
+      }
     const onSelect = (selectedList, selectedItem) => {
       dispatch(setFilter(selectedList.map(x => x.key).join(" ")))
     }
@@ -154,7 +169,7 @@ export default function User(){
     
       function closeModal() {
         setUserInfor(null);
-        dispatch(setUser(null))
+        setID(null)
         setIsOpen(false);
       }
       function openRelateModal() {
@@ -166,7 +181,7 @@ export default function User(){
       }
       const handleConfirmDisableUser = async () => {
         try {
-          await dispatch(disableUser(UserID))
+          await dispatch(disableUser(Id))
           await dispatch(onListChange());
 
         } catch (error) {
@@ -293,7 +308,7 @@ export default function User(){
                 
                 {!UserLoading?(
                   <div>
-                    <UserTable columns={columns} data={UserList}  onRowClick={(e) => handleRowClick(e)} ></UserTable>
+                    <UserTable columns={columns} data={UserList}  onRowClick={(e) => handleRowClick(e)} onSort={(e)=>{onSort(e)}}  ></UserTable>
                     <Pagination
                       activePage={UserCurrentPage}
                       itemsCountPerPage={5}
@@ -311,7 +326,7 @@ export default function User(){
                     <span>Loading...</span>
                 )}
 
-      {UserID ?
+      {Id ?
         <YesNoModal
           title={"Are You Sure?"}
           modalIsOpen={deleteModalIsOpen}

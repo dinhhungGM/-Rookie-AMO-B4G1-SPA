@@ -1,24 +1,32 @@
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useTable, useSortBy } from 'react-table'
+import { setSortColumn } from "../userSlice";
 
-function Table({ columns, data,onRowClick }) {
+function Table({ columns, data,onRowClick, onSort }) {
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
+    state: {sortBy},
   } = useTable(
     {
       columns,
       data,
+      manualSortBy: true,
     },
     useSortBy
   )
-
-  // We don't want to render all 2000 rows for this example, so cap
+const {sort: Sort, desc: Desc}= useSelector((state)=>state.user)  // We don't want to render all 2000 rows for this example, so cap
   // it at 20 for this use case
   const firstPageRows = rows;
+    useEffect(()=>{
+         onSort(sortBy)
 
+      
+    },[sortBy])
   return (
     <>
       <table class="table" {...getTableProps()}>
@@ -33,14 +41,22 @@ function Table({ columns, data,onRowClick }) {
                   {column.render('Header')}
                   {/* Add a sort direction indicator */}
                   <span>
-                    {column.isSorted
+                    {
+                      column.id==Sort 
+                        ? Desc
+                          ? ' ▼'
+                          : ' ▲'
+                        :   <span style={{opacity:0}}> ▼</span>}
+                        {/* {
+                      
+                      column.isSorted
                       ? column.isSortedDesc
-                        ? ' ▲'
-                        : ' ▼'
-                      :   <span style={{opacity:0}}> ▼</span>}
-                  </span>
-                </th>
-              ))}
+                          ? ' ▲'
+                          : ' ▼'
+                        :   <span style={{opacity:0}}> ▼</span>} */}
+                    </span>
+                  </th>
+                ))}
             </tr>
           ))}
         </thead>

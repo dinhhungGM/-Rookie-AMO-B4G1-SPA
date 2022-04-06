@@ -3,7 +3,9 @@ import axiosClientId4 from "../../api/axiosClientId4";
 
 const initialState = {
   users: [],
-  userid:null,
+  userid:'',
+  updateUser:{ email:'', dateOfBirth:'', joinedDate:'', gender:'', type:'' },
+  user:{id:'',firstName:'', lastName:'', email:'', dateOfBirth:'', joinedDate:'', gender:'', type:'' },
   currentPage: 1,
   totalPages: 1,
   totalItems: 0,
@@ -13,6 +15,9 @@ const initialState = {
   isRelatetoAssignment:false,
   filter:'',
   searchname:'',
+  sort:'staffCode',
+  desc:false,
+  sortColumn:{id:'',desc:false}
 };
 
 export const getAllUsersAsync = createAsyncThunk(
@@ -74,7 +79,38 @@ export const checkUserIsRelatoAssignment = createAsyncThunk(
     }
   }
 );
+export const getUserById = createAsyncThunk(
+  "user/getUserById",
+  async (values,{ rejectWithValue }) => {
+    try {
+      const response = await axiosClientId4.get(`/api/users/${values}`);
+    
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response);
+    }
+  }
+);
 
+
+export const updateUserAsync = createAsyncThunk(
+  "user/updateUserAsync",
+  async (values,{ rejectWithValue }) => {
+    try {
+      const response = await axiosClientId4.put(`api/users/${values.Id}`, values);
+            return response;
+    } catch (error) {
+      return rejectWithValue(error.response);
+    }
+  }
+);
+const convertString =(date)=>{
+  var day = date.slice(0,2);
+  var month = date.slice(3,5);
+  var year = date.slice(6,10);
+  return year + "-" + month + "-" + day;
+
+}
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -97,7 +133,28 @@ export const userSlice = createSlice({
     },
     setSearch(state,action){
       state.searchname = action.payload;
+    },
+    setSort(state,action){
+      state.sort=action.payload;
+    },
+    setDesc(state,action){
+      state.desc=action.payload;
+    },
+    setUserId(state,action){
+      state.userid=action.payload;
+    },
+    setSortColumn(state,action){
+      console.log("AAAAA")
+      state.sortColumn=action.payload;
+      
+    },
+    updateUser(state,action){
+      state.updateUser.gender=action.payload.gender
+      state.updateUser.dateOfBirth= new Date(action.payload.dateOfBirth)
+      state.updateUser.joinedDate=new Date(action.payload.joinedDate)
+      state.updateUser.type=action.payload.type
     }
+
   },
   extraReducers: (builder) => {
     builder
@@ -105,7 +162,7 @@ export const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(createNewUserAsync.fulfilled, (state, action) => {
-        state.users.unshift(action.payload);
+        // state.users.unshift(action.payload);
         state.loading = false;
         state.error = null;
         alert("User created successfully");
@@ -119,8 +176,7 @@ export const userSlice = createSlice({
         state.loading = true
       })
       .addCase(getPagedUsersAsync.fulfilled, (state, action) => {
-        console.log(action.payload.items);
-        state.users = action.payload.items;
+          state.users = action.payload.items;
         state.totalPages = action.payload.totalPages;
         state.currentPage = action.payload.currentPage;
         state.totalItems = action.payload.totalItems;
@@ -141,8 +197,29 @@ export const userSlice = createSlice({
       })
       .addCase(checkUserIsRelatoAssignment.fulfilled, (state, action) => {
         state.isRelatetoAssignment = action.payload;
+    })
+    .addCase(getUserById.fulfilled, (state,action)=>{
+      state.user=action.payload;
+
+      console.log(state.user)
+    })
+    .addCase(getUserById.pending, (state,action)=>{
+      state.loading=true;
+    })
+    .addCase(getUserById.rejected, (state,action)=>{
+         state.loading = false;
+        state.error = action.payload;
+        alert("Error Loading user");
+    })
+    .addCase(updateUserAsync.fulfilled, (state,action)=>{
+      alert("Success Update User");
+    })
+    .addCase(updateUserAsync.rejected, (state,action)=>{
+         state.loading = false;
+        state.error = action.payload;
+        alert("Error Update user");
     });
   },
 });
-export const {  onChangePage,setUser,onListChange ,setFilter,setSearch} = userSlice.actions;
+export const {  onChangePage,setUser,onListChange ,setFilter,setSearch,setUserId,setSort,setDesc,setSortColumn, updateUser} = userSlice.actions;
 export default userSlice.reducer;
