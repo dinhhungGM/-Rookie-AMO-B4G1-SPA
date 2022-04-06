@@ -82,7 +82,14 @@ const ManageAsset = () => {
   const handleRefresh = () => {
     setIsRefresh(!isRefresh);
   };
-
+  // useEffect(() => {
+  //   const collection = document.getElementsByClassName("option");
+  //   for (let item of collection) {
+  //     const newNode = document.createElement("label");
+  //     newNode.innerHTML = item.textContent;
+  //     item.replaceChild(newNode, item.childNodes[1]);
+  //   }
+  // }, []);
   useEffect(() => {
     //const fetchFilterlist = async () => {
     //    try {
@@ -101,6 +108,7 @@ const ManageAsset = () => {
       <div id="filter-and-search-asset-grp" className="mb-2">
         <div id="filter-and-search-asset-grp__filter">
           <Multiselect
+            showArrow
             selectedValues={[
               {
                 cat: "0",
@@ -118,7 +126,6 @@ const ManageAsset = () => {
             className="me-1"
             placeholder="Filter by State"
             avoidHighlightFirstOption
-            hidePlaceholder
             displayValue="key"
             onKeyPressFn={function noRefCheck() {}}
             onRemove={(selectedstateList, selectedItem) =>
@@ -154,7 +161,7 @@ const ManageAsset = () => {
             closeOnSelect={false}
             style={{
               chips: {
-                background: "red",
+                display: "none",
               },
               multiselectContainer: {
                 width: "175px",
@@ -163,15 +170,13 @@ const ManageAsset = () => {
                 borderRadius: "5px",
                 width: "175px",
                 height: "auto",
-                background:
-                  "url(https://i.ibb.co/1mTS0k7/Capture.png) no-repeat right center",
               },
             }}
           />
           <Multiselect
+            showArrow
             placeholder="Filter by Category"
             avoidHighlightFirstOption
-            hidePlaceholder
             displayValue="cat"
             onKeyPressFn={function noRefCheck() {}}
             onRemove={(selectedList, selectedItem) =>
@@ -199,7 +204,7 @@ const ManageAsset = () => {
             closeOnSelect={false}
             style={{
               chips: {
-                background: "red",
+                display: "none",
               },
               multiselectContainer: {
                 width: "175px",
@@ -208,8 +213,6 @@ const ManageAsset = () => {
                 borderRadius: "5px",
                 width: "175px",
                 height: "auto",
-                background:
-                  "url(https://i.ibb.co/1mTS0k7/Capture.png) no-repeat right center",
               },
             }}
           />
