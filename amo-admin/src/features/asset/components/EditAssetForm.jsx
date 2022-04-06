@@ -1,6 +1,14 @@
 import React, { useEffect } from "react";
 import { Formik } from "formik";
-import { Input, FormGroup, Label, Col, Button } from "reactstrap";
+import {
+  Input,
+  FormGroup,
+  Label,
+  Col,
+  Button,
+  FormFeedback,
+  FormText,
+} from "reactstrap";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import RadioFieldV2 from "../../../components/custom-fields/RadioFieldV2";
@@ -10,8 +18,8 @@ import { sortAssetByUpdatedDate } from "../page/ManageAsset";
 const convertDate = (date) => {
   var day = ("0" + date.getDate()).slice(-2);
   var month = ("0" + (date.getMonth() + 1)).slice(-2);
-
-  return date.getFullYear() + "-" + month + "-" + day;
+  var year = ("000" + date.getFullYear()).slice(-4);
+  return year + "-" + month + "-" + day;
 };
 
 export default function EditAssetForm(props) {
@@ -53,13 +61,33 @@ export default function EditAssetForm(props) {
         if (!values.category) {
           errors.category = "Required";
         }
+        if (!errors.installedDate) {
+          if (
+            Object.prototype.toString.call(new Date(values.installedDate)) ===
+            "[object Date]"
+          ) {
+            // it is a date
+            if (isNaN(new Date(values.installedDate))) {
+              // d.getTime() or d.valueOf() will also work
+              // date object is not valid
+              errors.installedDate = "Invalid date";
+            } else {
+              // date object is valid
+            }
+          } else {
+            // not a date object
+            errors.installedDate = "Invalid date";
+          }
+        }
+
         return errors;
       }}
       onSubmit={async (values, { setSubmitting }) => {
-        await dispatch(updateAssetDetailAsync({ ...values }));
+        console.log(new Date(values.installedDate));
+        //await dispatch(updateAssetDetailAsync({ ...values }));
         setSubmitting(false);
         sortAssetByUpdatedDate();
-        history.push("/manageasset");
+        //history.push("/manageasset");
       }}
     >
       {({
@@ -77,15 +105,16 @@ export default function EditAssetForm(props) {
             <Label for="name" sm={2}>
               Name
             </Label>
-            <Col sm={5}>
+            <Col sm={5} className="position-relative">
               <Input
                 id="name"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 name="name"
                 value={values.name}
-                placeholder={"Required"}
+                invalid={errors.name}
               />
+              <FormFeedback tooltip>{errors.name}</FormFeedback>
             </Col>
           </FormGroup>
           <FormGroup row>
@@ -124,7 +153,7 @@ export default function EditAssetForm(props) {
             <Label for="specification" sm={2}>
               Specification
             </Label>
-            <Col sm={5}>
+            <Col sm={5} className="position-relative">
               <Input
                 id="specification"
                 type="textarea"
@@ -133,15 +162,16 @@ export default function EditAssetForm(props) {
                 onBlur={handleBlur}
                 name="specification"
                 value={values.specification}
-                placeholder={"Required"}
+                invalid={errors.specification}
               />
+              <FormFeedback tooltip>{errors.specification}</FormFeedback>
             </Col>
           </FormGroup>
           <FormGroup row>
             <Label for="installeddate-input" sm={2}>
               Installed Date
             </Label>
-            <Col sm={5}>
+            <Col sm={5} className="position-relative">
               <Input
                 //id="installeddate-input"
                 name="installedDate"
@@ -149,8 +179,9 @@ export default function EditAssetForm(props) {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.installedDate}
+                invalid={errors.installedDate}
               />
-              <span id="installedDate-hidden" hidden onClick={handleChange} />
+              <FormFeedback tooltip>{errors.installedDate}</FormFeedback>
             </Col>
           </FormGroup>
           <RadioFieldV2
