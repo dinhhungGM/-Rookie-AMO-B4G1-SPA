@@ -328,7 +328,7 @@ export default function User() {
           {"  "}
           <Button color="danger" id="add-user-btn">
             <Link className="btn-user-text" to="/manageuser/create">
-              Add new user
+              Create new user
             </Link>
           </Button>
         </div>
@@ -369,7 +369,7 @@ export default function User() {
           <div style={{ paddingTop: "10px", paddingBottom: "20px" }}>
             <p>Do you want to disable this user?</p>
             <Button color="danger" onClick={() => handleConfirmDisableUser()}>
-              Delete
+              Disable
             </Button>
             <Button onClick={() => closeDeleteModal()} id="cancelUserBtn">
               Cancel

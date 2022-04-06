@@ -13,7 +13,7 @@ export default function CreateAssetForm(props) {
         history.push("/manageasset")
     }
     return (<Formik
-        initialValues={{ name: '', specification: '', installedDate: '', category: '', state: 'Available', categoryId: '', location: user.profile.location}}
+        initialValues={{ name: '', specification: '', installedDate: '', category: '', state: '', categoryId: '', location: user.profile.location}}
         validate={values => {
             const errors = {};
             if (!values.name) {
@@ -27,6 +27,9 @@ export default function CreateAssetForm(props) {
             }
             if (!values.category) {
                 errors.category = 'Required'
+            }
+            if (!values.state) {
+                errors.state = 'Required'
             }
             return errors;
         }}
@@ -143,7 +146,7 @@ export default function CreateAssetForm(props) {
                         State
                     </Label>
                     <Col sm={5}>
-                        <Input checked={true} id='state-available' value="Available" name='state' type="radio" onClick={(target) => {
+                        <Input id='state-available' value="Available" name='state' type="radio" onClick={(target) => {
                             if(values.state !== target.target.value)
                             {
                                 values.state = target.target.value;
@@ -168,7 +171,7 @@ export default function CreateAssetForm(props) {
                         id='btn-save'
                         color="danger"
                         type="submit"
-                        disabled={!isValid || isSubmitting}
+                        disabled={!isValid || isSubmitting || (Object.keys(touched).length===0&&touched.constructor === Object)}
                     >
                         Save
                     </Button>
