@@ -64,7 +64,7 @@ function UserForm(props) {
         "DateOfBirth",
         "User is under 18. Please select a different date",
         (value) => {
-          return getAge(value) > 18;
+          return getAge(value) >= 18;
         }
       )
       .nullable(),
