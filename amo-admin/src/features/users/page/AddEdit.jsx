@@ -63,9 +63,9 @@ const AddEdit = () => {
       dispatch(setDesc(true));
       history.push("/manageuser");
     } else {
+      await dispatch(updateUserAsync(values));
       dispatch(setUserId(values.Id));
       dispatch(setSort(""));
-      dispatch(updateUserAsync(values));
       console.log("Edit mode");
       history.push("/manageuser");
     }
