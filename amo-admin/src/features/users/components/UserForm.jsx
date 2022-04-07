@@ -162,6 +162,7 @@ function UserForm(props) {
               id="JoinedDate"
               type="date"
               label="Joined Date"
+              
               placeholder="Eg: Wow nature ..."
             />
             <FastField
@@ -186,7 +187,7 @@ function UserForm(props) {
                 }}
               >
                 {isSubmitting && <Spinner size="sm" />}
-                {isAddMode ? "Save" : "Update"}
+                Save
               </Button>{" "}
               <Button onClick={() => {
                 dispatch(onChangePageName("Manage User"))
