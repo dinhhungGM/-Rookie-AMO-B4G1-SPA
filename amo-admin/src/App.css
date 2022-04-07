@@ -419,3 +419,31 @@
 .modal-backdrop.show {
   opacity: .1 !important;
 }
+
+.myradio {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+
+  border: 1px solid #999;
+  transition: 0.2s all linear;
+  margin-right: 5px;
+
+  position: relative;
+  top: 4px;
+}
+
+.myradio:checked {
+  border: 5px solid rgba(227,12,24,1);
+}
+
+#my-radio-group {
+  display: flex;
+  padding-left: 17px;
+  box-sizing: border-box;
+  justify-content: space-evenly;
+}

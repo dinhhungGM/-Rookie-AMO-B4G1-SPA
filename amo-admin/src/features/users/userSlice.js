@@ -15,9 +15,8 @@ const initialState = {
   isRelatetoAssignment:false,
   filter:'',
   searchname:'',
-  sort:'staffCode',
+  sort:'codeStaff',
   desc:false,
-  sortColumn:{id:'',desc:false}
 };
 
 export const getAllUsersAsync = createAsyncThunk(
