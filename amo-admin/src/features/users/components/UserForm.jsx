@@ -7,6 +7,8 @@ import * as Yup from "yup";
 import InputField from "../../../components/custom-fields/InputField";
 import RadioField from "../../../components/custom-fields/RadioField";
 import SelectField from "../../../components/custom-fields/SelectField";
+import {useDispatch} from 'react-redux'
+import { onChangePageName } from "../../home/homeSlice";
 
 UserForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -25,6 +27,7 @@ const GENRE_OPTIONS = [
 ];
 function UserForm(props) {
   const { initialValues, isAddMode } = props;
+  const dispatch = useDispatch()
 
   const history = useHistory();
   function getAge(dateString) {
@@ -38,12 +41,34 @@ function UserForm(props) {
     return age;
   }
 
+  function getAge1(Birthday, Joindate) {
+    var birthday = new Date(Birthday);
+    var joinedDate = new Date(Joindate);
+    var age = joinedDate.getFullYear() - birthday.getFullYear();
+    var m = joinedDate.getMonth() - birthday.getMonth();
+    if (m < 0 || (m === 0 && joinedDate.getDate() < birthday.getDate())) {
+      age--;
+    }
+    console.log(age)
+    return age;
+  }
+
   const validationSchema = Yup.object().shape({
     Email: Yup.string()
       .required("This field is required.")
       .email("Invalid email"),
-    FirstName: Yup.string().required("This field is required."),
-    LastName: Yup.string().required("This field is required."),
+    FirstName: Yup.string()
+    .required("This field is required.")
+    .test("FirstName", "Invalid First Name, it must have max length less than or equal 100 character and contain character from A-Z, a-z", (value) => {
+      if(value)
+        return value.length <= 100 && /^[a-zA-Z]+$/.test(value);
+    })
+    ,
+    LastName: Yup.string().required("This field is required.")
+    .test("LastName", "Invalid Last Name, it must have max length less than or equal 100 character and contain character from A-Z, a-z", (value) => {
+      if(value)
+        return value.length <= 100 && /^[a-zA-Z ]+$/.test(value);
+    }),
     Type: Yup.string().required("This field is required.").nullable(),
     DateOfBirth: Yup.string()
       .required("This field is required.")
@@ -51,7 +76,7 @@ function UserForm(props) {
         "DateOfBirth",
         "User is under 18. Please select a different date",
         (value) => {
-          return getAge(value) > 18;
+          return getAge(value) >= 18;
         }
       )
       .nullable(),
@@ -72,6 +97,13 @@ function UserForm(props) {
                 const day = new Date(value).getDay();
                 if (day === 0 || day === 6) return false;
                 else return true;
+              }
+            )
+            .test(
+              "JoinedDate",
+              "User must be at least 18 years old",
+              (value) => {
+                return getAge1(DateOfBirth,value) >= 18;
               }
             );
         }
@@ -149,6 +181,7 @@ function UserForm(props) {
               id="JoinedDate"
               type="date"
               label="Joined Date"
+              
               placeholder="Eg: Wow nature ..."
             />
             <FastField
@@ -173,9 +206,12 @@ function UserForm(props) {
                 }}
               >
                 {isSubmitting && <Spinner size="sm" />}
-                {isAddMode ? "Save" : "Update"}
+                Save
               </Button>{" "}
-              <Button onClick={() => history.push("/manageuser")} id="cancel" outline>
+              <Button onClick={() => {
+                dispatch(onChangePageName("Manage User"))
+                history.push("/manageuser")
+              }} id="cancel" outline>
                 Cancel
               </Button>
             </FormGroup>

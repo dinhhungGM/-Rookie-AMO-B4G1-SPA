@@ -103,13 +103,7 @@ export const updateUserAsync = createAsyncThunk(
     }
   }
 );
-const convertString =(date)=>{
-  var day = date.slice(0,2);
-  var month = date.slice(3,5);
-  var year = date.slice(6,10);
-  return year + "-" + month + "-" + day;
 
-}
 export const userSlice = createSlice({
   name: "user",
   initialState,

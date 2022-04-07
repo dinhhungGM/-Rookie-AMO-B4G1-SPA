@@ -29,8 +29,10 @@ const AddEdit = () => {
     (state) => state.user
   );
   useEffect(() => {
-    dispatch(getUserById(userId));
-  }, [dispatch]);
+    if(userId){
+      dispatch(getUserById(userId));
+    }
+  }, [dispatch, userId]);
   const initialValues = isAddMode
     ? {
         FirstName: "",
@@ -61,9 +63,9 @@ const AddEdit = () => {
       dispatch(setDesc(true));
       history.push("/manageuser");
     } else {
+      await dispatch(updateUserAsync(values));
       dispatch(setUserId(values.Id));
       dispatch(setSort(""));
-      dispatch(updateUserAsync(values));
       console.log("Edit mode");
       history.push("/manageuser");
     }
