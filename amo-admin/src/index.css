@@ -15,3 +15,56 @@ code {
 .search-field-asset > * {
   height: inherit !important;
 }
+
+.option input {
+  padding: 0;
+  height: initial;
+  width: initial;
+  margin-bottom: 0;
+  display: none;
+  cursor: pointer;
+}
+
+.option label {
+  position: relative;
+  cursor: pointer;
+  font-size: 13px !important;
+}
+
+.option label:before {
+  content:'';
+  -webkit-appearance: none;
+  background-color: white;
+  border: 2px solid gainsboro;
+  border-radius: 20%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+  padding: 7px;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-right: 5px;
+  
+}
+
+
+
+.option input:checked + label:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  width: 6px;
+  height: 14px;
+  border: solid rgba(207, 35, 56, 1);
+  border-width: 0 2px 2px 0;
+  transform: translateY(-50%) rotate(45deg);
+}
+.option:hover {
+  background-color: rgba(207, 35, 56, 1) !important;
+}
+
+.optionContainer {
+  background-color: rgb(247, 247, 247);
+}
