@@ -46,15 +46,15 @@ function RadioFieldV2(props) {
   return (
     <FormGroup row>
       {label && (
-        <Label for={name} sm={2}>
+        <Label for={name} sm={3}>
           {label}
         </Label>
       )}
       <Col className="d-flex flex-column">
         {options.map((opt, i) => (
           <label key={i}>
-            <Field type="radio" name={name} value={opt.value} />
-            {opt.label}
+            <Field type="radio" name={name} value={opt.value} className="myradio" style={{marginRight:"10px"}}/>
+            <span>{opt.label}</span>
           </label>
         ))}
 

@@ -69,8 +69,8 @@ const {sort: Sort, desc: Desc}= useSelector((state)=>state.user)  // We don't wa
                   {row.cells.map(cell => {
                     return (
                         <>
-                            {cell.column.Header=='Joined Date'?(
-                                <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                            {cell.column.Header !==' '?(
+                                <td {...cell.getCellProps()}>{String(cell.value).substring(0, 20) + (String(cell.value).length > 20 ? "..." : "")}</td>
                             ):(
                                 <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                             )}

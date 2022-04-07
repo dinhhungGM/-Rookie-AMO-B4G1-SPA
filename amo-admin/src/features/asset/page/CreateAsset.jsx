@@ -4,15 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllCategoriesAsync } from '../../category/categorySlice';
 import CreateAssetForm from '../components/CreateAssetForm'
 const CreateAsset = () => {
-    const {categories,loading,error} = useSelector((state)=> state.category)
+    const { categories, loading, error } = useSelector((state) => state.category)
     const dispatch = useDispatch();
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(getAllCategoriesAsync());
-    },[])
+    }, [])
     return (
         <div>
-            <h5>Create New Asset</h5>
-            <br></br>
             <CreateAssetForm categories={categories} />
         </div>
     )

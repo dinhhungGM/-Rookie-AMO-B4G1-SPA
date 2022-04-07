@@ -29,8 +29,10 @@ const AddEdit = () => {
     (state) => state.user
   );
   useEffect(() => {
-    dispatch(getUserById(userId));
-  }, [dispatch]);
+    if(userId){
+      dispatch(getUserById(userId));
+    }
+  }, [dispatch, userId]);
   const initialValues = isAddMode
     ? {
         FirstName: "",

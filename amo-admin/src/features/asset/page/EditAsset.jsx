@@ -28,8 +28,6 @@ const EditAsset = () => {
   )
     return (
       <div>
-        <h5>Edit Asset</h5>
-        <br></br>
         <EditAssetForm categories={categories} />
       </div>
     );
