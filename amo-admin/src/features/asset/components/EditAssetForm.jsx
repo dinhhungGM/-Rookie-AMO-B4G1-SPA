@@ -43,9 +43,7 @@ export default function EditAssetForm(props) {
         paddingRight: "30%",
       }}
     >
-      <div className="titleview mb-3" >
-        Edit Asset
-      </div>
+      <div className="titleview mb-3">Edit Asset</div>
       <Formik
         enableReinitialize
         initialValues={{
@@ -61,7 +59,7 @@ export default function EditAssetForm(props) {
           const errors = {};
           const specialChars = `\`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`;
 
-          const result = specialChars.split('').some(specialChar => {
+          const result = specialChars.split("").some((specialChar) => {
             if (values.name.includes(specialChar)) {
               return true;
             }
@@ -70,7 +68,7 @@ export default function EditAssetForm(props) {
           if (!values.name) {
             errors.name = "Required";
           } else if (result) {
-            errors.name = "Name cannot contain special character!"
+            errors.name = "Name cannot contain special character!";
           }
           if (!values.specification) {
             errors.specification = "Required";
@@ -93,6 +91,8 @@ export default function EditAssetForm(props) {
                 errors.installedDate = "Invalid date";
               } else {
                 // date object is valid
+                if (new Date(values.installedDate).getFullYear() > 9999)
+                  errors.installedDate = "Invalid date";
               }
             } else {
               // not a date object
@@ -104,10 +104,10 @@ export default function EditAssetForm(props) {
         }}
         onSubmit={async (values, { setSubmitting }) => {
           console.log(new Date(values.installedDate));
-          //await dispatch(updateAssetDetailAsync({ ...values }));
+          await dispatch(updateAssetDetailAsync({ ...values }));
           setSubmitting(false);
           sortAssetByUpdatedDate();
-          //history.push("/manageasset");
+          history.push("/manageasset");
         }}
       >
         {({

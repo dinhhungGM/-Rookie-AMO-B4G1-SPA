@@ -25,9 +25,7 @@ export default function CreateAssetForm(props) {
         paddingRight: "30%",
       }}
     >
-      <div className="titleview mb-3" >
-        Create New Asset
-      </div>
+      <div className="titleview mb-3">Create New Asset</div>
       <Formik
         initialValues={{
           name: "",
@@ -42,7 +40,7 @@ export default function CreateAssetForm(props) {
           const errors = {};
           const specialChars = `\`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`;
 
-          const result = specialChars.split('').some(specialChar => {
+          const result = specialChars.split("").some((specialChar) => {
             if (values.name.includes(specialChar)) {
               return true;
             }
@@ -51,7 +49,7 @@ export default function CreateAssetForm(props) {
           if (!values.name) {
             errors.name = "Required";
           } else if (result) {
-            errors.name = "Name cannot contain special character!"
+            errors.name = "Name cannot contain special character!";
           }
 
           if (!values.specification) {
@@ -78,6 +76,8 @@ export default function CreateAssetForm(props) {
                 errors.installedDate = "Invalid date";
               } else {
                 // date object is valid
+                if (new Date(values.installedDate).getFullYear() > 9999)
+                  errors.installedDate = "Invalid date";
               }
             } else {
               // not a date object
