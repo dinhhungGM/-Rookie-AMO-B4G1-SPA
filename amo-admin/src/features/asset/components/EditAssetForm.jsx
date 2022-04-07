@@ -59,8 +59,18 @@ export default function EditAssetForm(props) {
         }}
         validate={(values) => {
           const errors = {};
+          const specialChars = `\`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`;
+
+          const result = specialChars.split('').some(specialChar => {
+            if (values.name.includes(specialChar)) {
+              return true;
+            }
+            return false;
+          });
           if (!values.name) {
             errors.name = "Required";
+          } else if (result) {
+            errors.name = "Name cannot contain special character!"
           }
           if (!values.specification) {
             errors.specification = "Required";
