@@ -3,19 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getPagedUsersAsync,
   onChangePage,
-  setUser,
   disableUser,
   onListChange,
-  checkUserIsRelatoAssignment,
   setFilter,
   setSearch,
   setSort,
   setDesc,
 } from "../userSlice";
+import { onChangePageName } from "../../home/homeSlice";
 import Editbtn from "../../../components/Button/Editbtn";
 import SearchField from "react-search-field";
 import Xcirclebtn from "../../../components/Button/Xcirclebtn";
-import { Button, Input } from "reactstrap";
+import { Button } from "reactstrap";
 import RookieModal from "../../../components/rookiemodal/RookieModal";
 import YesNoModal from "../../../components/rookiemodal/YesNoModal";
 import Pagination from "react-js-pagination";
@@ -247,7 +246,10 @@ export default function User() {
         <div className="rookie-group-btn">
           <Editbtn
             disabled={false}
-            onClick={() => history.push(`/manageuser/${row.original.id}`)}
+            onClick={() => {
+              dispatch(onChangePageName('Manage User > Edit User'));
+              history.push(`/manageuser/${row.original.id}`);
+            }}
           />
           <Xcirclebtn
             onClick={() => {
@@ -327,7 +329,7 @@ export default function User() {
           />
           {"  "}
           <Button color="danger" id="add-user-btn">
-            <Link className="btn-user-text" to="/manageuser/create">
+            <Link className="btn-user-text" to="/manageuser/create" onClick={() => dispatch((onChangePageName("Manage User > Create New User")))}>
               Create new user
             </Link>
           </Button>

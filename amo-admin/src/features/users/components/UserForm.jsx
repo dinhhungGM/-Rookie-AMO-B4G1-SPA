@@ -7,6 +7,8 @@ import * as Yup from "yup";
 import InputField from "../../../components/custom-fields/InputField";
 import RadioField from "../../../components/custom-fields/RadioField";
 import SelectField from "../../../components/custom-fields/SelectField";
+import {useDispatch} from 'react-redux'
+import { onChangePageName } from "../../home/homeSlice";
 
 UserForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -25,6 +27,7 @@ const GENRE_OPTIONS = [
 ];
 function UserForm(props) {
   const { initialValues, isAddMode } = props;
+  const dispatch = useDispatch()
 
   const history = useHistory();
   function getAge(dateString) {
@@ -175,7 +178,10 @@ function UserForm(props) {
                 {isSubmitting && <Spinner size="sm" />}
                 {isAddMode ? "Save" : "Update"}
               </Button>{" "}
-              <Button onClick={() => history.push("/manageuser")} id="cancel" outline>
+              <Button onClick={() => {
+                dispatch(onChangePageName("Manage User"))
+                history.push("/manageuser")
+              }} id="cancel" outline>
                 Cancel
               </Button>
             </FormGroup>
