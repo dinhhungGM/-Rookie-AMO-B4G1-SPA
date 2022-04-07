@@ -55,7 +55,7 @@ function UserForm(props) {
     LastName: Yup.string().required("This field is required.")
     .test("LastName", "Invalid Last Name, it must have max length less than or equal 100 character and contain character from A-Z, a-z", (value) => {
       if(value)
-        return value.length <= 100 && /^[a-zA-Z]+$/.test(value);
+        return value.length <= 100 && /^[a-zA-Z ]+$/.test(value);
     }),
     Type: Yup.string().required("This field is required.").nullable(),
     DateOfBirth: Yup.string()
