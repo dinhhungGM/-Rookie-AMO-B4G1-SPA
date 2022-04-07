@@ -56,10 +56,12 @@ function Table({ columns, data, onHeaderClick, onRowClick }) {
           {firstPageRows.map((row, i) => {
             prepareRow(row);
             return (
-                <tr {...row.getRowProps()} onClick={() => onRowClick(row.original)}>
+              <tr {...row.getRowProps()} onClick={() => onRowClick(row.original)}>
                 {row.cells.map((cell) => {
                   return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    <td {...cell.getCellProps()}>
+                      {cell.column.Header !== "Action" ? String(cell.value).substring(0, 20) + (String(cell.value).length > 20 ? "..." : "") : cell.render("Cell")}
+                    </td>
                   );
                 })}
               </tr>

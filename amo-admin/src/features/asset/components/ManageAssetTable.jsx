@@ -12,6 +12,7 @@ import YesNoModal from "../../../components/rookiemodal/YesNoModal";
 import Xcirclebtn from "../../../components/Button/Xcirclebtn";
 import Editbtn from "../../../components/Button/Editbtn";
 import { useHistory } from "react-router-dom";
+import { onChangePageName } from "../../home/homeSlice";
 const stateArr = [
   "Available",
   "Not Available",
@@ -44,7 +45,6 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
 
   const handleRowClick = (dataRow) => {
     const code = dataRow.code == null ? "Is unavailable" : dataRow.code;
-    console.log(dataRow);
     setAssetInfor({
       "Asset Code": code,
       "Asset Name": dataRow.name,
@@ -55,7 +55,6 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
       Specification: dataRow.specification,
       //History: dataRow.id,
     });
-    console.log(assetInfor);
     openModal();
   };
 
@@ -107,6 +106,10 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
 
   const dispatch = useDispatch();
 
+  const handleChangePageName = (pagename) => {
+    dispatch(onChangePageName(pagename));
+  };
+
   const handleDeleteAsset = (id) => {
     setDeleteAsset(id);
     setAssetInfor(null);
@@ -141,25 +144,25 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
       Header: "Asset Code",
       id: "Code",
       accessor: "code",
-      sortDirection: sort.accessor === "Code" ? sort.direction : "none",
+      sortDirection: sort.accessor === "Code" ? sort.direction : params.direction,
     },
     {
       Header: "Asset Name",
       id: "Name",
       accessor: "name",
-      sortDirection: sort.accessor === "Name" ? sort.direction : "none",
+      sortDirection: sort.accessor === "Name" ? sort.direction : params.direction,
     },
     {
       Header: "Category",
       id: "Category",
       accessor: "category.name",
-      sortDirection: sort.accessor === "Category" ? sort.direction : "none",
+      sortDirection: sort.accessor === "Category" ? sort.direction : params.direction,
     },
     {
       Header: "State",
       id: "State",
       accessor: (originalRow, rowIndex) => stateArr[originalRow.state],
-      sortDirection: sort.accessor === "State" ? sort.direction : "none",
+      sortDirection: sort.accessor === "State" ? sort.direction : params.direction,
     },
     {
       Header: "Action",
@@ -167,9 +170,10 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
         <div className="rookie-group-btn">
           <Editbtn
             disabled={stateArr[row.original.state] === "Assigned"}
-            onClick={() =>
+            onClick={() => {
+              handleChangePageName("Manage Asset > Edit Asset")
               history.push("/manageasset/editasset/" + row.original.id)
-            }
+            }}
           />
           <Xcirclebtn
             onClick={() => {
@@ -182,7 +186,6 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
     },
   ];
   const columnHeaderClick = async (column) => {
-    console.log(column);
     switch (column.sortDirection) {
       case "none":
         setSort({ direction: "ASC", accessor: column.id });

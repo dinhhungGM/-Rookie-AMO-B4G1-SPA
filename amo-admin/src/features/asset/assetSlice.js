@@ -19,17 +19,29 @@ export const CreateAssetAsync = createAsyncThunk(
       const response = await axiosClient.post("api/asset/code", {
         code: values.code,
       });
+      var state = "";
+      switch(values.data.state){
+        case "0":{
+          state = "Available"
+          break;
+        }
+        case "1":{
+          state = "NotAvailable"
+          break;
+        }
+        default: break;
+      }
       const asset = await axiosClient.post("api/asset", {
         code: response,
         name: values.data.name,
         location: values.data.location,
-        state: values.data.state,
+        state: state,
         specification: values.data.specification,
         installedDate: new Date(values.data.installedDate).toISOString(),
         creatorId: JSON.parse(user).sub,
         categoryId: values.data.categoryId,
       });
-      alert("Create asset successfull !");
+      alert("Create asset successfully !");
       return asset;
     } catch (error) {
       return rejectWithValue(error.response);

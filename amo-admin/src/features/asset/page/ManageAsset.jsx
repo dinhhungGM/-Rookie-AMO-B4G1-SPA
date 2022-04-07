@@ -9,6 +9,7 @@ import SearchField from "react-search-field";
 import { Button } from "reactstrap";
 import { useHistory } from "react-router";
 import { getAssetListAsync } from "../assetSlice";
+import { onChangePageName } from "../../home/homeSlice";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -35,6 +36,10 @@ const ManageAsset = () => {
 
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const handleChangePageName = (pagename) => {
+    dispatch(onChangePageName(pagename));
+  };
 
   const onstateChange = (selectedList) => {
     // dispatch(
@@ -119,11 +124,11 @@ const ManageAsset = () => {
             placeholder="Filter by State"
             avoidHighlightFirstOption
             displayValue="key"
-            onKeyPressFn={function noRefCheck() {}}
+            onKeyPressFn={function noRefCheck() { }}
             onRemove={(selectedstateList, selectedItem) =>
               onstateChange(selectedstateList, selectedItem)
             }
-            onSearch={function noRefCheck() {}}
+            onSearch={function noRefCheck() { }}
             onSelect={(selectedstateList, selectedItem) =>
               onstateChange(selectedstateList, selectedItem)
             }
@@ -170,11 +175,11 @@ const ManageAsset = () => {
             placeholder="Filter by Category"
             avoidHighlightFirstOption
             displayValue="cat"
-            onKeyPressFn={function noRefCheck() {}}
+            onKeyPressFn={function noRefCheck() { }}
             onRemove={(selectedList, selectedItem) =>
               oncategoryChange(selectedList, selectedItem)
             }
-            onSearch={function noRefCheck() {}}
+            onSearch={function noRefCheck() { }}
             onSelect={(selectedList, selectedItem) =>
               oncategoryChange(selectedList, selectedItem)
             }
@@ -229,7 +234,10 @@ const ManageAsset = () => {
           <div>
             <Button
               className="btn btn-danger"
-              onClick={() => history.push("/manageasset/createasset")}
+              onClick={() => {
+                handleChangePageName("Manage Asset > Create Asset")
+                history.push("/manageasset/createasset")
+              }}
             >
               Create new asset
             </Button>
