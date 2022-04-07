@@ -41,6 +41,18 @@ function UserForm(props) {
     return age;
   }
 
+  function getAge1(Birthday, Joindate) {
+    var birthday = new Date(Birthday);
+    var joinedDate = new Date(Joindate);
+    var age = joinedDate.getFullYear() - birthday.getFullYear();
+    var m = joinedDate.getMonth() - birthday.getMonth();
+    if (m < 0 || (m === 0 && joinedDate.getDate() < birthday.getDate())) {
+      age--;
+    }
+    console.log(age)
+    return age;
+  }
+
   const validationSchema = Yup.object().shape({
     Email: Yup.string()
       .required("This field is required.")
@@ -85,6 +97,13 @@ function UserForm(props) {
                 const day = new Date(value).getDay();
                 if (day === 0 || day === 6) return false;
                 else return true;
+              }
+            )
+            .test(
+              "JoinedDate",
+              "User must be at least 18 years old",
+              (value) => {
+                return getAge1(DateOfBirth,value) >= 18;
               }
             );
         }
