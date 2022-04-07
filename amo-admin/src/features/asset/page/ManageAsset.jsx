@@ -87,23 +87,15 @@ const ManageAsset = () => {
   const handleRefresh = () => {
     setIsRefresh(!isRefresh);
   };
-  // useEffect(() => {
-  //   const collection = document.getElementsByClassName("option");
-  //   for (let item of collection) {
-  //     const newNode = document.createElement("label");
-  //     newNode.innerHTML = item.textContent;
-  //     item.replaceChild(newNode, item.childNodes[1]);
-  //   }
-  // }, []);
   useEffect(() => {
-    //const fetchFilterlist = async () => {
-    //    try {
-    //        const response = await assetApi.getFilter();
-    //        setFilterlist(response);
-    //    } catch (error) {
-    //        console.log("Failed to fetch asset list: ", error);
-    //    }
-    //};
+    const collection = document.getElementsByClassName("option");
+    for (let item of collection) {
+      const newNode = document.createElement("label");
+      newNode.innerHTML = item.textContent;
+      item.replaceChild(newNode, item.childNodes[1]);
+    }
+  }, []);
+  useEffect(() => {
     dispatch(getAssetListAsync(params));
   }, [isRefresh, params, dispatch]);
 
@@ -155,7 +147,7 @@ const ManageAsset = () => {
               },
               {
                 cat: "3",
-                key: "Waiting For Recycle",
+                key: "Waiting for recycling",
               },
               {
                 cat: "4",
