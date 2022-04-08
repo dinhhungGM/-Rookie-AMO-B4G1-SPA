@@ -12,7 +12,7 @@
 
 }
 .myformgroup {
-  width: 338px;
+  width: 570px;
   align-items: center;
   justify-content: space-between;
 }
@@ -432,7 +432,7 @@
   border: 1px solid #999;
   transition: 0.2s all linear;
   margin-right: 5px;
-
+  
   position: relative;
   top: 4px;
 }
@@ -443,7 +443,23 @@
 
 #my-radio-group {
   display: flex;
-  padding-left: 17px;
-  box-sizing: border-box;
-  justify-content: space-evenly;
+  padding-left: 0px;
+}
+
+.my-custom-select{
+  padding-left: 0;
+  padding-right: 0 ;
+}
+
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: rgba(0, 0, 0, 0);
+  opacity: 1;
+  display: block;
+  background: url(./assets/images/calendar.png)  no-repeat right center;
+  width: 20px;
+  height: 20px;
+  border-width: thin;
+
 }

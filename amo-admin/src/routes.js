@@ -1,7 +1,9 @@
 import React from "react";
+import Main from "./features/assignment/page/Main";
 
 const Home = React.lazy(() => import("./features/home/page/Home"));
-const AddEdit = React.lazy(() => import("./features/users/page/AddEdit"));
+const AddEditUser = React.lazy(() => import("./features/users/page/AddEdit"));
+const AddEditAssignment = React.lazy(() => import("./features/assignment/page/AddEdit"));
 const UserManager = React.lazy(() => import("./features/users/page/userList"));
 const ManageAsset = React.lazy(() =>
   import("./features/asset/page/ManageAsset")
@@ -24,9 +26,13 @@ const routes = [
     name: "Edit Asset",
     component: EditAsset,
   },
-  { path: "/manageuser/create", name: "Create User", component: AddEdit },
-  { path: "/manageuser/:userId", name: "Create User", component: AddEdit },
+  { path: "/manageuser/create", name: "Create User", component: AddEditUser },
+  { path: "/manageuser/:userId", name: "Edit User", component: AddEditUser },
   { path: "/manageuser", exact: true, name: "User", component: UserManager },
+
+  { path: "/manageassignment/create", name: "Create Assignment", component: AddEditAssignment },
+  { path: "/manageassignment/:id", name: "Edit Assignment", component: AddEditAssignment },
+  { path: "/manageassignment", exact: true, name: "Assignment", component: Main },
 ];
 
 export default routes;

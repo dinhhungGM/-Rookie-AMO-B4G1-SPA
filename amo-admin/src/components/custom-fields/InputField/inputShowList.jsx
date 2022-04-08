@@ -23,12 +23,13 @@ InputField.defaultProps = {
 function InputField(props) {
   const {
     field, form,
-    type, label, placeholder, disabled,
+    type, label, placeholder, disabled, onClick
   } = props;
   const { name } = field;
   const { errors, touched } = form;
   const showError = errors[name] && touched[name];
 
+  
   return (
     <FormGroup  className={`myformgroup `}>
       <div className="row myformgroup-row">
@@ -41,14 +42,22 @@ function InputField(props) {
         type={type}
         disabled={disabled}
         placeholder={placeholder}
-        style={
-          type === 'textarea' ? { 
-            resize: 'none',
-            borderRadius: '10px',
-           } : {borderRadius: '7px'}
-        }
+        onClick={onClick}
         invalid={showError}
+        style={{
+          borderRadius: '7px'
+        }}
       />
+      {
+        (name === 'UserFullName' || name === 'AssetName') && !showError && <i
+        className="fa-solid fa-magnifying-glass"
+        style={{
+          position: "absolute",
+          left: "61.7%",
+          opacity: "0.7",
+        }}
+      ></i>
+      }
       <ErrorMessage name={name} component={FormFeedback} />
       </div>
     </FormGroup>

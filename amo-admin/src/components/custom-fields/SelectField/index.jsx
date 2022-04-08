@@ -48,13 +48,14 @@ function SelectField(props) {
   };
 
   return (
-    <FormGroup row>
+    <FormGroup className="myformgroup" >
+      <div className="row">
       {label && (
-        <Label for={name} className="col-3">
+        <Label for={name} className="col-md-4" >
           {label}
         </Label>
       )}
-      <Col>
+ 
         <Select
           id={name}
           {...field}
@@ -63,11 +64,12 @@ function SelectField(props) {
           placeholder={placeholder}
           isDisabled={disabled}
           options={options}
-          className={showError ? "is-invalid" : ""}
+          className={showError ? "is-invalid col-md-8 my-custom-select" : "col-md-8 my-custom-select"}
+          
         />
 
         <ErrorMessage name={name} component={FormFeedback} />
-      </Col>
+        </div>
     </FormGroup>
   );
 }

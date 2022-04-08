@@ -1,0 +1,24 @@
+
+.header_of_table:not(:last-child){
+    width: 150px;
+    height: 30px;
+}
+.tabble_user{
+    border-collapse: separate;
+    border-spacing: 20px;
+}
+
+.inline_bottom{
+    border-bottom: groove .2px;
+}
+
+.header_of_table:last-child{
+    width: 150px;
+    height: 30px;
+    /* color: white; */
+}
+
+.form-check-input:checked {
+    background-color: rgba(227,12,24,1);
+    border-color: rgba(227,12,24,1);
+}

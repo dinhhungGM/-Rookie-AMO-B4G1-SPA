@@ -102,7 +102,7 @@ export default function User() {
   useEffect(() => {
     dispatch(
       getPagedUsersAsync(
-        parseObjectToUrlQuery({
+        {
           page: UserCurrentPage,
           limit: 5,
           type: Filter,
@@ -111,7 +111,7 @@ export default function User() {
           desc: Desc,
           id: UserID,
         })
-      )
+      
     );
     console.log(UserID);
   }, [
@@ -384,6 +384,7 @@ export default function User() {
           modalIsOpen={modalIsOpen}
           closeModal={closeModal}
           customStyles={customStyles}
+          isModalHeader={true}
         >
           {userInfor ? <JsonTable json={userInfor} css={Css} /> : ""}
         </RookieModal>

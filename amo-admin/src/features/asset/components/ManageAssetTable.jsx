@@ -45,6 +45,7 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
 
   const handleRowClick = (dataRow) => {
     const code = dataRow.code == null ? "Is unavailable" : dataRow.code;
+    console.log(dataRow);
     setAssetInfor({
       "Asset Code": code,
       "Asset Name": dataRow.name,
@@ -240,6 +241,7 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}
         customStyles={customStyles}
+        isModalHeader={true}
       >
         {deleteAsset ? (
           <div
@@ -267,7 +269,7 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
         ) : (
           ""
         )}
-      </RookieModal>
+      </RookieModal >
     </>
   );
 };
