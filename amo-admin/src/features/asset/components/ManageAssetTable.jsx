@@ -180,7 +180,7 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
             onClick={() => {
               handleDeleteAsset(row.original.id);
             }}
-            disabled={false}
+            disabled={stateArr[row.original.state] === "Assigned"}
           />
         </div>
       ),
