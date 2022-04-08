@@ -48,7 +48,10 @@ export const getPagedUsersAsync = createAsyncThunk(
   "user/getPagedUsersAsync",
   async (values,{ rejectWithValue }) => {
     try {
-      const response = await axiosClientId4.get(`/api/users/find${values}`);
+      const response = await axiosClientId4.get(`/api/users/find`,{
+        params: values,
+      });
+      
       return response;
     } catch (error) {
       return rejectWithValue(error.response);
@@ -137,9 +140,7 @@ export const userSlice = createSlice({
       state.userid=action.payload;
     },
     setSortColumn(state,action){
-      console.log("AAAAA")
       state.sortColumn=action.payload;
-      
     },
     updateUser(state,action){
       state.updateUser.gender=action.payload.gender

@@ -50,7 +50,7 @@ const TheSidebar = () => {
         </div>
       </NavLink>
       <NavLink
-        to="/c"
+        to="/manageassignment"
         id="Manage_Assignment_miz"
         className="navitem Manage_Assignment navitem"
         onClick={() => handleChangePageName("Manage Assignment")}
