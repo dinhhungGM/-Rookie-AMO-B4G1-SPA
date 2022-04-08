@@ -68,3 +68,8 @@ code {
 .optionContainer {
   background-color: rgb(247, 247, 247);
 }
+
+.rookiemodal-body-content > div > table {
+  table-layout: fixed;
+  width: 350px;
+}

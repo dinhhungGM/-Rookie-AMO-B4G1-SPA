@@ -21,17 +21,17 @@ const stateArr = [
   "Recycled",
 ];
 const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
+  const { isCreatedOrEdited } = useSelector((state) => state.asset);
   const [modalIsOpen, setIsOpen] = useState(false);
-  //const params = useSelector((state) => state.asset.params);
   const [assetInfor, setAssetInfor] = useState(null);
   const [deleteAsset, setDeleteAsset] = useState(null);
   const [sort, setSort] = useState({
     sortDirection: "none",
     accessor: "some_accessor",
   });
-  //  useEffect(() => {
-  //     setSort({ direction: params.direction, accessor: params.orderProperty });
-  //   }, [params]);
+  useEffect(() => {
+    setSort({ direction: params.direction, accessor: params.orderProperty });
+  }, [params]);
   const history = useHistory();
   function openModal() {
     setIsOpen(true);
@@ -99,6 +99,7 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
     dataCell: {
       borderSpacing: "2px",
       backgroundColor: "#FFFFFF",
+      width: "100% !important",
       fontFamily: "Arial",
       borderRadius: "5px",
     },
@@ -144,25 +145,25 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
       Header: "Asset Code",
       id: "Code",
       accessor: "code",
-      sortDirection: sort.accessor === "Code" ? sort.direction : params.direction,
+      sortDirection: sort.accessor === "Code" ? sort.direction : "none",
     },
     {
       Header: "Asset Name",
       id: "Name",
       accessor: "name",
-      sortDirection: sort.accessor === "Name" ? sort.direction : params.direction,
+      sortDirection: sort.accessor === "Name" ? sort.direction : "none",
     },
     {
       Header: "Category",
       id: "Category",
       accessor: "category.name",
-      sortDirection: sort.accessor === "Category" ? sort.direction : params.direction,
+      sortDirection: sort.accessor === "Category" ? sort.direction : "none",
     },
     {
       Header: "State",
       id: "State",
       accessor: (originalRow, rowIndex) => stateArr[originalRow.state],
-      sortDirection: sort.accessor === "State" ? sort.direction : params.direction,
+      sortDirection: sort.accessor === "State" ? sort.direction : "none",
     },
     {
       Header: "Action",
@@ -171,8 +172,8 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
           <Editbtn
             disabled={stateArr[row.original.state] === "Assigned"}
             onClick={() => {
-              handleChangePageName("Manage Asset > Edit Asset")
-              history.push("/manageasset/editasset/" + row.original.id)
+              handleChangePageName("Manage Asset > Edit Asset");
+              history.push("/manageasset/editasset/" + row.original.id);
             }}
           />
           <Xcirclebtn
@@ -189,8 +190,6 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
     switch (column.sortDirection) {
       case "none":
         setSort({ direction: "ASC", accessor: column.id });
-        // const desc = await getClients( 'ASC', column.id );
-        // setData(desc);
         setparams((prev) => ({
           ...prev,
           orderProperty: column.id,
@@ -200,8 +199,6 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
         break;
       case "ASC":
         setSort({ direction: "DESC", accessor: column.id });
-        // const asc = await getClients('DESC', column.id);
-        // setData(asc);
         setparams((prev) => ({
           ...prev,
           orderProperty: column.id,
@@ -210,15 +207,22 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
 
         break;
       case "DESC":
-        setSort({ direction: "none", accessor: column.id });
-        setparams((prev) => ({
-          ...prev,
-          orderProperty: column.id,
-          direction: "none",
-        }));
+        if (isCreatedOrEdited) {
+          setSort({ direction: "ASC", accessor: "UpdatedDate" });
+          setparams((prev) => ({
+            ...prev,
+            orderProperty: "UpdatedDate",
+            direction: "DESC",
+          }));
+        } else {
+          setSort({ direction: "none", accessor: column.id });
+          setparams((prev) => ({
+            ...prev,
+            orderProperty: column.id,
+            direction: "none",
+          }));
+        }
 
-        // const newData = await getClients('none', column.id);
-        // setData(newData);
         break;
     }
   };
