@@ -9,6 +9,7 @@ const initialState = {
   },
   loading: false,
   error: null,
+  isCreatedOrEdited: false,
 };
 
 export const CreateAssetAsync = createAsyncThunk(
@@ -20,16 +21,17 @@ export const CreateAssetAsync = createAsyncThunk(
         code: values.code,
       });
       var state = "";
-      switch(values.data.state){
-        case "0":{
-          state = "Available"
+      switch (values.data.state) {
+        case "0": {
+          state = "Available";
           break;
         }
-        case "1":{
-          state = "NotAvailable"
+        case "1": {
+          state = "NotAvailable";
           break;
         }
-        default: break;
+        default:
+          break;
       }
       const asset = await axiosClient.post("api/asset", {
         code: response,
@@ -114,6 +116,7 @@ const assetSlice = createSlice({
       .addCase(CreateAssetAsync.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
+        state.isCreatedOrEdited = true;
       })
       .addCase(CreateAssetAsync.rejected, (state, action) => {
         state.loading = false;
@@ -149,6 +152,7 @@ const assetSlice = createSlice({
       .addCase(updateAssetDetailAsync.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
+        state.isCreatedOrEdited = true;
       })
       .addCase(updateAssetDetailAsync.rejected, (state, action) => {
         state.loading = false;

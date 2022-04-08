@@ -66,18 +66,18 @@ export default function EditAssetForm(props) {
             return false;
           });
           if (!values.name) {
-            errors.name = "Required";
+            errors.name = "This field is required";
           } else if (result) {
             errors.name = "Name cannot contain special character!";
           }
           if (!values.specification) {
-            errors.specification = "Required";
+            errors.specification = "This field is required";
           }
           if (!values.installedDate) {
-            errors.installedDate = "Required";
+            errors.installedDate = "This field is required";
           }
           if (!values.category) {
-            errors.category = "Required";
+            errors.category = "This field is required";
           }
           if (!errors.installedDate) {
             if (
@@ -135,7 +135,7 @@ export default function EditAssetForm(props) {
                   invalid={errors.name}
                   maxLength={250}
                 />
-                <FormFeedback tooltip>{errors.name}</FormFeedback>
+                <FormFeedback>{errors.name}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -186,7 +186,7 @@ export default function EditAssetForm(props) {
                   invalid={errors.specification}
                   maxLength={4000}
                 />
-                <FormFeedback tooltip>{errors.specification}</FormFeedback>
+                <FormFeedback>{errors.specification}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -203,7 +203,7 @@ export default function EditAssetForm(props) {
                   value={values.installedDate}
                   invalid={errors.installedDate}
                 />
-                <FormFeedback tooltip>{errors.installedDate}</FormFeedback>
+                <FormFeedback>{errors.installedDate}</FormFeedback>
               </Col>
             </FormGroup>
             <RadioFieldV2

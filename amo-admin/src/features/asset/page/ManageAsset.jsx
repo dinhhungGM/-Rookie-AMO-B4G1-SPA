@@ -17,14 +17,15 @@ const initialFilter = {
   category: "",
   state: "0 1 2",
   keySearch: "",
-  orderProperty: "UpdatedDate",
-  direction: "none",
+  orderProperty: "Code",
+  direction: "ASC",
   location: user.profile.location,
   page: 1,
   limit: 5,
 };
 
 export const sortAssetByUpdatedDate = () => {
+  initialFilter.orderProperty = "UpdatedDate";
   initialFilter.direction = "DESC";
 };
 
@@ -42,12 +43,6 @@ const ManageAsset = () => {
   };
 
   const onstateChange = (selectedList) => {
-    // dispatch(
-    //   onChangeParam({
-    //     ...params,
-    //     State: selectedList.map((x) => x.cat).join(" "),
-    //   })
-    // );
     setparams({
       ...params,
       state: selectedList.map((x) => x.cat).join(" "),
@@ -57,12 +52,6 @@ const ManageAsset = () => {
   };
 
   const oncategoryChange = (selectedList) => {
-    // dispatch(
-    //   onChangeParam({
-    //     ...params,
-    //     Category: selectedList.map((x) => x.key).join(" "),
-    //   })
-    // );
     setparams({
       ...params,
       category: selectedList.map((x) => x.key).join(" "),
@@ -72,16 +61,13 @@ const ManageAsset = () => {
   };
 
   const handlePageChange = (pageNumber) => {
-    //dispatch(onChangeParam({ ...params, page: pageNumber }));
     setparams({ ...params, page: pageNumber });
     setActivePage(pageNumber);
   };
 
   const onSearchSubmit = (key, value) => {
-    //dispatch(onChangeParam({ ...params, KeySearch: key }));
     setparams({ ...params, keySearch: key, page: 1 });
     setActivePage(1);
-    //setparams({ ...params, page: pageNumber });
   };
 
   const handleRefresh = () => {
@@ -98,11 +84,24 @@ const ManageAsset = () => {
   useEffect(() => {
     dispatch(getAssetListAsync(params));
   }, [isRefresh, params, dispatch]);
-
   return (
-    <div>
-      <div className="titleview">Asset List</div>
-      <div id="filter-and-search-asset-grp" className="mb-2">
+    <div style={{ paddingTop: "50px" }}>
+      <span
+        style={{
+          color: "red",
+          fontFamily: "Segoe UI, Arial",
+          fontStyle: "normal",
+          fontWeight: "bold",
+          fontSize: "20px",
+        }}
+      >
+        Asset List
+      </span>
+
+      <div
+        id="filter-and-search-asset-grp"
+        style={{ paddingTop: "10px", paddingBottom: "10px" }}
+      >
         <div id="filter-and-search-asset-grp__filter">
           <Multiselect
             showArrow
@@ -124,11 +123,11 @@ const ManageAsset = () => {
             placeholder="Filter by State"
             avoidHighlightFirstOption
             displayValue="key"
-            onKeyPressFn={function noRefCheck() { }}
+            onKeyPressFn={function noRefCheck() {}}
             onRemove={(selectedstateList, selectedItem) =>
               onstateChange(selectedstateList, selectedItem)
             }
-            onSearch={function noRefCheck() { }}
+            onSearch={function noRefCheck() {}}
             onSelect={(selectedstateList, selectedItem) =>
               onstateChange(selectedstateList, selectedItem)
             }
@@ -175,11 +174,11 @@ const ManageAsset = () => {
             placeholder="Filter by Category"
             avoidHighlightFirstOption
             displayValue="cat"
-            onKeyPressFn={function noRefCheck() { }}
+            onKeyPressFn={function noRefCheck() {}}
             onRemove={(selectedList, selectedItem) =>
               oncategoryChange(selectedList, selectedItem)
             }
-            onSearch={function noRefCheck() { }}
+            onSearch={function noRefCheck() {}}
             onSelect={(selectedList, selectedItem) =>
               oncategoryChange(selectedList, selectedItem)
             }
@@ -235,8 +234,8 @@ const ManageAsset = () => {
             <Button
               className="btn btn-danger"
               onClick={() => {
-                handleChangePageName("Manage Asset > Create Asset")
-                history.push("/manageasset/createasset")
+                handleChangePageName("Manage Asset > Create Asset");
+                history.push("/manageasset/createasset");
               }}
             >
               Create new asset
