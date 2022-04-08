@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "reactstrap";
 import assetApi from "../../../api/assetApi";
 import ReactTable from "../../../components/ReactTable";
-
+import DetailsComponent from "../../../components/DetailsComponent";
 import { ParseDateTime } from "../../../utils/ParseDateTime";
 import { onListChange, onChangeParam, deleteAssetAsync } from "../assetSlice";
 import RookieModal from "../../../components/rookiemodal/RookieModal";
@@ -265,8 +265,8 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
             </div>
           </div>
         ) : assetInfor ? (
-          <JsonTable json={assetInfor} css={Css} />
-        ) : (
+          <DetailsComponent list={assetInfor}/>
+          ) : (
           ""
         )}
       </RookieModal >

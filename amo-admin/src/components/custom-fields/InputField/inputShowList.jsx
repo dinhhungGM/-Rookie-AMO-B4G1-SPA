@@ -34,7 +34,7 @@ function InputField(props) {
     <FormGroup  className={`myformgroup `}>
       <div className="row myformgroup-row">
       {label && <Label className="col-md-4" htmlFor={name}>{label}</Label>}
-
+    
       <Input
         className={`myinput col-md-8 `}
         id={name}
@@ -50,12 +50,8 @@ function InputField(props) {
       />
       {
         (name === 'UserFullName' || name === 'AssetName') && !showError && <i
-        className="fa-solid fa-magnifying-glass"
-        style={{
-          position: "absolute",
-          left: "61.7%",
-          opacity: "0.7",
-        }}
+        className="fa-solid fa-magnifying-glass input--with-search-icon"
+        
       ></i>
       }
       <ErrorMessage name={name} component={FormFeedback} />

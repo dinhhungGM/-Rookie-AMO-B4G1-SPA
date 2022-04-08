@@ -11,6 +11,7 @@ import Xcirclebtn from "../../../components/Button/Xcirclebtn";
 import ReactTable from "../../../components/ReactTable";
 import RookieModal from "../../../components/rookiemodal/RookieModal";
 import YesNoModal from "../../../components/rookiemodal/YesNoModal";
+import DetailsComponent from "../../../components/DetailsComponent";
 import { setParams } from "../assignmentSlice";
 import Table from "./TableList";
 const AssignmentTable = ({ listitem, onRefresh }) => {
@@ -19,15 +20,19 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalRequestIsOpen, setmodalRequestIsOpen] = useState(false)
   const [assignmentInfor, setAssignmentInfor] = useState(null);
+  const [Id, setDisableUser] =useState(false);
   const {params:Params} = useSelector((state)=>state.assignment)
   const history = useHistory();
 
   function openModal() {
+    
     setIsOpen(true);
   }
 
   function closeModal() {
     setAssignmentInfor(null);
+    setDisableUser(null)
+
     setIsOpen(false);
   }
   const customStyles = {
@@ -36,22 +41,54 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
       left: "50%",
       right: "auto",
       bottom: "auto",
-      marginRight: "-50%",
+      width:"auto",
       transform: "translate(-50%, -50%)",
+    },
+  };
+  const Css = {
+    
+    jsonTr: {
+      height: "25px",
+    },
+    jsonTd: {
+      padding: "5px",
+      borderSpacing: "2px",
+      borderRadius: "5px",
+    },
+    rowSpacer: {
+      height: "2px",
+      width:"20px"
+    },
+    rootElement: {
+      padding: "5px",
+      borderSpacing: "2px",
+      backgroundColor: "#FFFFFF",
+      fontWeight: "bold",
+      fontFamily: "Arial",
+      borderRadius: "5px",
+    },
+    subElement: {
+      padding: "5px",
+      borderSpacing: "2px",
+      backgroundColor: "#DDDDDD",
+      fontWeight: "bold",
+      fontFamily: "Arial",
+      width:"20px"
+    },
+    dataCell: {
+      borderSpacing: "3px",
+      backgroundColor: "#FFFFFF",
+      fontFamily: "Arial",
+      borderRadius: "5px",
     },
   };
   const handleDisableAssignment = async (id) => {
     setAssignmentInfor(null);
+    setDisableUser(id)
     openModal();
   };
   const handleConfirmDisableAssignment = async () => {
-    // try {
-    //   await assignmentApi.delete(deleteAssignment);
-    //   onRefresh();
-    //   setParams({ ...Params, OrderProperty: "UpdatedDate" });
-    // } catch (error) {
-    //   console.log("Failed to post user: ", error);
-    // }
+    
     closeModal();
   };
   const capitalize1st = (s) => s && s[0].toUpperCase() + s.slice(1);
@@ -69,15 +106,16 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
   
   const handleRowClick = (dataRow) => {
     setAssignmentInfor({
-      "Asset Code": dataRow.assetCode,
-      "Asset Name": dataRow.assetName,
-      "Specification": dataRow.assetSpecification,
-      "Assigned To": dataRow.assignedTo,
-      "Assigned By": dataRow.assignedBy,
+      "Asset Code": dataRow.asset.code,
+      "Asset Name": dataRow.asset.name,
+      "Specification": dataRow.asset.specification,
+      "Assigned To": dataRow.userNameAssignedTo,
+      "Assigned By": dataRow.userNameAssignedBy,
       "Assigned Date": dataRow.assignedDate,
       State: dataRow.state,
       Note: dataRow.note,
     });
+    console.log(assignmentInfor)
     openModal();
   };
 
@@ -168,7 +206,7 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
         onSort={(e) => handleOnSort(e)}
         onRowClick={(e) => handleRowClick(e)}
       ></Table>
-      {true ?
+      {Id ?
         <YesNoModal
           title={"Are You Sure?"}
           modalIsOpen={modalIsOpen}
@@ -190,14 +228,18 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
         </YesNoModal>
         :
         <RookieModal
-          title={true ? "Are You Sure?" : "Assignment Details"}
+          title={Id ? "Are You Sure?" : "Assignment Details"}
           modalIsOpen={modalIsOpen}
           closeModal={closeModal}
           customStyles={customStyles}
+          isModalHeader={true}
+
         >
           {
             assignmentInfor ? (
-              <JsonTable json={assignmentInfor} />
+              <>
+                <DetailsComponent list={assignmentInfor}/>
+              </>
             ) :
               ""
           }

@@ -10,6 +10,7 @@ const TheSidebar = () => {
   const handleChangePageName = (pagename) => {
     dispatch(onChangePageName(pagename));
   };
+  var role =JSON.parse(localStorage.getItem("user")).profile.role ;
   return (
     <div id="Menu_mis">
       <div id="Logo_mjb">
@@ -19,6 +20,7 @@ const TheSidebar = () => {
           <span>Online Asset Management</span>
         </div>
       </div>
+      
       <NavLink
         to="/home"
         id="Home_mi"
@@ -29,56 +31,65 @@ const TheSidebar = () => {
           <span>Home</span>
         </div>
       </NavLink>
-      <NavLink
-        to="/manageuser"
-        id="Manage_User_mi"
-        className="navitem Manage_User navitem"
-        onClick={() => handleChangePageName("Manage User")}
-      >
-        <div id="Manage_User_mja">
-          <span>Manage User</span>
-        </div>
-      </NavLink>
-      <NavLink
-        to="/manageasset"
-        id="Manage_Asset_mi"
-        className="navitem Manage_Asset navitem"
-        onClick={() => handleChangePageName("Manage Asset")}
-      >
-        <div id="Manage_Asset_mja">
-          <span>Manage Asset</span>
-        </div>
-      </NavLink>
-      <NavLink
-        to="/manageassignment"
-        id="Manage_Assignment_miz"
-        className="navitem Manage_Assignment navitem"
-        onClick={() => handleChangePageName("Manage Assignment")}
-      >
-        <div id="Manage_Assignment_mi">
-          <span>Manage Assignment</span>
-        </div>
-      </NavLink>
-      <NavLink
-        to="/d"
-        id="Request_for_Returning_miw"
-        className="Request_for_Returning navitem"
-        onClick={() => handleChangePageName("Request for Returning")}
-      >
-        <div id="Request_for_Returning_miy">
-          <span>Request for Returning</span>
-        </div>
-      </NavLink>
-      <NavLink
-        to="/e"
-        id="Report_mit"
-        className="Report navitem"
-        onClick={() => handleChangePageName("Report")}
-      >
-        <div id="Report_miv">
-          <span>Report</span>
-        </div>
-      </NavLink>
+
+      {role=="Admin"?(
+        <>
+          <NavLink
+          to="/manageuser"
+          id="Manage_User_mi"
+          className="navitem Manage_User navitem"
+          onClick={() => handleChangePageName("Manage User")}
+        >
+          <div id="Manage_User_mja">
+            <span>Manage User</span>
+          </div>
+        </NavLink>
+        <NavLink
+          to="/manageasset"
+          id="Manage_Asset_mi"
+          className="navitem Manage_Asset navitem"
+          onClick={() => handleChangePageName("Manage Asset")}
+        >
+          <div id="Manage_Asset_mja">
+            <span>Manage Asset</span>
+          </div>
+        </NavLink>
+        <NavLink
+          to="/manageassignment"
+          id="Manage_Assignment_miz"
+          className="navitem Manage_Assignment navitem"
+          onClick={() => handleChangePageName("Manage Assignment")}
+        >
+          <div id="Manage_Assignment_mi">
+            <span>Manage Assignment</span>
+          </div>
+        </NavLink>
+        <NavLink
+          to="/d"
+          id="Request_for_Returning_miw"
+          className="Request_for_Returning navitem"
+          onClick={() => handleChangePageName("Request for Returning")}
+        >
+          <div id="Request_for_Returning_miy">
+            <span>Request for Returning</span>
+          </div>
+        </NavLink>
+        <NavLink
+          to="/e"
+          id="Report_mit"
+          className="Report navitem"
+          onClick={() => handleChangePageName("Report")}
+        >
+          <div id="Report_miv">
+            <span>Report</span>
+          </div>
+        </NavLink>
+        </>
+      ):(
+        <>
+        
+        </>
+      )}
     </div>
   );
 };

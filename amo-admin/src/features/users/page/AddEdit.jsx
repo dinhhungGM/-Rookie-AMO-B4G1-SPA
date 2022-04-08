@@ -20,6 +20,14 @@ const AddEdit = () => {
       return array[2] + "-" + array[1] + "-" + array[0];
     }
   };
+  var date = new Date.now
+    console.log(date)
+  const convertString_1 = () => {
+    
+      const array = date.split("/");
+      return array[2] + "-" + array[1] + "-" + array[0];
+    
+  };
   const dispatch = useDispatch();
   const history = useHistory();
   const { userId } = useParams();
