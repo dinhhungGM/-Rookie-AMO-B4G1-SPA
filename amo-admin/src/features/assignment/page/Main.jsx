@@ -25,13 +25,18 @@ const Main = () => {
     params: Params
   } = useSelector((state)=>state.assignment)
 
-  const [activePage, setActivePage] = useState();
-  const [assignmentList, setAssignmentList] = useState();
-  const [assignedDate, onDateChange] = useState(null);
   const [isRefresh, setisRefresh] = useState(false);
   // const [Params, setParams] = useState(initialParams);
   
   
+  useEffect(() => {
+    const collection = document.getElementsByClassName("option");
+    for (let item of collection) {
+      const newNode = document.createElement("label");
+      newNode.innerHTML = item.textContent;
+      item.replaceChild(newNode, item.childNodes[1]);
+    }
+  }, []);
 
   const dispatch = useDispatch();
   useEffect(()=>{
@@ -83,10 +88,16 @@ const Main = () => {
     setisRefresh(!isRefresh);
   };
   return (
-    <div id="user-listing">
-      <div className="titleview">Assignment List</div>
+    <div id="user-listing" style={{ paddingTop: "50px" }}>
+      <div className="titleview" style={{
+          color: "red",
+          fontFamily: "Segoe UI, Arial",
+          fontStyle: "normal",
+          fontWeight: "bold",
+          fontSize: "20px",
+        }}>Assignment List</div>
       <div id="user-search-filter">
-        <div className="user-search-filter-select">
+        <div className="user-search-filter-select" style={{ paddingTop: "10px", paddingBottom: "10px" }}>
           <Multiselect
             placeholder="Filter by State"
             avoidHighlightFirstOption
@@ -167,7 +178,7 @@ const Main = () => {
             Params={Params}
           />
           <Pagination
-            activePage={activePage}
+            activePage={Params.Page}
             itemsCountPerPage={5}
             totalItemsCount={TotalItems}
             pageRangeDisplayed={TotalPages}
