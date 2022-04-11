@@ -13,6 +13,7 @@ import Xcirclebtn from "../../../components/Button/Xcirclebtn";
 import Editbtn from "../../../components/Button/Editbtn";
 import { useHistory } from "react-router-dom";
 import { onChangePageName } from "../../home/homeSlice";
+import HistoryAssignment from "../../../features/asset/components/HistoryAssignment";
 const stateArr = [
   "Available",
   "Not Available",
@@ -22,6 +23,7 @@ const stateArr = [
 ];
 const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
   const { isCreatedOrEdited } = useSelector((state) => state.asset);
+  const [historyAssignment, sethistoryAssignment] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [assetInfor, setAssetInfor] = useState(null);
   const [deleteAsset, setDeleteAsset] = useState(null);
@@ -45,7 +47,8 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
 
   const handleRowClick = (dataRow) => {
     const code = dataRow.code == null ? "Is unavailable" : dataRow.code;
-    console.log(dataRow);
+      console.log(dataRow);
+
     setAssetInfor({
       "Asset Code": code,
       "Asset Name": dataRow.name,
@@ -53,9 +56,17 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
       "Installed Date": ParseDateTime(dataRow.installedDate),
       State: stateArr[dataRow.state],
       Location: dataRow.location,
-      Specification: dataRow.specification,
-      //History: dataRow.id,
+        Specification: dataRow.specification,
+      History:"",
+        
     });
+      const fetchhistoryAssignment = async (id) => {
+          const Params = { assetid: id }
+          //const res = await assignmentApi.getHistoryAssignment(Params);
+          //console.log('res', res)
+          //sethistoryAssignment(res);
+      }
+      fetchhistoryAssignment(dataRow.id);
     openModal();
   };
 
@@ -264,11 +275,12 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
               </Button>
             </div>
           </div>
-        ) : assetInfor ? (
-          <DetailsComponent list={assetInfor}/>
-          ) : (
-          ""
-        )}
+              ) : assetInfor ? (
+                      <>
+                      <DetailsComponent list={assetInfor} />
+                      <HistoryAssignment data={historyAssignment} />
+                      </>) : ''
+        }
       </RookieModal >
     </>
   );
