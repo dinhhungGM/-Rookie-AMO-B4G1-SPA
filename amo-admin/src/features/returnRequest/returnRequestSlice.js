@@ -38,7 +38,7 @@ export const getReturnRequestListAsync = createAsyncThunk(
 );
 
 const returnRequestSlice = createSlice({
-  name: "asset",
+  name: "returnRequest",
   initialState,
   extraReducers: (builder) => {
     builder

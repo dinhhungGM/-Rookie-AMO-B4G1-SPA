@@ -135,6 +135,7 @@ const ReturnRequestTable = ({ listitem, onRefresh, params, setparams }) => {
         data={listitem}
         onHeaderClick={columnHeaderClick}
         onRowClick={() => {}}
+        scrollable={true}
       ></ReactTable>
       <YesNoModal
         title={"Are You Sure?"}
