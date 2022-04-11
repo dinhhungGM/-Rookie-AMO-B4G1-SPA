@@ -14,6 +14,8 @@ import { onChangePageName } from "../../home/homeSlice";
 import Editbtn from "../../../components/Button/Editbtn";
 import SearchField from "react-search-field";
 import Xcirclebtn from "../../../components/Button/Xcirclebtn";
+import DetailsComponent from "../../../components/DetailsComponent";
+
 import { Button } from "reactstrap";
 import RookieModal from "../../../components/rookiemodal/RookieModal";
 import YesNoModal from "../../../components/rookiemodal/YesNoModal";
@@ -100,9 +102,17 @@ export default function User() {
   const dispatch = useDispatch();
   console.log(JSON.parse(localStorage.getItem("user")));
   useEffect(() => {
+    const collection = document.getElementsByClassName("option");
+    for (let item of collection) {
+      const newNode = document.createElement("label");
+      newNode.innerHTML = item.textContent;
+      item.replaceChild(newNode, item.childNodes[1]);
+    }
+  }, []);
+  useEffect(() => {
     dispatch(
       getPagedUsersAsync(
-        parseObjectToUrlQuery({
+        {
           page: UserCurrentPage,
           limit: 5,
           type: Filter,
@@ -111,7 +121,7 @@ export default function User() {
           desc: Desc,
           id: UserID,
         })
-      )
+      
     );
     console.log(UserID);
   }, [
@@ -384,8 +394,11 @@ export default function User() {
           modalIsOpen={modalIsOpen}
           closeModal={closeModal}
           customStyles={customStyles}
+          isModalHeader={true}
         >
-          {userInfor ? <JsonTable json={userInfor} css={Css} /> : ""}
+          {userInfor ?                 
+            <DetailsComponent list={userInfor}/>
+          : ""}
         </RookieModal>
       )}
       <RookieModal

@@ -7,6 +7,7 @@ import homeReducer from '../features/home/homeSlice'
 
 import userReducer from '../features/users/userSlice'
 import categoryReducer from '../features/category/categorySlice'
+import assignmentReducer from '../features/assignment/assignmentSlice';
 import assetReducer from '../features/asset/assetSlice'
 
 const rootReducer = {
@@ -14,6 +15,7 @@ const rootReducer = {
     user: userReducer,
     category: categoryReducer,
     asset: assetReducer,
+    assignment: assignmentReducer,
     oidc,
 }
 

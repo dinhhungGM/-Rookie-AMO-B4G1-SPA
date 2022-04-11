@@ -8,23 +8,30 @@ const RookieModal = ({
   closeModal,
   customStyles,
   children,
+  isModalHeader
 }) => {
   return (
     <Modal
       isOpen={modalIsOpen}
       onRequestClose={closeModal}
+      onClosed={closeModal}
       style={customStyles}
       contentLabel="Example Modal"
       centered
     >
       <Card className="rookiemodal">
         <CardBody className="rookiemodal-body">
-          <CardTitle className="rookiemodal-body__title">
-            <div className="rookiemodal-body__title__content">{title}</div>
+          {
+            isModalHeader ?
+            <CardTitle className="rookiemodal-body__title">
+            {
+              title ?  <div className="rookiemodal-body__title__content">{title}</div> : null
+            }
             <div className="rookiemodal-body__title__content">
               <Xsquarebtn onClick={() => closeModal()}>Close</Xsquarebtn>
             </div>
-          </CardTitle>
+          </CardTitle> : null
+          }
           <div className="rookiemodal-body-content">{children}</div>
         </CardBody>
       </Card>

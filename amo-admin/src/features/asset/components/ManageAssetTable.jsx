@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "reactstrap";
 import assetApi from "../../../api/assetApi";
 import ReactTable from "../../../components/ReactTable";
-
+import DetailsComponent from "../../../components/DetailsComponent";
 import { ParseDateTime } from "../../../utils/ParseDateTime";
 import { onListChange, onChangeParam, deleteAssetAsync } from "../assetSlice";
 import RookieModal from "../../../components/rookiemodal/RookieModal";
@@ -13,6 +13,7 @@ import Xcirclebtn from "../../../components/Button/Xcirclebtn";
 import Editbtn from "../../../components/Button/Editbtn";
 import { useHistory } from "react-router-dom";
 import { onChangePageName } from "../../home/homeSlice";
+import HistoryAssignment from "../../../features/asset/components/HistoryAssignment";
 const stateArr = [
   "Available",
   "Not Available",
@@ -22,6 +23,7 @@ const stateArr = [
 ];
 const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
   const { isCreatedOrEdited } = useSelector((state) => state.asset);
+  const [historyAssignment, sethistoryAssignment] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [assetInfor, setAssetInfor] = useState(null);
   const [deleteAsset, setDeleteAsset] = useState(null);
@@ -45,6 +47,8 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
 
   const handleRowClick = (dataRow) => {
     const code = dataRow.code == null ? "Is unavailable" : dataRow.code;
+    console.log(dataRow);
+
     setAssetInfor({
       "Asset Code": code,
       "Asset Name": dataRow.name,
@@ -53,8 +57,15 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
       State: stateArr[dataRow.state],
       Location: dataRow.location,
       Specification: dataRow.specification,
-      //History: dataRow.id,
+      History: <HistoryAssignment data={historyAssignment} />,
     });
+    const fetchhistoryAssignment = async (id) => {
+      const Params = { assetid: id };
+      //const res = await assignmentApi.getHistoryAssignment(Params);
+      //console.log('res', res)
+      //sethistoryAssignment(res);
+    };
+    fetchhistoryAssignment(dataRow.id);
     openModal();
   };
 
@@ -240,6 +251,7 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}
         customStyles={customStyles}
+        isModalHeader={true}
       >
         {deleteAsset ? (
           <div
@@ -263,7 +275,10 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
             </div>
           </div>
         ) : assetInfor ? (
-          <JsonTable json={assetInfor} css={Css} />
+          <>
+            <DetailsComponent list={assetInfor} />
+            {/* <HistoryAssignment data={historyAssignment} /> */}
+          </>
         ) : (
           ""
         )}

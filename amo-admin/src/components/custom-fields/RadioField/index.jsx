@@ -11,8 +11,10 @@ const index = ({ options, name, label }) => {
         </div>
         <div className="col-md-8" role="group" aria-labelledby="my-radio-group" id="my-radio-group">
           {options.map((option, idx) => (
-            <div key={idx} >
-              <label>
+            <div key={idx} style={{
+              marginRight: "10px"
+            }}>
+              
                 <Field
                   type="radio"
                   name={name}
@@ -21,7 +23,7 @@ const index = ({ options, name, label }) => {
                   className="myradio"
                 />
                 {" " + option.label}
-              </label>{" "}
+              
             </div>
           ))}
         </div>

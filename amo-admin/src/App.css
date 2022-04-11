@@ -12,7 +12,7 @@
 
 }
 .myformgroup {
-  width: 338px;
+  width: 570px;
   align-items: center;
   justify-content: space-between;
 }
@@ -76,7 +76,7 @@
 .rookiemodal {
   border-style: none;
 }
-.rookiemodal-body {
+.rookiemodal-body  {
   padding: 0;
 }
 .rookiemodal-body__title {
@@ -96,10 +96,8 @@
   justify-content: space-between;
 }
 .rookiemodal-body-content {
-  border-style: solid;
-  border-color: rgb(148, 141, 141);
-  border-width: 1px;
   padding: 10px 35px 10px 35px;
+  border: none;
 }
 
 .pagination {
@@ -432,7 +430,7 @@
   border: 1px solid #999;
   transition: 0.2s all linear;
   margin-right: 5px;
-
+  
   position: relative;
   top: 4px;
 }
@@ -443,7 +441,57 @@
 
 #my-radio-group {
   display: flex;
-  padding-left: 17px;
-  box-sizing: border-box;
-  justify-content: space-evenly;
+  padding-left: 0px;
 }
+
+.my-custom-select{
+  padding-left: 0;
+  padding-right: 0 ;
+}
+
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: rgba(0, 0, 0, 0);
+  opacity: 1;
+  display: block;
+  background: url(./assets/images/calendar.png)  no-repeat right center;
+  width: 20px;
+  height: 20px;
+  border-width: thin;
+}
+
+
+.custom-th {
+  padding: 5px;
+  vertical-align: top;
+}
+.custom-td {
+  padding: 5px;
+  width: 350px;
+  max-width: 350px;
+}
+.input--with-search-icon {
+  position: absolute;
+          left: 61.7%;
+          opacity: 0.7;
+}
+
+@media screen and (max-width: 1500px) {
+  .input--with-search-icon {
+    left: 64.7%;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .input--with-search-icon {
+    left: 70.7%;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .input--with-search-icon {
+    left: 80.6%;
+  }
+}
+  
