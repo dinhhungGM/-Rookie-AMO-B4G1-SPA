@@ -12,6 +12,7 @@ const CreateAsset = React.lazy(() =>
   import("./features/asset/page/CreateAsset")
 );
 const EditAsset = React.lazy(() => import("./features/asset/page/EditAsset"));
+const ReturnRequest = React.lazy(() => import("./features/returnRequest/page/Main"));
 
 const routes = [
   { path: "/home", exact: true, name: "Home", component: Home },
@@ -33,6 +34,8 @@ const routes = [
   { path: "/manageassignment/create", name: "Create Assignment", component: AddEditAssignment },
   { path: "/manageassignment/:id", name: "Edit Assignment", component: AddEditAssignment },
   { path: "/manageassignment", exact: true, name: "Assignment", component: Main },
+
+  { path: "/managereturnrequest", exact: true, name: "Request For Returning", component: ReturnRequest },
 ];
 
 export default routes;
