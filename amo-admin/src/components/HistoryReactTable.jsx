@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useTable, useSortBy } from "react-table";
 
-function Table({ columns, data/*, onHeaderClick, onRowClick*/ }) {
+function Table({ columns, data /*, onHeaderClick, onRowClick*/ }) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -24,7 +24,7 @@ function Table({ columns, data/*, onHeaderClick, onRowClick*/ }) {
 
   return (
     <>
-      <table class="table" {...getTableProps()}>
+      <table style={{ fontSize: "12px" }} class="table" {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr scope="col" {...headerGroup.getHeaderGroupProps()}>
@@ -33,7 +33,7 @@ function Table({ columns, data/*, onHeaderClick, onRowClick*/ }) {
                 // we can add them into the header props
                 <th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
-                /*  onClick={() => onHeaderClick(column)}*/
+                  /*  onClick={() => onHeaderClick(column)}*/
                 >
                   {column.render("Header")}
                   {/* Add a sort direction indicator */}
@@ -56,12 +56,16 @@ function Table({ columns, data/*, onHeaderClick, onRowClick*/ }) {
           {firstPageRows.map((row, i) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()} /*onClick={() => onRowClick(row.original)}*/>
+              <tr
+                {...row.getRowProps()} /*onClick={() => onRowClick(row.original)}*/
+              >
                 {row.cells.map((cell) => {
                   return (
                     <td {...cell.getCellProps()}>
-                      {cell.column.Header !== "Action" ? String(cell.value).substring(0, 20) + (String(cell.value).length > 20 ? "..." : "") : cell.render("Cell")}
-                      
+                      {cell.column.Header !== "Action"
+                        ? String(cell.value).substring(0, 20) +
+                          (String(cell.value).length > 20 ? "..." : "")
+                        : cell.render("Cell")}
                     </td>
                   );
                 })}

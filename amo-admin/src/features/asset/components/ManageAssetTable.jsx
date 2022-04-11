@@ -47,7 +47,7 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
 
   const handleRowClick = (dataRow) => {
     const code = dataRow.code == null ? "Is unavailable" : dataRow.code;
-      console.log(dataRow);
+    console.log(dataRow);
 
     setAssetInfor({
       "Asset Code": code,
@@ -56,17 +56,16 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
       "Installed Date": ParseDateTime(dataRow.installedDate),
       State: stateArr[dataRow.state],
       Location: dataRow.location,
-        Specification: dataRow.specification,
-      History:"",
-        
+      Specification: dataRow.specification,
+      History: <HistoryAssignment data={historyAssignment} />,
     });
-      const fetchhistoryAssignment = async (id) => {
-          const Params = { assetid: id }
-          //const res = await assignmentApi.getHistoryAssignment(Params);
-          //console.log('res', res)
-          //sethistoryAssignment(res);
-      }
-      fetchhistoryAssignment(dataRow.id);
+    const fetchhistoryAssignment = async (id) => {
+      const Params = { assetid: id };
+      //const res = await assignmentApi.getHistoryAssignment(Params);
+      //console.log('res', res)
+      //sethistoryAssignment(res);
+    };
+    fetchhistoryAssignment(dataRow.id);
     openModal();
   };
 
@@ -275,13 +274,15 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
               </Button>
             </div>
           </div>
-              ) : assetInfor ? (
-                      <>
-                      <DetailsComponent list={assetInfor} />
-                      <HistoryAssignment data={historyAssignment} />
-                      </>) : ''
-        }
-      </RookieModal >
+        ) : assetInfor ? (
+          <>
+            <DetailsComponent list={assetInfor} />
+            {/* <HistoryAssignment data={historyAssignment} /> */}
+          </>
+        ) : (
+          ""
+        )}
+      </RookieModal>
     </>
   );
 };

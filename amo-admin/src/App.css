@@ -464,9 +464,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .custom-th {
   padding: 5px;
+  vertical-align: top;
 }
 .custom-td {
   padding: 5px;
+  width: 350px;
+  max-width: 350px;
 }
 .input--with-search-icon {
   position: absolute;
