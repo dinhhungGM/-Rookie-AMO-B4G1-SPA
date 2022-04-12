@@ -135,7 +135,7 @@ export default function EditAssetForm(props) {
                   invalid={errors.name}
                   maxLength={250}
                 />
-                <FormFeedback tooltip>{errors.name}</FormFeedback>
+                <FormFeedback>{errors.name}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -186,7 +186,7 @@ export default function EditAssetForm(props) {
                   invalid={errors.specification}
                   maxLength={4000}
                 />
-                <FormFeedback tooltip>{errors.specification}</FormFeedback>
+                <FormFeedback>{errors.specification}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -203,7 +203,7 @@ export default function EditAssetForm(props) {
                   value={values.installedDate}
                   invalid={errors.installedDate}
                 />
-                <FormFeedback tooltip>{errors.installedDate}</FormFeedback>
+                <FormFeedback>{errors.installedDate}</FormFeedback>
               </Col>
             </FormGroup>
             <RadioFieldV2

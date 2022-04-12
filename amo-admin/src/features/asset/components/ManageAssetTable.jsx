@@ -13,6 +13,7 @@ import Xcirclebtn from "../../../components/Button/Xcirclebtn";
 import Editbtn from "../../../components/Button/Editbtn";
 import { useHistory } from "react-router-dom";
 import { onChangePageName } from "../../home/homeSlice";
+import HistoryAssignment from "../../../features/asset/components/HistoryAssignment";
 const stateArr = [
   "Available",
   "Not Available",
@@ -21,6 +22,8 @@ const stateArr = [
   "Recycled",
 ];
 const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
+  const { isCreatedOrEdited } = useSelector((state) => state.asset);
+  const [historyAssignment, sethistoryAssignment] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   //const params = useSelector((state) => state.asset.params);
   const [assetInfor, setAssetInfor] = useState(null);
@@ -46,6 +49,7 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
   const handleRowClick = (dataRow) => {
     const code = dataRow.code == null ? "Is unavailable" : dataRow.code;
     console.log(dataRow);
+
     setAssetInfor({
       "Asset Code": code,
       "Asset Name": dataRow.name,
@@ -54,8 +58,15 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
       State: stateArr[dataRow.state],
       Location: dataRow.location,
       Specification: dataRow.specification,
-      //History: dataRow.id,
+      History: <HistoryAssignment data={historyAssignment} />,
     });
+    const fetchhistoryAssignment = async (id) => {
+      const Params = { assetid: id };
+      //const res = await assignmentApi.getHistoryAssignment(Params);
+      //console.log('res', res)
+      //sethistoryAssignment(res);
+    };
+    fetchhistoryAssignment(dataRow.id);
     openModal();
   };
 
@@ -145,25 +156,29 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
       Header: "Asset Code",
       id: "Code",
       accessor: "code",
-      sortDirection: sort.accessor === "Code" ? sort.direction : params.direction,
+      sortDirection:
+        sort.accessor === "Code" ? sort.direction : params.direction,
     },
     {
       Header: "Asset Name",
       id: "Name",
       accessor: "name",
-      sortDirection: sort.accessor === "Name" ? sort.direction : params.direction,
+      sortDirection:
+        sort.accessor === "Name" ? sort.direction : params.direction,
     },
     {
       Header: "Category",
       id: "Category",
       accessor: "category.name",
-      sortDirection: sort.accessor === "Category" ? sort.direction : params.direction,
+      sortDirection:
+        sort.accessor === "Category" ? sort.direction : params.direction,
     },
     {
       Header: "State",
       id: "State",
       accessor: (originalRow, rowIndex) => stateArr[originalRow.state],
-      sortDirection: sort.accessor === "State" ? sort.direction : params.direction,
+      sortDirection:
+        sort.accessor === "State" ? sort.direction : params.direction,
     },
     {
       Header: "Action",
@@ -172,15 +187,15 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
           <Editbtn
             disabled={stateArr[row.original.state] === "Assigned"}
             onClick={() => {
-              handleChangePageName("Manage Asset > Edit Asset")
-              history.push("/manageasset/editasset/" + row.original.id)
+              handleChangePageName("Manage Asset > Edit Asset");
+              history.push("/manageasset/editasset/" + row.original.id);
             }}
           />
           <Xcirclebtn
             onClick={() => {
               handleDeleteAsset(row.original.id);
             }}
-            disabled={false}
+            disabled={stateArr[row.original.state] === "Assigned"}
           />
         </div>
       ),
@@ -261,11 +276,14 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
             </div>
           </div>
         ) : assetInfor ? (
-          <DetailsComponent list={assetInfor}/>
-          ) : (
+          <>
+            <DetailsComponent list={assetInfor} />
+            {/* <HistoryAssignment data={historyAssignment} /> */}
+          </>
+        ) : (
           ""
         )}
-      </RookieModal >
+      </RookieModal>
     </>
   );
 };

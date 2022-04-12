@@ -9,13 +9,14 @@ import userReducer from '../features/users/userSlice'
 import categoryReducer from '../features/category/categorySlice'
 import assignmentReducer from '../features/assignment/assignmentSlice';
 import assetReducer from '../features/asset/assetSlice'
-
+import returnRequestReducer from '../features/returnRequest/returnRequestSlice'
 const rootReducer = {
     home: homeReducer,
     user: userReducer,
     category: categoryReducer,
     asset: assetReducer,
     assignment: assignmentReducer,
+    returnRequest: returnRequestReducer,
     oidc,
 }
 

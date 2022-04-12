@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useTable, useSortBy } from "react-table";
 
-function Table({ columns, data, onHeaderClick, onRowClick, scrollable }) {
+function Table({ columns, data /*, onHeaderClick, onRowClick*/ }) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -24,19 +24,7 @@ function Table({ columns, data, onHeaderClick, onRowClick, scrollable }) {
 
   return (
     <>
-      <table
-        className="table"
-        style={
-          scrollable
-            ? {
-                display: "block",
-                overflowX: "auto",
-                whiteSpace: "nowrap",
-              }
-            : {}
-        }
-        {...getTableProps()}
-      >
+      <table style={{ fontSize: "12px" }} class="table" {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr scope="col" {...headerGroup.getHeaderGroupProps()}>
@@ -45,7 +33,7 @@ function Table({ columns, data, onHeaderClick, onRowClick, scrollable }) {
                 // we can add them into the header props
                 <th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
-                  onClick={() => onHeaderClick(column)}
+                  /*  onClick={() => onHeaderClick(column)}*/
                 >
                   {column.render("Header")}
                   {/* Add a sort direction indicator */}
@@ -69,8 +57,7 @@ function Table({ columns, data, onHeaderClick, onRowClick, scrollable }) {
             prepareRow(row);
             return (
               <tr
-                {...row.getRowProps()}
-                onClick={() => onRowClick(row.original)}
+                {...row.getRowProps()} /*onClick={() => onRowClick(row.original)}*/
               >
                 {row.cells.map((cell) => {
                   return (

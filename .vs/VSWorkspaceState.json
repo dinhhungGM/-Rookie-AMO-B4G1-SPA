@@ -3,15 +3,14 @@
     "",
     "\\amo-admin",
     "\\amo-admin\\src",
-    "\\amo-admin\\src\\components",
     "\\amo-admin\\src\\features",
     "\\amo-admin\\src\\features\\asset",
     "\\amo-admin\\src\\features\\asset\\components",
-    "\\amo-admin\\src\\features\\users",
-    "\\amo-admin\\src\\features\\users\\page",
-    "\\amo-admin\\src\\Redux",
-    "\\amo-admin\\src\\utils"
+    "\\amo-admin\\src\\features\\asset\\page",
+    "\\amo-admin\\src\\features\\returnRequest",
+    "\\amo-admin\\src\\features\\returnRequest\\components",
+    "\\amo-admin\\src\\features\\returnRequest\\page"
   ],
-  "SelectedNode": "\\amo-admin\\src\\utils\\ParseDateTime.js",
+  "SelectedNode": "\\amo-admin\\src\\features\\returnRequest\\returnRequestSlice.js",
   "PreviewInSolutionExplorer": false
 }

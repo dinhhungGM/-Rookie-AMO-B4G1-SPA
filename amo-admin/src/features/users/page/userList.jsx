@@ -130,7 +130,7 @@ export default function User() {
   const handleDisableUser = async (id) => {
     setID(id);
     setUserInfor(null);
-    const response = await axiosClient.get(`api/assignment/${id}`);
+    const response = await axiosClient.get(`api/assignment/users/${id}`);
     try {
       if (response.length > 0) {
         openRelateModal();

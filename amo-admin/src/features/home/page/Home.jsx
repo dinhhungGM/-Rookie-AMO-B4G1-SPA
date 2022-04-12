@@ -19,10 +19,14 @@ const Home = () => {
     (state) => state.home,
   );
 
+  const [isRefresh, setisRefresh] = useState(false);
+
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getListAssignment());
-  }, [dispatch, listChange]);
+  }, [dispatch, listChange, isRefresh]);
+
   useEffect(() => {
     const collection = document.getElementsByClassName("option");
     for (let item of collection) {
@@ -31,8 +35,13 @@ const Home = () => {
       item.replaceChild(newNode, item.childNodes[1]);
     }
   }, []);
+
   const history = useHistory();
   //const Params = useSelector(state => state.assignment.Params);
+
+  const handleonRefresh = () => {
+    setisRefresh(!isRefresh);
+  };
 
   return (
     <div id="user-listing" style={{ paddingTop: "50px" }}>
@@ -46,12 +55,12 @@ const Home = () => {
           fontSize: "20px",
         }}
       >
-        Assignment List
+        My Assignment
       </div>
 
       {Assignment && (
         <>
-          <HomeTable listitem={Assignment} />
+          <HomeTable listitem={Assignment} onRefresh={handleonRefresh} />
         </>
       )}
     </div>
