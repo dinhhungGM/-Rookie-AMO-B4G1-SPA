@@ -458,6 +458,7 @@
   position: absolute;
   left: 61.7%;
   opacity: 0.7;
+  cursor: pointer;
 }
 
 @media only screen and (min-width: 990px) and (max-width: 1300px) {
@@ -495,4 +496,9 @@
   text-overflow: ellipsis;
   max-width: 50px !important;
   overflow: hidden;
+}
+
+.custom-error--feedback {
+  text-align: center;
+  padding-right: 13%;
 }

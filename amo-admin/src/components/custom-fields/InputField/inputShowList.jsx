@@ -45,16 +45,18 @@ function InputField(props) {
         onClick={onClick}
         invalid={showError}
         style={{
-          borderRadius: '7px'
+          borderRadius: '7px',
+          paddingRight: '36px'
         }}
       />
       {
         (name === 'UserFullName' || name === 'AssetName') && !showError && <i
         className="fa-solid fa-magnifying-glass input--with-search-icon"
-        
+        onClick={onClick}
+       
       ></i>
       }
-      <ErrorMessage name={name} component={FormFeedback} />
+      <ErrorMessage name={name} component={FormFeedback} className="custom-error--feedback"/>
       </div>
     </FormGroup>
   );

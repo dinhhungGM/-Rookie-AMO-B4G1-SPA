@@ -48,8 +48,13 @@ function InputField(props) {
            } : {borderRadius: '7px'}
         }
         invalid={showError}
+        {
+          ...(name === 'AssignedDate' ? {
+            min: new Date().toISOString().split('T')[0],
+          } : {})
+        }
       />
-      <ErrorMessage name={name} component={FormFeedback} />
+      <ErrorMessage name={name} component={FormFeedback} className="custom-error--feedback"/>
       </div>
     </FormGroup>
   );
