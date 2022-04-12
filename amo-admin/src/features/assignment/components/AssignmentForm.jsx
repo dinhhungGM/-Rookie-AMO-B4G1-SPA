@@ -12,6 +12,7 @@ import AvailableAssetList from "./AvailableAssetList";
 import UserList from "./UserList";
 import { onChangePageName } from "../../home/homeSlice";
 import getFormattedDate from "../../../utils/getFormattedDate";
+import {setPreAsset, setPreUser} from "../assignmentSlice";
 
 AssignmentForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -43,6 +44,14 @@ function AssignmentForm(props) {
     setFieldValue("UserFullName", inputValue.UserFullName);
     setFieldValue("AssetId", inputValue.AssetId);
     setFieldValue("AssetName", inputValue.AssetName);
+    dispatch(setPreAsset({
+      id: inputValue.AssetId,
+      name: inputValue.AssetName
+    }));
+    dispatch(setPreUser({
+      id: inputValue.UserId,
+      name: inputValue.UserFullName
+    }));
     setSelectedValue(inputValue);
     setIsOpen(false);
   };
@@ -61,6 +70,7 @@ function AssignmentForm(props) {
   };
   function closeModal() {
     setIsOpen(false);
+    
   }
   const modalStyles = {
     content: {
@@ -161,8 +171,7 @@ function AssignmentForm(props) {
         {(formikProps) => {
           // do something here ...
           const { isSubmitting, setFieldValue } = formikProps;
-          console.log(checkSelectedValueValid(selectedValue))
-          console.log(selectedValue)
+          
           return (
             <>
               <Form>

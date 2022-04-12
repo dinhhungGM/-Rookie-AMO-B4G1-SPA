@@ -484,3 +484,9 @@
 .calendar-icon {
   background: url(https://i.ibb.co/RNG6CWs/calendar.png) no-repeat 98% 50%;
 }
+
+.text-overflow-hidden {
+  text-overflow: ellipsis;
+  max-width: 50px !important;
+  overflow: hidden;
+}

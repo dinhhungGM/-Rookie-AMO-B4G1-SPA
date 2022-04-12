@@ -29,7 +29,7 @@ function Table({ columns, data, onRowClick, onSort, tableName }) {
   useEffect(() => {
     onSort(sortBy);
   }, [sortBy]);
-  console.log(tableName);
+
   return (
     <>
       <table {...getTableProps()} className="table_mix">
@@ -37,9 +37,7 @@ function Table({ columns, data, onRowClick, onSort, tableName }) {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column, _idx) => {
-                
 
-                console.log(SortAsset)
                 return (
                   // Add the sorting props to control sorting. For this example
                   // we can add them into the header props
@@ -85,7 +83,7 @@ function Table({ columns, data, onRowClick, onSort, tableName }) {
                   return (
                     <td
                       {...cell.getCellProps()}
-                      className={_idx !== 0 ? "inline_bottom" : ""}
+                      className={_idx !== 0 ? "inline_bottom text-overflow-hidden" : ""}
                       style={_idx === 0 ? { width: "7%" } : {}}
                     >
                       {cell.render("Cell")}

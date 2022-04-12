@@ -18,6 +18,8 @@ const initialState = {
   },
   assignment: null,
   assignmentIdToDelete: null,
+  preAsset: null,
+  preUser: null,
 };
 const mapState = (object) => {
   if (object) {
@@ -112,6 +114,20 @@ export const assignmentSlice = createSlice({
 
     setUserId(state, action) {
       state.params.UserId = action.payload;
+    },
+    setPreAsset(state, action) {
+      state.preAsset = {
+        ...state.preAsset,
+        id: action.payload.id,
+        name: action.payload.name
+      }
+    },
+    setPreUser(state, action) {
+      state.preUser = {
+        ...state.preUser,
+        id: action.payload.id,
+        name: action.payload.name
+      }
     },
     setParams(state, action) {
       console.log(action.payload.key);
@@ -227,6 +243,8 @@ export const {
   setDesc,
   setParams,
   setAssignmentIdToDelete,
+  setPreAsset,
+  setPreUser
 } = assignmentSlice.actions;
 
 export default assignmentSlice.reducer;

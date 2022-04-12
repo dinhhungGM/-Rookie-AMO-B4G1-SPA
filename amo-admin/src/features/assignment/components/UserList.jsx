@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 const UserList = ({onSelectValue, checked, onSave, currentValue, onClose}) => {
    const dispatch = useDispatch();
    
-
+    const {preUser} = useSelector(state => state.assignment);
     const {
       users,
       searchname: name,
@@ -44,6 +44,11 @@ const UserList = ({onSelectValue, checked, onSave, currentValue, onClose}) => {
 
     const onSearchSubmit = (key, value) => {
       dispatch(setSearch(key));
+    }
+
+    const setCancelModal = () => {
+      onSelectValue(preUser === null ? "" : preUser.id, preUser === null ? "" : preUser.name);
+      onClose();
     }
     
 
@@ -101,7 +106,7 @@ const UserList = ({onSelectValue, checked, onSave, currentValue, onClose}) => {
               </Button>
               <Button
                 outline
-                onClick = {onClose}
+                onClick = {setCancelModal}
               >
                 Cancel
               </Button>
