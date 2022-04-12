@@ -27,7 +27,9 @@ export const getReturnRequestListAsync = createAsyncThunk(
       });
       const processed = response.items.map((element) => {
         element.createdDate = convertDate(new Date(element.createdDate));
-        element.returnDate = convertDate(new Date(element.returnDate));
+        if (element.returnDate)
+          element.returnDate = convertDate(new Date(element.returnDate));
+        else element.returnDate = "";
         return element;
       });
       return { ...response, items: processed };
