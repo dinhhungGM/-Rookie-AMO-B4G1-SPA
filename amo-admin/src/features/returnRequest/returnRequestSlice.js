@@ -37,31 +37,27 @@ export const getReturnRequestListAsync = createAsyncThunk(
   }
 );
 
-export const acceptReturnRequsetAsync = createAsyncThunk(
-    "returnRequest/acceptRequest",
-    async (values, { rejectWithValue }) => {
-        try {
-            await axiosClient.put("api/returnrequest/accept", {
-                id: values.id,
-            });
-            alert("Accept request successfully !");
-        } catch (error) {
-            return rejectWithValue(error.response);
-        }
+export const acceptReturnRequestAsync = createAsyncThunk(
+  "returnRequest/acceptRequest",
+  async (values, { rejectWithValue }) => {
+    try {
+      await axiosClient.put("api/returnrequest/accept/" + values.id);
+      alert("Accept request successfully !");
+    } catch (error) {
+      return rejectWithValue(error.response);
     }
+  }
 );
-export const deleteReturnRequsetAsync = createAsyncThunk(
-    "returnRequest/cancelRequest",
-    async (values, { rejectWithValue }) => {
-        try {
-            await axiosClient.put("api/returnrequest/delete", {
-                id: values.id,
-            });
-            alert("Cancel request successfully !");
-        } catch (error) {
-            return rejectWithValue(error.response);
-        }
+export const deleteReturnRequestAsync = createAsyncThunk(
+  "returnRequest/cancelRequest",
+  async (values, { rejectWithValue }) => {
+    try {
+      await axiosClient.put("api/returnrequest/delete/" + values.id);
+      alert("Cancel request successfully !");
+    } catch (error) {
+      return rejectWithValue(error.response);
     }
+  }
 );
 
 const returnRequestSlice = createSlice({

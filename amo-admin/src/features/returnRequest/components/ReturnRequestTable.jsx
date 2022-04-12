@@ -2,17 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "reactstrap";
 import ReactTable from "../../../components/ReactTable";
-import DetailsComponent from "../../../components/DetailsComponent";
-import { ParseDateTime } from "../../../utils/ParseDateTime";
-import RookieModal from "../../../components/rookiemodal/RookieModal";
 import YesNoModal from "../../../components/rookiemodal/YesNoModal";
 import Xcirclebtn from "../../../components/Button/Xcirclebtn";
-import Editbtn from "../../../components/Button/Editbtn";
-import { useHistory } from "react-router-dom";
-import { onChangePageName } from "../../home/homeSlice";
 import {
-  deleteReturnRequsetAsync,
-  acceptReturnRequsetAsync,
+  deleteReturnRequestAsync,
+  acceptReturnRequestAsync,
 } from "../returnRequestSlice";
 import Checkbtn from "../../../components/Button/Checkbtn";
 const stateArr = ["Completed", "Waiting For Returning"];
@@ -40,17 +34,14 @@ const ReturnRequestTable = ({ listitem, onRefresh, params, setparams }) => {
   };
   const handleCancelRequest = (id) => {
     setcancelRequestId(id);
-    cancelModalIsOpen();
   };
-  const handleAccpetRequest = (id) => {
+  const handleAcceptRequest = (id) => {
     setacceptRequestId(id);
-    setcancelRequestId(null);
-    completeModalIsOpen();
   };
 
   const handleConfirmCancelRequest = async () => {
     try {
-      await dispatch(deleteReturnRequsetAsync({ id: cancelRequestId }));
+      await dispatch(deleteReturnRequestAsync({ id: cancelRequestId }));
     } catch (error) {
       console.log("Failed to post user: ", error);
     }
@@ -59,7 +50,7 @@ const ReturnRequestTable = ({ listitem, onRefresh, params, setparams }) => {
   };
   const handleConfirmAccpetRequest = async () => {
     try {
-      await dispatch(acceptReturnRequsetAsync({ id: acceptRequestId }));
+      await dispatch(acceptReturnRequestAsync({ id: acceptRequestId }));
     } catch (error) {
       console.log("Failed to post user: ", error);
     }
@@ -119,11 +110,13 @@ const ReturnRequestTable = ({ listitem, onRefresh, params, setparams }) => {
             <Checkbtn
               disabled={stateArr[row.original.state] === "Completed"}
               onClick={() => {
+                handleAcceptRequest(row.original.id);
                 setCompleteModalIsOpen(true);
               }}
             />
             <Xcirclebtn
               onClick={() => {
+                handleCancelRequest(row.original.id);
                 setCancelModalIsOpen(true);
               }}
               disabled={stateArr[row.original.state] === "Completed"}
