@@ -100,9 +100,19 @@ const ManageAsset = () => {
   }, [isRefresh, params, dispatch]);
 
   return (
-    <div>
-      <div className="titleview">Asset List</div>
-      <div id="filter-and-search-asset-grp" className="mb-2">
+    <div  id="user-listing" style={{ paddingTop: "50px" }}>
+      <span
+        style={{
+          color: "red",
+          fontFamily: "Segoe UI, Arial",
+          fontStyle: "normal",
+          fontWeight: "bold",
+          fontSize: "20px",
+        }}
+      >
+        Asset List{" "}
+      </span>
+      <div id="filter-and-search-asset-grp" style={{ paddingTop: "10px", paddingBottom: "10px" }}>
         <div id="filter-and-search-asset-grp__filter">
           <Multiselect
             showArrow

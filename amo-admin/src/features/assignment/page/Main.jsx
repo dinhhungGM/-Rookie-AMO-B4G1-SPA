@@ -37,8 +37,7 @@ const Main = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getListAssignment(Params));
-    console.log(Assignment);
-  }, [dispatch, Params]);
+  }, [dispatch, Params, isRefresh]);
   const history = useHistory();
 
   const handleAssignedDateOnClick = (value) => {
@@ -55,7 +54,6 @@ const Main = () => {
 
   const onSelect = (selectedList, selectedItem) => {
     dispatch(setFilter({ value: selectedList.map((x) => x.key).join(" ") }));
-    console.log(Params.State);
   };
 
   const onRemove = (selectedList, removedItem) => {
