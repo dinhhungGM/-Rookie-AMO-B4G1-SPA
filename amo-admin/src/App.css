@@ -74,7 +74,7 @@
 .rookiemodal {
   border-style: none;
 }
-.rookiemodal-body  {
+.rookiemodal-body {
   padding: 0;
 }
 .rookiemodal-body__title {
@@ -429,7 +429,7 @@
   border: 1px solid #999;
   transition: 0.2s all linear;
   margin-right: 5px;
-  
+
   position: relative;
   top: 4px;
 }
@@ -443,16 +443,15 @@
   padding-left: 0px;
 }
 
-.my-custom-select{
+.my-custom-select {
   padding-left: 0;
-  padding-right: 0 ;
+  padding-right: 0;
 }
 
 .my-custom-select {
   padding-left: 0;
   padding-right: 0;
 }
-
 
 .input--with-search-icon {
   position: absolute;
