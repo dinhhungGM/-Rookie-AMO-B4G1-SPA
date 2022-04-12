@@ -10,25 +10,21 @@ import SearchField from "react-search-field";
 import { Button, Input } from "reactstrap";
 // import assignmentApi from '../../../api/assignmentApi';
 import AssignmentTable from "../components/AssignmentTable";
-import {onChangePageName} from '../../home/homeSlice';
+import { onChangePageName } from "../../home/homeSlice";
 import { useHistory } from "react-router-dom";
-import { getListAssignment ,onChangePage, setFilter,setSearch,setParams} from "../assignmentSlice";
+import { getListAssignment, setFilter, setParams } from "../assignmentSlice";
 
 const Main = () => {
-
-
   const {
     loading: Loading,
     assignments: Assignment,
     totalPages: TotalPages,
-    totalItems:TotalItems,
-    params: Params
-  } = useSelector((state)=>state.assignment)
+    totalItems: TotalItems,
+    params: Params,
+  } = useSelector((state) => state.assignment);
 
   const [isRefresh, setisRefresh] = useState(false);
-  // const [Params, setParams] = useState(initialParams);
-  
-  
+
   useEffect(() => {
     const collection = document.getElementsByClassName("option");
     for (let item of collection) {
@@ -39,65 +35,59 @@ const Main = () => {
   }, []);
 
   const dispatch = useDispatch();
-  useEffect(()=>{
-   dispatch(getListAssignment(Params))
-   console.log(Assignment)
-  },[dispatch,Params])
+  useEffect(() => {
+    dispatch(getListAssignment(Params));
+    console.log(Assignment);
+  }, [dispatch, Params]);
   const history = useHistory();
-  //const Params = useSelector(state => state.assignment.Params);
 
-  
   const handleAssignedDateOnClick = (value) => {
     if (value == null) {
-      dispatch(setParams({key:"AssignedDate", value:null}));
-
-      // setParams({ ...Params, AssignedDate: null, Page: 1 });
+      dispatch(setParams({ key: "AssignedDate", value: null }));
     } else {
-      //dispatch(onParamsChange({ ...Params, AssignedDate: new Date(new Date(value).setHours(12, 0, 0, 0)) }));
-      // setParams({
-      //   ...Params,
-      //   AssignedDate: new Date(new Date(value).setHours(12, 0, 0, 0)),
-      //   Page: 1,
-      // });
- 
-      dispatch(setParams({key:"AssignedDate", value:new Date(value)}));
+      dispatch(setParams({ key: "AssignedDate", value: new Date(value) }));
     }
   };
 
   const handlePageChange = (pageNumber) => {
-    dispatch(setParams({key:"Page", value:pageNumber}));
-    // setParams({ ...Params, Page: pageNumber });
+    dispatch(setParams({ key: "Page", value: pageNumber }));
   };
 
   const onSelect = (selectedList, selectedItem) => {
-    //dispatch(onParamsChange({ ...Params, State: selectedList.map(x => x.key).join(" ") }));
-    dispatch(setFilter({value: selectedList.map(x => x.key).join(" ")}));
-    console.log(Params.State)
+    dispatch(setFilter({ value: selectedList.map((x) => x.key).join(" ") }));
+    console.log(Params.State);
   };
 
   const onRemove = (selectedList, removedItem) => {
-    dispatch(setFilter({value: selectedList.map(x => x.key).join(" ")}));
-
+    dispatch(setFilter({ value: selectedList.map((x) => x.key).join(" ") }));
   };
 
   const onSearchSubmit = (key, value) => {
-    //dispatch(onParamsChange({ ...Params, KeySearch: key }));
-    dispatch(setParams({key:"KeySearch", value:key}));
+    dispatch(setParams({ key: "KeySearch", value: key }));
   };
   const handleonRefresh = () => {
     setisRefresh(!isRefresh);
   };
+
   return (
     <div id="user-listing" style={{ paddingTop: "50px" }}>
-      <div className="titleview" style={{
+      <div
+        className="titleview"
+        style={{
           color: "red",
           fontFamily: "Segoe UI, Arial",
           fontStyle: "normal",
           fontWeight: "bold",
           fontSize: "20px",
-        }}>Assignment List</div>
+        }}
+      >
+        Assignment List
+      </div>
       <div id="user-search-filter">
-        <div className="user-search-filter-select" style={{ paddingTop: "10px", paddingBottom: "10px" }}>
+        <div
+          className="user-search-filter-select"
+          style={{ paddingTop: "10px", paddingBottom: "10px" }}
+        >
           <Multiselect
             placeholder="Filter by State"
             avoidHighlightFirstOption
@@ -116,25 +106,22 @@ const Main = () => {
               },
               {
                 cat: "Accepted",
-                key: "2",
+                key: "0",
               },
             ]}
             showCheckbox
             closeOnSelect={false}
             style={{
               chips: {
-                background: "red",
+                display: "none",
               },
               multiselectContainer: {
                 width: "175px",
-                display: "inline-block",
               },
               searchBox: {
                 borderRadius: "5px",
                 width: "175px",
-                height: "39px",
-                background:
-                  "url(https://i.ibb.co/1mTS0k7/Capture.png) no-repeat right center",
+                height: "auto",
               },
             }}
           />
@@ -151,7 +138,10 @@ const Main = () => {
             clearButtonClassName="clear-date-button"
           />
         </div>
-        <div id="user-search-filter__right">
+        <div
+          id="user-search-filter__right"
+          style={{ paddingTop: "10px", paddingBottom: "10px" }}
+        >
           <SearchField
             placeholder="Search..."
             onSearchClick={(key, value) => onSearchSubmit(key, value)}
@@ -160,10 +150,15 @@ const Main = () => {
           />
           {"  "}
           <Button color="danger" id="add-assignment-btn">
-            <Link className="btn-user-text"  onClick={() => {
-                dispatch((onChangePageName("Manage Assignment > Create New Assignment")));
+            <Link
+              className="btn-user-text"
+              onClick={() => {
+                dispatch(
+                  onChangePageName("Manage Assignment > Create New Assignment"),
+                );
                 history.push("/manageassignment/create");
-            }}>
+              }}
+            >
               Create New Assignment
             </Link>
           </Button>
@@ -179,7 +174,7 @@ const Main = () => {
           />
           <Pagination
             activePage={Params.Page}
-            itemsCountPerPage={5}
+            itemsCountPerPage={10}
             totalItemsCount={TotalItems}
             pageRangeDisplayed={TotalPages}
             hideFirstLastPages={true}

@@ -1,29 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useTable, useSortBy } from "react-table";
 
-function Table({ columns, data, onRowClick, onSort }) {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-    state: { sortBy },
-  } = useTable(
-    {
-      columns,
-      data,
-      manualSortBy: true,
-    },
-    useSortBy
-  );
-  const { sort: Sort, desc: Desc } = useSelector((state) => state.user); // We don't want to render all 2000 rows for this example, so cap
+function Table({ columns, data, onRowClick }) {
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable(
+      {
+        columns,
+        data,
+      },
+      useSortBy,
+    );
+  const { params: Params } = useSelector((state) => state.assignment); // We don't want to render all 2000 rows for this example, so cap
   // it at 20 for this use case
   const firstPageRows = rows;
-  useEffect(() => {
-    onSort(sortBy);
-  }, [sortBy]);
   return (
     <>
       <table class="table" {...getTableProps()}>
@@ -38,15 +28,23 @@ function Table({ columns, data, onRowClick, onSort }) {
                   {column.render("Header")}
                   {/* Add a sort direction indicator */}
                   <span>
-                    {column.id === Sort ? (
-                      Desc ? (
-                        " ▼"
-                      ) : (
+                    {column.isSorted ? (
+                      column.isSortedDesc ? (
                         " ▲"
+                      ) : (
+                        " ▼"
                       )
                     ) : (
                       <span style={{ opacity: 0 }}> ▼</span>
                     )}
+
+                    {/* {
+                      
+                      column.isSorted
+                      ? column.isSortedDesc
+                          ? ' ▲'
+                          : ' ▼'
+                        :   <span style={{opacity:0}}> ▼</span>} */}
                   </span>
                 </th>
               ))}
@@ -65,10 +63,18 @@ function Table({ columns, data, onRowClick, onSort }) {
                   return (
                     <>
                       {cell.column.Header !== " " ? (
-                        <td {...cell.getCellProps()}>
-                          {String(cell.value).substring(0, 20) +
-                            (String(cell.value).length > 20 ? "..." : "")}
-                        </td>
+                        cell.column.Header == "Assigned Date" ? (
+                          <>
+                            <td {...cell.getCellProps()}>
+                              {new Date(cell.value).toLocaleDateString("vi")}
+                            </td>
+                          </>
+                        ) : (
+                          <td {...cell.getCellProps()}>
+                            {String(cell.value).substring(0, 20) +
+                              (String(cell.value).length > 20 ? "..." : "")}
+                          </td>
+                        )
                       ) : (
                         <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                       )}

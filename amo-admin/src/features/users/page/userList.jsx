@@ -23,7 +23,7 @@ import Pagination from "react-js-pagination";
 import { Link, useHistory } from "react-router-dom";
 import Multiselect from "multiselect-react-dropdown";
 import UserTable from "../components/UserTable";
-import { JsonTable } from "react-json-to-html";
+import axiosClient from "../../../api/axiosClient";
 
 export default function User() {
   const customStyles = {
@@ -71,14 +71,6 @@ export default function User() {
       borderRadius: "5px",
     },
   };
-  const parseObjectToUrlQuery = (obj) => {
-    const query = Object.keys(obj)
-      .map(
-        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`
-      )
-      .join("&");
-    return "?" + query;
-  };
   const {
     users: UserList,
     userid: UserID,
@@ -100,7 +92,6 @@ export default function User() {
   const [Id, setID] = useState(null);
   const history = useHistory();
   const dispatch = useDispatch();
-  console.log(JSON.parse(localStorage.getItem("user")));
   useEffect(() => {
     const collection = document.getElementsByClassName("option");
     for (let item of collection) {
@@ -111,17 +102,15 @@ export default function User() {
   }, []);
   useEffect(() => {
     dispatch(
-      getPagedUsersAsync(
-        {
-          page: UserCurrentPage,
-          limit: 5,
-          type: Filter,
-          name: SearchName,
-          sort: SortBy,
-          desc: Desc,
-          id: UserID,
-        })
-      
+      getPagedUsersAsync({
+        page: UserCurrentPage,
+        limit: 5,
+        type: Filter,
+        name: SearchName,
+        sort: SortBy,
+        desc: Desc,
+        id: UserID,
+      }),
     );
     console.log(UserID);
   }, [
@@ -141,9 +130,9 @@ export default function User() {
   const handleDisableUser = async (id) => {
     setID(id);
     setUserInfor(null);
+    const response = await axiosClient.get(`api/assignment/${id}`);
     try {
-      //  dispatch(  checkUserIsRelatoAssignment(id))
-      if (false) {
+      if (response.length > 0) {
         openRelateModal();
       } else {
         openDeleteModal();
@@ -257,7 +246,7 @@ export default function User() {
           <Editbtn
             disabled={false}
             onClick={() => {
-              dispatch(onChangePageName('Manage User > Edit User'));
+              dispatch(onChangePageName("Manage User > Edit User"));
               history.push(`/manageuser/${row.original.id}`);
             }}
           />
@@ -339,7 +328,13 @@ export default function User() {
           />
           {"  "}
           <Button color="danger" id="add-user-btn">
-            <Link className="btn-user-text" to="/manageuser/create" onClick={() => dispatch((onChangePageName("Manage User > Create New User")))}>
+            <Link
+              className="btn-user-text"
+              to="/manageuser/create"
+              onClick={() =>
+                dispatch(onChangePageName("Manage User > Create New User"))
+              }
+            >
               Create new user
             </Link>
           </Button>
@@ -396,9 +391,7 @@ export default function User() {
           customStyles={customStyles}
           isModalHeader={true}
         >
-          {userInfor ?                 
-            <DetailsComponent list={userInfor}/>
-          : ""}
+          {userInfor ? <DetailsComponent list={userInfor} /> : ""}
         </RookieModal>
       )}
       <RookieModal
@@ -406,6 +399,7 @@ export default function User() {
         modalIsOpen={relateModalIsOpen}
         closeModal={closeRelateModal}
         customStyles={customStyles}
+        isModalHeader={true}
       >
         <div style={{ marginBottom: "27px", marginTop: "35px" }}>
           <p

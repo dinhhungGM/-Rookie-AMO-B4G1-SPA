@@ -47,22 +47,22 @@ export default function CreateAssetForm(props) {
             return false;
           });
           if (!values.name) {
-            errors.name = "This field is required";
+            errors.name = "Required";
           } else if (result) {
             errors.name = "Name cannot contain special character!";
           }
 
           if (!values.specification) {
-            errors.specification = "This field is required";
+            errors.specification = "Required";
           }
           if (!values.installedDate) {
-            errors.installedDate = "This field is required";
+            errors.installedDate = "Required";
           }
           if (!values.category) {
-            errors.category = "This field is required";
+            errors.category = "Required";
           }
           if (!values.state) {
-            errors.state = "This field is required";
+            errors.state = "Required";
           }
           if (!errors.installedDate) {
             if (
@@ -121,7 +121,7 @@ export default function CreateAssetForm(props) {
                   invalid={errors.name && touched.name}
                   maxLength={250}
                 />
-                <FormFeedback>{errors.name}</FormFeedback>
+                <FormFeedback tooltip>{errors.name}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -170,7 +170,7 @@ export default function CreateAssetForm(props) {
                   invalid={errors.specification && touched.specification}
                   maxLength={4000}
                 />
-                <FormFeedback>{errors.specification}</FormFeedback>
+                <FormFeedback tooltip>{errors.specification}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -186,7 +186,7 @@ export default function CreateAssetForm(props) {
                   value={values.installedDate}
                   invalid={errors.installedDate && touched.installedDate}
                 />
-                <FormFeedback>{errors.installedDate}</FormFeedback>
+                <FormFeedback tooltip>{errors.installedDate}</FormFeedback>
                 <span id="hidden-span" hidden onClick={handleChange} />
               </Col>
             </FormGroup>

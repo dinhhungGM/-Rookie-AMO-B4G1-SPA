@@ -70,17 +70,7 @@ export const disableUser = createAsyncThunk(
   }
 );
 
-export const checkUserIsRelatoAssignment = createAsyncThunk(
-  "user/checkUserIsRelatoAssignment",
-  async (values,{ rejectWithValue }) => {
-    try {
-      //Đợi khi nào có api get assignment thì bổ sung vào 
-      return false;
-    } catch (error) {
-      return rejectWithValue(error.response);
-    }
-  }
-);
+
 export const getUserById = createAsyncThunk(
   "user/getUserById",
   async (values,{ rejectWithValue }) => {
@@ -189,9 +179,7 @@ export const userSlice = createSlice({
       .addCase(disableUser.rejected, (state, action) => {
           state.userid = null;
       })
-      .addCase(checkUserIsRelatoAssignment.fulfilled, (state, action) => {
-        state.isRelatetoAssignment = action.payload;
-    })
+      
     .addCase(getUserById.fulfilled, (state,action)=>{
       state.user=action.payload;
 

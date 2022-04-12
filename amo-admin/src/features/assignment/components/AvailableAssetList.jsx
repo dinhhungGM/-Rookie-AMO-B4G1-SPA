@@ -11,37 +11,36 @@ const AvailableAssetList = ({onSelectValue, checked, onSave, currentValue, onClo
    const dispatch = useDispatch();
    const {assets} = useSelector(state => state.asset);
     const [listSelector, setListSelector] = useState();
+    const {location} =  JSON.parse(localStorage.getItem('user')).profile;
     const [Params, setParams] = useState(    
     {
-      OrderProperty: 'code',
+      orderProperty: 'Code',
       Desc: true,
-      Page: 1,
-      Limit: 1000000,
-      State: ASSET_AVAILABLE
+      page: 1,
+      limit: 1000000,
+      state: ASSET_AVAILABLE,
+      keySearch: '',
+      direction: 'ASC',
+      location: location
     });
 
-    
+    function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
     useEffect(() => {
-      // const getList = async() =>{
-      //   try {
-      //     const response = await assetApi.findAll(Params);
-      //     setListSelector(response);       
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
-      // }
-      // getList();
-      dispatch(getAssetListAsync(Params));
+      dispatch(getAssetListAsync({
+        ...Params,
+        orderProperty: capitalizeFirstLetter(Params.orderProperty)
+      }));
     }, [dispatch, Params]);
     console.log(listSelector);
     const handleOnSort = (e) => {
       if(e[0]) {
-        if(e[0].desc == Params.Desc){
-          setParams({...Params, OrderProperty: e[0].id, Desc:e[0].desc });          
+        if(e[0].desc === Params.Desc){
+          setParams({...Params, orderProperty: e[0].id, Desc:e[0].desc, direction: 'DESC' });          
         }
         else{
-          setParams({...Params, OrderProperty: e[0].id, Desc:!e[0].desc });
-
+          setParams({...Params, orderProperty: e[0].id, Desc:!e[0].desc, direction: 'ASC' });
         }
       }
     }
@@ -51,7 +50,7 @@ const AvailableAssetList = ({onSelectValue, checked, onSave, currentValue, onClo
     }
 
     const onSearchSubmit = (key, value) => {
-      setParams({ ...Params, KeySearch: key });
+      setParams({ ...Params, keySearch: key });
     }
 
     const columns = [
@@ -64,16 +63,22 @@ const AvailableAssetList = ({onSelectValue, checked, onSave, currentValue, onClo
         ),
       },
       {
+        id: "Code",
         Header: "Asset Code",
         accessor: "code",
+        sortDirection: Params.direction
       },
       {
         Header: "Asset Name",
         accessor: "name",
+        id: "Name",
+        sortDirection: Params.direction
       },
       {
         Header: "Category",
+        id: "Category",
         accessor: "category.name",
+        sortDirection: Params.direction
       }
     ]
 
@@ -92,6 +97,7 @@ const AvailableAssetList = ({onSelectValue, checked, onSave, currentValue, onClo
             data={assets.items} 
             onSort={(e) => handleOnSort(e)}  
             onRowClick={(e) => (e)}
+            tableName="assets"
           />
           <div style= {{'height':'38px', marginLeft: "60%"}}>
               <Button

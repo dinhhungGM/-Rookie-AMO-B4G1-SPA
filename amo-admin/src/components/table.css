@@ -1,9 +1,12 @@
 
-.header_of_table:not(:last-child){
+.header_of_table {
+    cursor: pointer;
+    white-space: nowrap;
     width: 150px;
     height: 30px;
 }
-.tabble_user{
+
+.table_mix{
     border-collapse: separate;
     border-spacing: 20px;
 }

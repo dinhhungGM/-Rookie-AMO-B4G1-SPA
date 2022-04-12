@@ -1,45 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import SearchField from "react-search-field";
 import { Button, Input } from "reactstrap";
 // import userApi from "../../../../api/userApi";
 import ReactTable from "../../../components/ReactTableAsignment";
-import {getPagedUsersAsync} from '../../users/userSlice';
+import {getPagedUsersAsync, setSearch, setSort, setDesc} from '../../users/userSlice';
 import { useDispatch, useSelector } from "react-redux";
-import ParseObjectToQueryString from "../../../utils/ParseObjectToQueryString";
+
 
 const UserList = ({onSelectValue, checked, onSave, currentValue, onClose}) => {
    const dispatch = useDispatch();
-   const {users} = useSelector(state => state.user);
-    const [listSelector, setListSelector] = useState();
-    const [Params, setParams] = useState(    
-    {
-      propertyName: 'StaffCode',
-      desc: true,
-      page: 1,
-      limit: 10
-    });
+   
 
-    const capitalize1st = s => s && s[0].toUpperCase() + s.slice(1);
-    
-    
+    const {
+      users,
+      searchname: name,
+      sort,
+      desc
+      
+    } = useSelector((state) => state.user);
+
     useEffect(() => {
-      // const getList = async() =>{
-      //   setListSelector(await userApi.getAll(Params));
-      // }
-      // getList();
-      dispatch(getPagedUsersAsync("?" + ParseObjectToQueryString(Params)));
-    }, [dispatch, Params]);
+      dispatch(getPagedUsersAsync({
+        page: 1,
+        limit: 1000000,
+        sort,
+        desc,
+        name,
+      }));
+    }, [dispatch, desc, name, sort]);
     
     const handleOnSort = (e) => {
-      if(e[0]) setParams({...Params, propertyName:capitalize1st(e[0].id), desc:e[0].desc });
+      console.log(e);
+      
+      if (e[0]) {
+          dispatch(setSort(e[0].id));
+          dispatch(e[0].desc !== desc ? setDesc(e[0].desc): setDesc(!e[0].desc));
+      }
     }
-
+  
     const setInputValue = (e) =>{
       onSelectValue(e.id, e.fullName);
     }
 
     const onSearchSubmit = (key, value) => {
-      setParams({ ...Params, search: key });
+      dispatch(setSearch(key));
     }
     
 
@@ -83,6 +87,7 @@ const UserList = ({onSelectValue, checked, onSave, currentValue, onClose}) => {
             data={users} 
             onSort={(e) => handleOnSort(e)}  
             onRowClick={(e) => (e)}
+            tableName="users"
           />
           <div style= {{'height':'38px', marginLeft: "60%"}}>
               <Button
