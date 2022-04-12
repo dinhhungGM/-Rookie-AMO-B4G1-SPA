@@ -11,6 +11,7 @@ const AvailableAssetList = ({onSelectValue, checked, onSave, currentValue, onClo
    const dispatch = useDispatch();
    const {assets} = useSelector(state => state.asset);
     const [listSelector, setListSelector] = useState();
+  const {preAsset} = useSelector(state => state.assignment);
     const {location} =  JSON.parse(localStorage.getItem('user')).profile;
     const [Params, setParams] = useState(    
     {
@@ -47,6 +48,12 @@ const AvailableAssetList = ({onSelectValue, checked, onSave, currentValue, onClo
 
     const setInputValue = (e) =>{
       onSelectValue(e.id, e.name);
+    }
+
+    const setCancelModal = () => {
+      console.log(preAsset);
+      onSelectValue(preAsset === null ? "" : preAsset.id, preAsset === null ? "" : preAsset.name);
+      onClose();
     }
 
     const onSearchSubmit = (key, value) => {
@@ -111,7 +118,7 @@ const AvailableAssetList = ({onSelectValue, checked, onSave, currentValue, onClo
               </Button>
               <Button
                 outline
-                onClick = {onClose}
+                onClick = {setCancelModal}
               >
                 Cancel
               </Button>
