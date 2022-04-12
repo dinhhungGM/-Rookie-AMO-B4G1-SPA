@@ -1,7 +1,7 @@
 import { FastField, Field, Form, Formik } from "formik";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Button, FormGroup, Spinner } from "reactstrap";
 import * as Yup from "yup";
@@ -11,7 +11,8 @@ import RookieModal from "../../../components/rookiemodal/RookieModal";
 import AvailableAssetList from "./AvailableAssetList";
 import UserList from "./UserList";
 import { onChangePageName } from "../../home/homeSlice";
-// import { onChangePageName } from "../assignmentManagerSlice";
+import getFormattedDate from "../../../utils/getFormattedDate";
+
 AssignmentForm.propTypes = {
   onSubmit: PropTypes.func,
 };
@@ -29,21 +30,18 @@ function AssignmentForm(props) {
   const [modalIsOpen, setIsOpen] = useState(false);
 
   const dispatch = useDispatch();
-
-  //   const handleChangePageName = (pagename) => {
-  //     dispatch(onChangePageName(pagename))
-  //   }
+  const {assignment} = useSelector(state => state.assignment);
 
   const onSelectAssetValue = (id, name) => {
-    setInputValue({ ...inputValue, AssetID: id, AssetName: name });
+    setInputValue({ ...inputValue, AssetId: id, AssetName: name });
   };
   const onSelectUserValue = (id, name) => {
-    setInputValue({ ...inputValue, UserID: id, UserFullName: name });
+    setInputValue({ ...inputValue, UserId: id, UserFullName: name });
   };
   const onSave = (setFieldValue) => {
-    setFieldValue("UserId", inputValue.UserID);
+    setFieldValue("UserId", inputValue.UserId);
     setFieldValue("UserFullName", inputValue.UserFullName);
-    setFieldValue("AssetId", inputValue.AssetID);
+    setFieldValue("AssetId", inputValue.AssetId);
     setFieldValue("AssetName", inputValue.AssetName);
     setSelectedValue(inputValue);
     setIsOpen(false);
@@ -81,6 +79,30 @@ function AssignmentForm(props) {
     return today <= assignedDate;
   }
 
+  function isEmpty(value) {
+    return (
+        value === null || // check for null
+        value === undefined || // check for undefined
+        value === '' || // check for empty string
+        (Array.isArray(value) && value.length === 0) || // check for empty array
+        (typeof value === 'object' && Object.keys(value).length === 0) // check for empty object
+    );
+ }
+
+  function checkSelectedValueValid(values) {
+    if (
+      isEmpty(values.UserId) || 
+      isEmpty(values.AssetId) ||
+      isEmpty(values.AssignedDate) 
+    ) {
+      return false;
+    }
+    if (!IsGreaterThanOrEqualToday(values.AssignedDate)) {
+      return false;
+    }
+    return true;
+  }
+
   const validationSchema = Yup.object().shape({
     AssetName: Yup.string().required("This field is required."),
     UserFullName: Yup.string().required("This field is required."),
@@ -94,27 +116,53 @@ function AssignmentForm(props) {
         (value) => {
           return IsGreaterThanOrEqualToday(value);
         }
-      )
-      .nullable(),
-
+      ),
     Note: Yup.string().test(
-      "len",
+      "Note",
       "Exceeded characters",
       (val) => !val || val.length <= 1000
-    ),
+    ).optional()
+    .nullable(),
   });
+
+
+  useEffect(() => {
+    if (!isAddMode) {
+      console.log(assignment) 
+      setSelectedValue({
+        UserId: assignment?.assignedTo,
+        AssetId: assignment?.assetId,
+        UserFullName: assignment?.userNameAssignedTo,
+        AssetName:assignment?.asset?.name,
+        AssignedDate: getFormattedDate(new Date(assignment?.assignedDate)),
+        Note: assignment?.note,
+      });
+      setInputValue({
+        UserId: assignment?.assignedTo,
+        AssetId: assignment?.assetId,
+        UserFullName: assignment?.userNameAssignedTo,
+        AssetName:assignment?.asset?.name,
+        AssignedDate: getFormattedDate(new Date(assignment?.assignedDate)),
+        Note: assignment?.note,
+        AssignmentId: assignment?.id
+      })
+      
+    }
+  }, [isAddMode, assignment, setInputValue]);
 
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={initialValues}
+        initialValues={inputValue}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
         {(formikProps) => {
           // do something here ...
           const { isSubmitting, setFieldValue } = formikProps;
+          console.log(checkSelectedValueValid(selectedValue))
+          console.log(selectedValue)
           return (
             <>
               <Form>
@@ -186,6 +234,7 @@ function AssignmentForm(props) {
                       component={InputField}
                       type="textarea"
                       label="Note"
+                      value={selectedValue.Note}
                     />
                   </>
                 )}
@@ -197,7 +246,7 @@ function AssignmentForm(props) {
                 >
                   <Button
                     type="submit"
-                    disabled={!(formikProps.dirty && formikProps.isValid)}
+                    disabled={isAddMode ? !(checkSelectedValueValid(selectedValue) && formikProps.isValid) : !formikProps.isValid}
                     color="danger"
                     style={{
                       marginRight: "18px",
@@ -211,7 +260,6 @@ function AssignmentForm(props) {
                     onClick={() => {
                       dispatch(onChangePageName("Manage Assginment"));
                       history.push("/manageassignment");
-                      // handleChangePageName("Manage Assignment")
                     }}
                   >
                     Cancel
@@ -227,17 +275,17 @@ function AssignmentForm(props) {
                 {modelSwitch === 2 ? (
                   <AvailableAssetList
                     onSelectValue={onSelectAssetValue}
-                    checked={inputValue.AssetID}
+                    checked={inputValue.AssetId}
                     onSave={() => onSave(setFieldValue)}
-                    currentValue={selectedValue.AssetID}
+                    currentValue={selectedValue.AssetId}
                     onClose={closeModal}
                   />
                 ) : (
                   <UserList
                     onSelectValue={onSelectUserValue}
-                    checked={inputValue.UserID}
+                    checked={inputValue.UserId}
                     onSave={() => onSave(setFieldValue)}
-                    currentValue={selectedValue.UserID}
+                    currentValue={selectedValue.UserId}
                     onClose={closeModal}
                   />
                 )}

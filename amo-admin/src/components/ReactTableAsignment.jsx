@@ -1,8 +1,9 @@
 import { useTable, useSortBy } from "react-table";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import "./table.css";
 
-function Table({ columns, data, onRowClick, onSort }) {
+function Table({ columns, data, onRowClick, onSort, tableName }) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -18,40 +19,57 @@ function Table({ columns, data, onRowClick, onSort }) {
     },
     useSortBy
   );
-
+  const { sort: SortUser, desc: DescUser } = useSelector((state) => state.user);
+  const { orderProperty: SortAsset, direction: DescAsset } = useSelector(
+    (state) => state.asset
+  );
   // We don't want to render all 2000 rows for this example, so cap
   // it at 20 for this use case
   const firstPageRows = rows;
   useEffect(() => {
     onSort(sortBy);
   }, [sortBy]);
+  console.log(tableName);
   return (
     <>
-      <table {...getTableProps()} className="tabble_user">
+      <table {...getTableProps()} className="table_mix">
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column, _idx) => (
-                // Add the sorting props to control sorting. For this example
-                // we can add them into the header props
-                <th
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                  className="header_of_table"
-                  style={_idx !== 0 ? { borderBottom: "1px solid" } : {}}
-                >
-                  {column.render("Header")}
-                  {/* Add a sort direction indicator */}
-                  <span>
-                    {_idx !== 0
-                      ? column.isSorted
-                        ? column.isSortedDesc
-                          ? "▲"
-                          : "▼"
-                        : "▼"
-                      : ""}
-                  </span>
-                </th>
-              ))}
+              {headerGroup.headers.map((column, _idx) => {
+                
+
+                console.log(SortAsset)
+                return (
+                  // Add the sorting props to control sorting. For this example
+                  // we can add them into the header props
+                  <th
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    className="header_of_table"
+                    style={_idx !== 0 ? { borderBottom: "1px solid" } : {}}
+                  >
+                    {column.render("Header")}
+                   
+                    <span>
+                      {
+                        _idx !== 0 ? 
+                        tableName === "users"
+                          ? SortUser === column.id
+                            ? DescUser
+                              ? " ▼"
+                              : " ▲"
+                            : ""
+                          : tableName === "assets"
+                          ? column.sortDirection === "ASC"
+                            ? " ▼"
+                            : " ▲"
+                          : ""
+                        : ""
+                       }
+                    </span>
+                  </th>
+                );
+              })}
             </tr>
           ))}
         </thead>
@@ -67,7 +85,7 @@ function Table({ columns, data, onRowClick, onSort }) {
                   return (
                     <td
                       {...cell.getCellProps()}
-                      className={_idx !== 0 ? "inline_bottom": ""}
+                      className={_idx !== 0 ? "inline_bottom" : ""}
                       style={_idx === 0 ? { width: "7%" } : {}}
                     >
                       {cell.render("Cell")}

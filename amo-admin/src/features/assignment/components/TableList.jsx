@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTable, useSortBy } from 'react-table'
 
@@ -65,7 +65,6 @@ const {params:Params}= useSelector((state)=>state.assignment)  // We don't want 
               return (
                 <tr {...row.getRowProps()} onClick={()=>onRowClick(row.original)}>
                   {row.cells.map(cell => {
-                    {console.log(cell.column.Header)}
                     return (
                         <>
                             {cell.column.Header !==' '?(cell.column.Header=="Assigned Date"?(

@@ -1,11 +1,61 @@
-import React from 'react'
+import Multiselect from "multiselect-react-dropdown";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import Pagination from "react-js-pagination";
+import { Link } from "react-router-dom";
+//import { useDispatch } from 'react-redux';
+import SearchField from "react-search-field";
+import { Button, Input } from "reactstrap";
+// import assignmentApi from '../../../api/assignmentApi';
+import HomeTable from "../components/HomeTable";
+import { getListAssignment } from "../../home/homeSlice";
+import { useHistory } from "react-router-dom";
+// import { getListAssignment ,onChangePage, setFilter,setSearch,setParams} from "../assignmentSlice";
 
 const Home = () => {
-    return (
-        <div>
-            Ahihihi Home
-        </div>
-    )
-}
+  const { assignments: Assignment, listChange: listChange } = useSelector(
+    (state) => state.home,
+  );
 
-export default Home
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getListAssignment());
+  }, [dispatch, listChange]);
+  useEffect(() => {
+    const collection = document.getElementsByClassName("option");
+    for (let item of collection) {
+      const newNode = document.createElement("label");
+      newNode.innerHTML = item.textContent;
+      item.replaceChild(newNode, item.childNodes[1]);
+    }
+  }, []);
+  const history = useHistory();
+  //const Params = useSelector(state => state.assignment.Params);
+
+  return (
+    <div id="user-listing" style={{ paddingTop: "50px" }}>
+      <div
+        className="titleview"
+        style={{
+          color: "red",
+          fontFamily: "Segoe UI, Arial",
+          fontStyle: "normal",
+          fontWeight: "bold",
+          fontSize: "20px",
+        }}
+      >
+        Assignment List
+      </div>
+
+      {Assignment && (
+        <>
+          <HomeTable listitem={Assignment} />
+        </>
+      )}
+    </div>
+  );
+};
+
+export default Home;
