@@ -92,7 +92,7 @@ const Main = () => {
           fontSize: "20px",
         }}
       >
-        Asset List
+        Request List
       </span>
 
       <div
