@@ -85,7 +85,7 @@ function Table({ columns, data, onRowClick, onSort, tableName }) {
                   return (
                     <td
                       {...cell.getCellProps()}
-                      className={_idx !== 0 ? "inline_bottom" : ""}
+                      className={_idx !== 0 ? "inline_bottom text-overflow-hidden" : ""}
                       style={_idx === 0 ? { width: "7%" } : {}}
                     >
                       {cell.render("Cell")}

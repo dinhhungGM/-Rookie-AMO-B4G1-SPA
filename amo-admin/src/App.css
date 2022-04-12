@@ -478,3 +478,9 @@
 .custom-td {
   padding: 5px;
 }
+
+.text-overflow-hidden {
+  text-overflow: ellipsis;
+  max-width: 50px !important;
+  overflow: hidden;
+}
