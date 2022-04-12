@@ -1,30 +1,29 @@
-import React from 'react';
-import { useHistory } from 'react-router';
-import { CallbackComponent } from 'redux-oidc';
-import userManager from '../../utils/userManager';
+import React from "react";
+import { useHistory } from "react-router";
+import { CallbackComponent } from "redux-oidc";
+import userManager from "../../utils/userManager";
 
 const CallbackPage = () => {
+  const history = useHistory();
 
-    const history = useHistory();
+  const handleLoginSuccess = (user) => {
+    localStorage.setItem("user", JSON.stringify(user));
+    history.push("/home");
+  };
 
-    const handleLoginSuccess = (user) => {
-      localStorage.setItem('user', JSON.stringify(user));
-      history.push('/');
-    }
+  return (
+    <CallbackComponent
+      userManager={userManager}
+      successCallback={handleLoginSuccess}
+      errorCallback={(error) => {
+        alert("Ahihi");
+        //this.props.dispatch(push('/'));
+        console.error(error);
+      }}
+    >
+      <div>Redirecting...</div>
+    </CallbackComponent>
+  );
+};
 
-    return (
-        <CallbackComponent
-        userManager={userManager}
-        successCallback={handleLoginSuccess}
-        errorCallback={error => {
-            alert("Ahihi")
-          //this.props.dispatch(push('/'));
-          console.error(error);
-        }}
-      >
-        <div>Redirecting...</div>
-      </CallbackComponent>
-    )
-}
-
-export default CallbackPage
+export default CallbackPage;

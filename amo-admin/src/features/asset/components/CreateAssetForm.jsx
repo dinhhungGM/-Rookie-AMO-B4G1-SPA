@@ -121,7 +121,7 @@ export default function CreateAssetForm(props) {
                   invalid={errors.name && touched.name}
                   maxLength={250}
                 />
-                <FormFeedback tooltip>{errors.name}</FormFeedback>
+                <FormFeedback>{errors.name}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -170,7 +170,7 @@ export default function CreateAssetForm(props) {
                   invalid={errors.specification && touched.specification}
                   maxLength={4000}
                 />
-                <FormFeedback tooltip>{errors.specification}</FormFeedback>
+                <FormFeedback>{errors.specification}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -186,7 +186,7 @@ export default function CreateAssetForm(props) {
                   value={values.installedDate}
                   invalid={errors.installedDate && touched.installedDate}
                 />
-                <FormFeedback tooltip>{errors.installedDate}</FormFeedback>
+                <FormFeedback>{errors.installedDate}</FormFeedback>
                 <span id="hidden-span" hidden onClick={handleChange} />
               </Col>
             </FormGroup>
