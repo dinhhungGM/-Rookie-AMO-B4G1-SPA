@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 import axiosClient from "../../api/axiosClient";
 
 const initialState = {
@@ -6,6 +7,7 @@ const initialState = {
   loading: false,
   error: null,
 };
+
 const convertDate = (date) => {
   var day = ("0" + date.getDate()).slice(-2);
   var month = ("0" + (date.getMonth() + 1)).slice(-2);
@@ -33,6 +35,20 @@ export const getReturnRequestListAsync = createAsyncThunk(
         return element;
       });
       return { ...response, items: processed };
+    } catch (error) {
+      return rejectWithValue(error.response);
+    }
+  }
+);
+export const CreateReturnRequestAsync = createAsyncThunk(
+  "returnrequest/createReturnRequest",
+  async (values, { rejectWithValue }) => {
+    try {
+      const returnrequest = await axiosClient.post("api/returnrequest", {
+        assignmentId: values,
+      });
+      alert("Create return request successfully !");
+      return returnrequest;
     } catch (error) {
       return rejectWithValue(error.response);
     }
@@ -67,6 +83,17 @@ const returnRequestSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
+      .addCase(CreateReturnRequestAsync.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(CreateReturnRequestAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(CreateReturnRequestAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       .addCase(getReturnRequestListAsync.pending, (state, action) => {
         state.loading = true;
       })
@@ -83,4 +110,5 @@ const returnRequestSlice = createSlice({
 });
 
 const { reducer, actions } = returnRequestSlice;
+// export const { onChangePageName, onChangeParam, onListChange } = actions;
 export default reducer;

@@ -11,6 +11,7 @@ import RookieModal from "../../../components/rookiemodal/RookieModal";
 import YesNoModal from "../../../components/rookiemodal/YesNoModal";
 import DetailsComponent from "../../../components/DetailsComponent";
 import { setParams } from "../assignmentSlice";
+import { CreateReturnRequestAsync } from "../../returnRequest/returnRequestSlice";
 import Table from "./TableList";
 import {
   deleteAssignmentAsync,
@@ -21,7 +22,7 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalRequestIsOpen, setmodalRequestIsOpen] = useState(false);
   const [assignmentInfor, setAssignmentInfor] = useState(null);
-  const [Id, setDisableUser] = useState(false);
+  const [Id, setAssignmentId] = useState(null);
   const { params: Params } = useSelector((state) => state.assignment);
   const history = useHistory();
 
@@ -31,7 +32,8 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
 
   function closeModal() {
     setAssignmentInfor(null);
-    setDisableUser(null);
+    setAssignmentId(null);
+    setmodalRequestIsOpen(false);
     setIsOpen(false);
   }
   const customStyles = {
@@ -47,17 +49,18 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
 
   const handleDisableAssignment = async (id) => {
     setAssignmentInfor(null);
-    setDisableUser(id);
+    setAssignmentId(id);
     openModal();
   };
+
   const handleConfirmDisableAssignment = async () => {
     dispatch(setAssignmentIdToDelete(Id));
     dispatch(deleteAssignmentAsync(Id));
     closeModal();
   };
+
   const dispatch = useDispatch();
   const handleOnSort = (e) => {
-    console.log(e);
     if (e[0]) {
       dispatch(setParams({ key: "OrderProperty", value: e[0].id }));
       dispatch(setParams({ key: "Desc", value: e[0].desc }));
@@ -78,35 +81,22 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
       State: dataRow.state,
       Note: dataRow.note,
     });
-    console.log(assignmentInfor);
     openModal();
   };
 
-  const handleCreateRequestReturing = (e, value) => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const userId = user.profile["sub"];
-    const request = { Id: value.id, UserId: userId };
+  const handleCreateRequestReturing = (e, id) => {
+    setmodalRequestIsOpen(true);
+    setAssignmentId(id);
   };
-  const closeRequestModal = () => {
-    setmodalRequestIsOpen(false);
+
+  const handleCreateReturnRequest = async () => {
+    await dispatch(CreateReturnRequestAsync(Id));
+    onRefresh();
+    closeModal();
   };
-  const handleCreateReturnRequest = () => {
-    const createRequest = async () => {
-      // try {
-      //   await requestApi.createreturnrequest(requestReturn);
-      //   onRefresh();
-      // } catch (error) {
-      //   console.log("Failed to create Request: ", error);
-      // }
-    };
-    createRequest();
-    closeRequestModal();
-  };
+
   function checkRequest(stateName, requestid) {
-    if (requestid !== null) {
-      return true;
-    }
-    if (stateName === "Waiting for accept") {
+    if (stateName !== "Accepted" || requestid !== null) {
       return true;
     }
     return false;
@@ -151,11 +141,10 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
             />
           </span>
           <Arrowcircle
-            onClick={(e) => handleCreateRequestReturing(e, row.original)}
-            //onClick={() => handleDisableAssignment(row.original.id)}
+            onClick={(e) => handleCreateRequestReturing(e, row.original.id)}
             disabled={checkRequest(
               row.original.state,
-              row.original.requestAssignmentId,
+              row.original.returnRequestId,
             )}
           />
         </div>
@@ -174,17 +163,17 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
       {Id ? (
         <YesNoModal
           title={"Are You Sure?"}
-          modalIsOpen={modalIsOpen}
+          modalIsOpen={modalRequestIsOpen ? modalRequestIsOpen : modalIsOpen}
           closeModal={closeModal}
           customStyles={customStyles}
         >
           <div style={{ paddingTop: "10px", paddingBottom: "20px" }}>
-            <p>Do you want to delete this assignment?</p>
+            <p>Do you want to {modalRequestIsOpen ? "create a returning request for this asset?" : "delete this assignment?"}</p>
             <Button
               color="danger"
-              onClick={() => handleConfirmDisableAssignment()}
+              onClick={modalRequestIsOpen ? () => handleCreateReturnRequest() : () => handleConfirmDisableAssignment()}
             >
-              Delete
+              {modalRequestIsOpen ? "Create" : "Delete"}
             </Button>
             <Button onClick={() => closeModal()} id="cancelUserBtn">
               Cancel
@@ -208,23 +197,6 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
           )}
         </RookieModal>
       )}
-
-      <YesNoModal
-        title="Are you sure?"
-        modalIsOpen={modalRequestIsOpen}
-        closeModal={closeRequestModal}
-        customStyles={customStyles}
-      >
-        <div style={{ paddingTop: "10px", paddingBottom: "20px" }}>
-          <p>Do you want to create a returning request for this asset?</p>
-          <Button color="danger" onClick={() => handleCreateReturnRequest()}>
-            Yes
-          </Button>
-          <Button onClick={() => closeRequestModal()} id="cancelUserBtn">
-            No
-          </Button>
-        </div>
-      </YesNoModal>
     </>
   );
 };
