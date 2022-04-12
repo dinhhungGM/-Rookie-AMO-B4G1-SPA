@@ -481,3 +481,6 @@
   width: 350px;
   max-width: 350px;
 }
+.calendar-icon {
+  background: url(https://i.ibb.co/RNG6CWs/calendar.png) no-repeat 98% 50%;
+}
