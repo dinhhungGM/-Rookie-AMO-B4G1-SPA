@@ -115,10 +115,10 @@ const ReturnRequestTable = ({ listitem, onRefresh, params, setparams }) => {
               }}
             />
             <Xcirclebtn
-              onClick={() => {
-                handleCancelRequest(row.original.id);
-                setCancelModalIsOpen(true);
-              }}
+              // onClick={() => {
+              //   handleCancelRequest(row.original.id);
+              //   setCancelModalIsOpen(true);
+              // }}
               disabled={stateArr[row.original.state] === "Completed"}
             />
           </div>

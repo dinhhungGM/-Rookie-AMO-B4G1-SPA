@@ -237,6 +237,7 @@ function AssignmentForm(props) {
                       component={InputField}
                       type="date"
                       label="Assigned Date"
+                      
                     />
                     <FastField
                       name="Note"

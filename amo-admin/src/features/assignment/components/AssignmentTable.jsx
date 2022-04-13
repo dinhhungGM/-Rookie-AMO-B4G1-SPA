@@ -144,7 +144,7 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
             onClick={(e) => handleCreateRequestReturing(e, row.original.id)}
             disabled={checkRequest(
               row.original.state,
-              row.original.returnRequestId,
+              row.original.returnRequestId
             )}
           />
         </div>
@@ -168,10 +168,19 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
           customStyles={customStyles}
         >
           <div style={{ paddingTop: "10px", paddingBottom: "20px" }}>
-            <p>Do you want to {modalRequestIsOpen ? "create a returning request for this asset?" : "delete this assignment?"}</p>
+            <p>
+              Do you want to{" "}
+              {modalRequestIsOpen
+                ? "create a returning request for this asset?"
+                : "delete this assignment?"}
+            </p>
             <Button
               color="danger"
-              onClick={modalRequestIsOpen ? () => handleCreateReturnRequest() : () => handleConfirmDisableAssignment()}
+              onClick={
+                modalRequestIsOpen
+                  ? () => handleCreateReturnRequest()
+                  : () => handleConfirmDisableAssignment()
+              }
             >
               {modalRequestIsOpen ? "Create" : "Delete"}
             </Button>
@@ -182,7 +191,7 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
         </YesNoModal>
       ) : (
         <RookieModal
-          title={Id ? "Are You Sure?" : "Assignment Details"}
+          title={Id ? "Are You Sure?" : "Detail Assignment Information"}
           modalIsOpen={modalIsOpen}
           closeModal={closeModal}
           customStyles={customStyles}
