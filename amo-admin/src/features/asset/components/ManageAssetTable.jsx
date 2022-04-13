@@ -58,7 +58,7 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
       State: stateArr[dataRow.state],
       Location: dataRow.location,
       Specification: dataRow.specification,
-      History: <HistoryAssignment data={historyAssignment} />,
+      History: <HistoryAssignment id={dataRow.id} />,
     });
     const fetchhistoryAssignment = async (id) => {
       const Params = { assetid: id };
@@ -205,8 +205,6 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
     switch (column.sortDirection) {
       case "none":
         setSort({ direction: "ASC", accessor: column.id });
-        // const desc = await getClients( 'ASC', column.id );
-        // setData(desc);
         setparams((prev) => ({
           ...prev,
           orderProperty: column.id,
@@ -216,8 +214,6 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
         break;
       case "ASC":
         setSort({ direction: "DESC", accessor: column.id });
-        // const asc = await getClients('DESC', column.id);
-        // setData(asc);
         setparams((prev) => ({
           ...prev,
           orderProperty: column.id,
@@ -232,9 +228,6 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
           orderProperty: column.id,
           direction: "none",
         }));
-
-        // const newData = await getClients('none', column.id);
-        // setData(newData);
         break;
     }
   };

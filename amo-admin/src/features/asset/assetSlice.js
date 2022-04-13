@@ -10,8 +10,14 @@ const initialState = {
   loading: false,
   error: null,
   isCreatedOrEdited: false,
+  history: [],
 };
-
+const convertDate = (date) => {
+  var day = ("0" + date.getDate()).slice(-2);
+  var month = ("0" + (date.getMonth() + 1)).slice(-2);
+  var year = ("000" + date.getFullYear()).slice(-4);
+  return day + "-" + month + "-" + year;
+};
 export const CreateAssetAsync = createAsyncThunk(
   "asset/createAsset",
   async (values, { rejectWithValue }) => {
@@ -105,6 +111,28 @@ export const deleteAssetAsync = createAsyncThunk(
     }
   }
 );
+export const getHistory = createAsyncThunk(
+  "asset/hsitory",
+  async (values, { rejectWithValue }) => {
+    try {
+      const res = await axiosClient.get("api/assignment/Gethistory", {
+        params: {
+          assetid: values.id,
+        },
+      });
+      const processed = res.map((element) => {
+        element.assignedDate = convertDate(new Date(element.assignedDate));
+        if (element.returnDate)
+          element.returnDate = convertDate(new Date(element.returnDate));
+        else element.returnDate = "";
+        return element;
+      });
+      return processed;
+    } catch (error) {
+      return rejectWithValue(error.response);
+    }
+  }
+);
 const assetSlice = createSlice({
   name: "asset",
   initialState,
@@ -166,6 +194,18 @@ const assetSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteAssetAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getHistory.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(getHistory.fulfilled, (state, action) => {
+        state.history = action.payload;
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(getHistory.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
