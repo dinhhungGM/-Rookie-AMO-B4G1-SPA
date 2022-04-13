@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "reactstrap";
 import ReactTable from "../../../components/ReactTable"
 import { getReportListAsync } from "../reportSlice";
-
+import ExportCSV from "../components/ExportCSVwhich"
 export default function User() {
     const dispatch = useDispatch();
     const {loading, reports} = useSelector((state) => state.report);
@@ -54,15 +54,15 @@ export default function User() {
                     fontSize: "20px",
                 }}
             >
-                User List{" "}
+                Report
             </span>
             <div
                 style={{ paddingTop: "10px", paddingBottom: "10px" }}
                 className="text-end"
             >
-                <Button color="danger" id="add-user-btn btn-user-text">
+                <ExportCSV color="danger" id="add-user-btn btn-user-text" csvData={reports} fileName="Report">
                     Export
-                </Button>
+                </ExportCSV>
             </div>
 
             {!loading ? (
