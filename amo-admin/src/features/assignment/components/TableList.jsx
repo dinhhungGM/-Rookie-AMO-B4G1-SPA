@@ -28,11 +28,15 @@ function Table({ columns, data, onRowClick, onSort }) {
     <>
       <table
         class="table"
-        style={{
-          display: "block",
-          overflowX: "auto",
-          whiteSpace: "nowrap",
-        }}
+        style={
+          data.length !== 0
+            ? {
+                display: "block",
+                overflowX: "auto",
+                whiteSpace: "nowrap",
+              }
+            : {}
+        }
         {...getTableProps()}
       >
         <thead>
