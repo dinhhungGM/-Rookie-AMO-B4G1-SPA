@@ -10,6 +10,7 @@
     "axios": "^0.26.1",
     "bootstrap": "^5.1.3",
     "env-cmd": "^10.1.0",
+    "file-saver": "^2.0.5",
     "formik": "^2.2.9",
     "multiselect-react-dropdown": "^2.0.21",
     "oidc-client": "^1.11.5",
@@ -28,6 +29,7 @@
     "reactstrap": "^9.0.1",
     "redux-oidc": "^4.0.0-beta1",
     "web-vitals": "^1.1.2",
+    "xlsx": "^0.18.5",
     "yup": "^0.32.11"
   },
   "scripts": {
