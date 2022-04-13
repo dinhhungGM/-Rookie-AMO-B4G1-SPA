@@ -66,18 +66,18 @@ export default function EditAssetForm(props) {
             return false;
           });
           if (!values.name) {
-            errors.name = "Required";
+            errors.name = "This field is required.";
           } else if (result) {
             errors.name = "Name cannot contain special character!";
           }
           if (!values.specification) {
-            errors.specification = "Required";
+            errors.specification = "This field is required.";
           }
           if (!values.installedDate) {
-            errors.installedDate = "Required";
+            errors.installedDate = "This field is required.";
           }
           if (!values.category) {
-            errors.category = "Required";
+            errors.category = "This field is required.";
           }
           if (!errors.installedDate) {
             if (

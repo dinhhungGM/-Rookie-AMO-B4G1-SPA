@@ -24,7 +24,16 @@ function Table({ columns, data /*, onHeaderClick, onRowClick*/ }) {
 
   return (
     <>
-      <table style={{ fontSize: "12px" }} class="table" {...getTableProps()}>
+      <table
+        style={{
+          fontSize: "12px",
+          display: "block",
+          overflowX: "auto",
+          whiteSpace: "nowrap",
+        }}
+        class="table"
+        {...getTableProps()}
+      >
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr scope="col" {...headerGroup.getHeaderGroupProps()}>
