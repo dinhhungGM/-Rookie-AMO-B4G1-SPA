@@ -44,8 +44,11 @@ export const CreateReturnRequestAsync = createAsyncThunk(
   "returnrequest/createReturnRequest",
   async (values, { rejectWithValue }) => {
     try {
+      const user = localStorage.getItem("user")
       const returnrequest = await axiosClient.post("api/returnrequest", {
         assignmentId: values,
+        requestedBy: JSON.parse(user).profile.sub,
+        creatorId: JSON.parse(user).profile.sub,
       });
       alert("Create return request successfully !");
       return returnrequest;
