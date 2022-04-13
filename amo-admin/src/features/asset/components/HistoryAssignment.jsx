@@ -1,38 +1,45 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import ReactTable from "../../../components/HistoryReactTable";
-const HistoryAssignment = ({data}) => {
+import { getHistory } from "../assetSlice";
+import { useSelector, useDispatch } from "react-redux";
 
-    const columns = [
-        {
-          Header: "Date",
-          accessor: "assignedDate",
-        },
-        {
-          Header: "Assigned To",
-          accessor: "assignedTo",
-        },
-        {
-          Header: "Assigned By",
-          accessor: "assignedBy",
-        },
-        {
-          Header: "Return Date",
-          accessor: "returnDate",
-        }
-      ];
+const HistoryAssignment = ({ id }) => {
+  const { history } = useSelector((state) => state.asset);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getHistory({ id }));
+  }, [id]);
+  const columns = [
+    {
+      Header: "Date",
+      accessor: "assignedDate",
+    },
+    {
+      Header: "Assigned To",
+      accessor: "assignedTo",
+    },
+    {
+      Header: "Assigned By",
+      accessor: "assignedBy",
+    },
+    {
+      Header: "Return Date",
+      accessor: "returnDate",
+    },
+  ];
 
-    return (
-        <div id="historyAssignmenttbl">
-            {data && 
-                <ReactTable 
-                columns={columns}
-                data={data}
-                onSort={function noRefCheck() { }}
-                onRowClick={function noRefCheck() { }}
-              ></ReactTable>
-            }
-        </div>
-    )
-}
+  return (
+    <div id="historyAssignmenttbl">
+      {history && (
+        <ReactTable
+          columns={columns}
+          data={history}
+          onSort={function noRefCheck() {}}
+          onRowClick={function noRefCheck() {}}
+        ></ReactTable>
+      )}
+    </div>
+  );
+};
 
-export default HistoryAssignment
+export default HistoryAssignment;
