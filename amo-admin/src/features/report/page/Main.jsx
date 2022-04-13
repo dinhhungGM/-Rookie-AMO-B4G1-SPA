@@ -72,7 +72,7 @@ export default function User() {
                         data={reports}
                         onHeaderClick={() => { }}
                         onRowClick={() => { }}
-                        scrollable={false}
+                        scrollable={true}
                     ></ReactTable>
                 </div>
             ) : (
