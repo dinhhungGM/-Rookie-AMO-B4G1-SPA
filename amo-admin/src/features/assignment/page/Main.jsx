@@ -16,7 +16,6 @@ import { getListAssignment, setFilter, setParams } from "../assignmentSlice";
 
 const Main = () => {
   const {
-    loading: Loading,
     assignments: Assignment,
     totalPages: TotalPages,
     totalItems: TotalItems,

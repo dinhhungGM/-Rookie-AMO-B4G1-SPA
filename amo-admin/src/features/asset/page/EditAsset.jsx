@@ -7,12 +7,12 @@ import { Redirect, useParams } from "react-router-dom";
 const EditAsset = () => {
   const { id } = useParams();
   const { categories } = useSelector((state) => state.category);
-  const { assetDetail, loading, error } = useSelector((state) => state.asset);
+  const { assetDetail, loading } = useSelector((state) => state.asset);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllCategoriesAsync());
     dispatch(getAssetDetailAsync({ id: id }));
-  }, []);
+  }, [dispatch, id]);
   if (loading)
     return (
       <div class="spinner-border text-danger" role="status">

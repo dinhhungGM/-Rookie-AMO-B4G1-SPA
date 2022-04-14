@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import axiosClient from "../../api/axiosClient";
 
 const initialState = {
@@ -54,7 +53,7 @@ export const CreateAssetAsync = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 export const getAssetDetailAsync = createAsyncThunk(
   "asset/getAssetDetail",
@@ -65,7 +64,7 @@ export const getAssetDetailAsync = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 export const getAssetListAsync = createAsyncThunk(
   "asset/getAssetList",
@@ -78,7 +77,7 @@ export const getAssetListAsync = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 export const updateAssetDetailAsync = createAsyncThunk(
   "asset/updateAssetDetail",
@@ -96,7 +95,7 @@ export const updateAssetDetailAsync = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 export const deleteAssetAsync = createAsyncThunk(
   "asset/deleteAsset",
@@ -109,7 +108,7 @@ export const deleteAssetAsync = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 export const getHistory = createAsyncThunk(
   "asset/hsitory",
@@ -131,7 +130,7 @@ export const getHistory = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 const assetSlice = createSlice({
   name: "asset",

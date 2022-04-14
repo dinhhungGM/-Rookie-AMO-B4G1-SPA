@@ -15,14 +15,16 @@ function Table({ columns, data, onRowClick, onSort }) {
       columns,
       data,
       manualSortBy: true,
+      disableSortRemove: true,
     },
-    useSortBy
+    useSortBy,
   );
   const { params: Params } = useSelector((state) => state.assignment); // We don't want to render all 2000 rows for this example, so cap
   // it at 20 for this use case
   const firstPageRows = rows;
   useEffect(() => {
     onSort(sortBy);
+    console.log(sortBy);
   }, [sortBy]);
   return (
     <>
@@ -41,7 +43,7 @@ function Table({ columns, data, onRowClick, onSort }) {
       >
         <thead>
           {headerGroups.map((headerGroup) => (
-            <tr scope="col" className="" {...headerGroup.getHeaderGroupProps()}>
+            <tr className="" {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 // Add the sorting props to control sorting. For this example
                 // we can add them into the header props
@@ -50,7 +52,7 @@ function Table({ columns, data, onRowClick, onSort }) {
                   {column.render("Header")}
                   {/* Add a sort direction indicator */}
                   <span>
-                    {column.id == Params.OrderProperty ? (
+                    {column.id === Params.OrderProperty ? (
                       Params.Desc ? (
                         " ▼"
                       ) : (
@@ -84,7 +86,7 @@ function Table({ columns, data, onRowClick, onSort }) {
                   return (
                     <>
                       {cell.column.Header !== " " ? (
-                        cell.column.Header == "Assigned Date" ? (
+                        cell.column.Header === "Assigned Date" ? (
                           <>
                             <td {...cell.getCellProps()}>
                               {new Date(cell.value).toLocaleDateString("vi")}

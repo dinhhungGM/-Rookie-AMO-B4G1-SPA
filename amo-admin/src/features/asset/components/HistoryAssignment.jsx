@@ -8,7 +8,7 @@ const HistoryAssignment = ({ id }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getHistory({ id }));
-  }, [id]);
+  }, [id, dispatch]);
   const columns = [
     {
       Header: "Date",

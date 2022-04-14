@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { JsonTable } from "react-json-to-html";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Button } from "reactstrap";
-import assetApi from "../../../api/assetApi";
 import ReactTable from "../../../components/ReactTable";
 import DetailsComponent from "../../../components/DetailsComponent";
 import { ParseDateTime } from "../../../utils/ParseDateTime";
-import { onListChange, onChangeParam, deleteAssetAsync } from "../assetSlice";
+import { onChangeParam, deleteAssetAsync } from "../assetSlice";
 import RookieModal from "../../../components/rookiemodal/RookieModal";
-import YesNoModal from "../../../components/rookiemodal/YesNoModal";
 import Xcirclebtn from "../../../components/Button/Xcirclebtn";
 import Editbtn from "../../../components/Button/Editbtn";
 import { useHistory } from "react-router-dom";
@@ -22,19 +19,14 @@ const stateArr = [
   "Recycled",
 ];
 const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
-  const { isCreatedOrEdited } = useSelector((state) => state.asset);
-  const [historyAssignment, sethistoryAssignment] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
-  //const params = useSelector((state) => state.asset.params);
   const [assetInfor, setAssetInfor] = useState(null);
   const [deleteAsset, setDeleteAsset] = useState(null);
   const [sort, setSort] = useState({
     sortDirection: "none",
     accessor: "some_accessor",
   });
-  //  useEffect(() => {
-  //     setSort({ direction: params.direction, accessor: params.orderProperty });
-  //   }, [params]);
+
   const history = useHistory();
   function openModal() {
     setIsOpen(true);
@@ -80,41 +72,6 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
       transform: "translate(-50%, -50%)",
     },
   };
-  const Css = {
-    jsonTr: {
-      height: "25px",
-    },
-    jsonTd: {
-      padding: "5px",
-      borderSpacing: "2px",
-      borderRadius: "5px",
-    },
-    rowSpacer: {
-      height: "2px",
-    },
-    rootElement: {
-      padding: "5px",
-      borderSpacing: "2px",
-      backgroundColor: "#FFFFFF",
-      fontWeight: "bold",
-      fontFamily: "Arial",
-      borderRadius: "5px",
-    },
-    subElement: {
-      padding: "5px",
-      borderSpacing: "2px",
-      backgroundColor: "#DDDDDD",
-      fontWeight: "bold",
-      fontFamily: "Arial",
-      borderRadius: "5px",
-    },
-    dataCell: {
-      borderSpacing: "2px",
-      backgroundColor: "#FFFFFF",
-      fontFamily: "Arial",
-      borderRadius: "5px",
-    },
-  };
 
   const dispatch = useDispatch();
 
@@ -145,7 +102,7 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
           ...params,
           OrderProperty: e[0].id,
           Desc: e[0].desc,
-        })
+        }),
       );
     console.log(e);
     console.log("called");
@@ -229,6 +186,7 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
           direction: "none",
         }));
         break;
+      default:
     }
   };
   return (

@@ -9,7 +9,6 @@ import {
   createNewAssignmentAsync,
   getAssignmentById,
   updateAssignmentAsync,
-  setUserId,
   setParams,
 } from "../assignmentSlice";
 import { onChangePageName } from "../../home/homeSlice";

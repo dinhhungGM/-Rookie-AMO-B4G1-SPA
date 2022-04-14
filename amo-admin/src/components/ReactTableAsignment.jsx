@@ -17,12 +17,10 @@ function Table({ columns, data, onRowClick, onSort, tableName }) {
       data,
       manualSortBy: true,
     },
-    useSortBy
+    useSortBy,
   );
   const { sort: SortUser, desc: DescUser } = useSelector((state) => state.user);
-  const { orderProperty: SortAsset, direction: DescAsset } = useSelector(
-    (state) => state.asset
-  );
+
   // We don't want to render all 2000 rows for this example, so cap
   // it at 20 for this use case
   const firstPageRows = rows;
@@ -37,7 +35,6 @@ function Table({ columns, data, onRowClick, onSort, tableName }) {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column, _idx) => {
-
                 return (
                   // Add the sorting props to control sorting. For this example
                   // we can add them into the header props
@@ -47,11 +44,10 @@ function Table({ columns, data, onRowClick, onSort, tableName }) {
                     style={_idx !== 0 ? { borderBottom: "1px solid" } : {}}
                   >
                     {column.render("Header")}
-                   
+
                     <span>
-                      {
-                        _idx !== 0 ? 
-                        tableName === "users"
+                      {_idx !== 0
+                        ? tableName === "users"
                           ? SortUser === column.id
                             ? DescUser
                               ? " ▼"
@@ -62,8 +58,7 @@ function Table({ columns, data, onRowClick, onSort, tableName }) {
                             ? " ▼"
                             : " ▲"
                           : ""
-                        : ""
-                       }
+                        : ""}
                     </span>
                   </th>
                 );
@@ -83,7 +78,9 @@ function Table({ columns, data, onRowClick, onSort, tableName }) {
                   return (
                     <td
                       {...cell.getCellProps()}
-                      className={_idx !== 0 ? "inline_bottom text-overflow-hidden" : ""}
+                      className={
+                        _idx !== 0 ? "inline_bottom text-overflow-hidden" : ""
+                      }
                       style={_idx === 0 ? { width: "7%" } : {}}
                     >
                       {cell.render("Cell")}

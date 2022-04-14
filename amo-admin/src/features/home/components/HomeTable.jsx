@@ -1,15 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { JsonTable } from "react-json-to-html";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Button } from "reactstrap";
-// import assignmentApi from "../../../../api/assignmentApi";
-// import requestApi from "../../../../api/requestApi";
 import Checkbtn from "../../../components/Button/Checkbtn";
 import Arrowcircle from "../../../components/Button/Arrowcircle";
-import Editbtn from "../../../components/Button/Editbtn";
 import Xcirclebtn from "../../../components/Button/Xcirclebtn";
-import ReactTable from "../../../components/ReactTable";
 import RookieModal from "../../../components/rookiemodal/RookieModal";
 import YesNoModal from "../../../components/rookiemodal/YesNoModal";
 import DetailsComponent from "../../../components/DetailsComponent";
@@ -28,8 +22,6 @@ const HomeTable = ({ listitem, onRefresh }) => {
   const [assignmentInfor, setAssignmentInfor] = useState(null);
   const [Id, setAssignmentId] = useState(false);
   const [type, setType] = useState(false);
-
-  const history = useHistory();
 
   function openModal() {
     setIsOpen(true);
@@ -168,8 +160,8 @@ const HomeTable = ({ listitem, onRefresh }) => {
         data={listitem}
         onRowClick={(e) => handleRowClick(e)}
       ></Table>
-      {Id ? (modalRequestIsOpen ?
-        (
+      {Id ? (
+        modalRequestIsOpen ? (
           <YesNoModal
             title={"Are You Sure?"}
             modalIsOpen={modalRequestIsOpen}

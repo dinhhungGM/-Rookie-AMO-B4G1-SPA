@@ -12,12 +12,12 @@ export const getReportListAsync = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     try {
       const response = await axiosClient.get("api/category/report");
-      console.log(response)
+      console.log(response);
       return response;
     } catch (error) {
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 
 const reportSlice = createSlice({
@@ -40,5 +40,5 @@ const reportSlice = createSlice({
   },
 });
 
-const { reducer, actions } = reportSlice;
+const { reducer } = reportSlice;
 export default reducer;

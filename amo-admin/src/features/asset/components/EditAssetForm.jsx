@@ -1,14 +1,6 @@
 import React, { useEffect } from "react";
 import { Formik } from "formik";
-import {
-  Input,
-  FormGroup,
-  Label,
-  Col,
-  Button,
-  FormFeedback,
-  FormText,
-} from "reactstrap";
+import { Input, FormGroup, Label, Col, Button, FormFeedback } from "reactstrap";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import RadioFieldV2 from "../../../components/custom-fields/RadioFieldV2";
@@ -31,7 +23,7 @@ export default function EditAssetForm(props) {
     { value: "4", label: "Recycled" },
   ];
   const dispatch = useDispatch();
-  const { assetDetail, loading, error } = useSelector((state) => state.asset);
+  const { assetDetail } = useSelector((state) => state.asset);
   useEffect(() => {
     //console.log(new Date(assetDetail.installedDate).toISOString());
   }, [assetDetail]);

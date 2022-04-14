@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Button } from "reactstrap";
-// import assignmentApi from "../../../../api/assignmentApi";
-// import requestApi from "../../../../api/requestApi";
 import Arrowcircle from "../../../components/Button/Arrowcircle";
 import Editbtn from "../../../components/Button/Editbtn";
 import Xcirclebtn from "../../../components/Button/Xcirclebtn";
@@ -23,7 +21,6 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
   const [modalRequestIsOpen, setmodalRequestIsOpen] = useState(false);
   const [assignmentInfor, setAssignmentInfor] = useState(null);
   const [Id, setAssignmentId] = useState(null);
-  const { params: Params } = useSelector((state) => state.assignment);
   const history = useHistory();
 
   function openModal() {
@@ -64,9 +61,6 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
     if (e[0]) {
       dispatch(setParams({ key: "OrderProperty", value: e[0].id }));
       dispatch(setParams({ key: "Desc", value: e[0].desc }));
-    } else {
-      dispatch(setParams({ key: "OrderProperty", value: "" }));
-      dispatch(setParams({ key: "Desc", value: false }));
     }
   };
 
@@ -144,7 +138,7 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
             onClick={(e) => handleCreateRequestReturing(e, row.original.id)}
             disabled={checkRequest(
               row.original.state,
-              row.original.returnRequestId
+              row.original.returnRequestId,
             )}
           />
         </div>

@@ -4,10 +4,8 @@ import Pagination from "react-js-pagination";
 import ReturnRequestTable from "../components/ReturnRequestTable";
 import { useSelector, useDispatch } from "react-redux";
 import SearchField from "react-search-field";
-import { Button, Input } from "reactstrap";
-import { useHistory } from "react-router";
+import { Input } from "reactstrap";
 import { getReturnRequestListAsync } from "../returnRequestSlice";
-import { onChangePageName } from "../../home/homeSlice";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 const user = JSON.parse(localStorage.getItem("user"));
@@ -34,12 +32,7 @@ const Main = () => {
   const [params, setparams] = useState(initialFilter);
   const [activePage, setActivePage] = useState();
 
-  const history = useHistory();
   const dispatch = useDispatch();
-
-  const handleChangePageName = (pagename) => {
-    //dispatch(onChangePageName(pagename));
-  };
 
   const onstateChange = (selectedList) => {
     setparams({

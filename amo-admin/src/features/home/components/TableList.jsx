@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useTable, useSortBy } from "react-table";
 
 function Table({ columns, data, onRowClick }) {
@@ -11,7 +9,6 @@ function Table({ columns, data, onRowClick }) {
       },
       useSortBy,
     );
-  const { params: Params } = useSelector((state) => state.assignment); // We don't want to render all 2000 rows for this example, so cap
   // it at 20 for this use case
   const firstPageRows = rows;
   return (
@@ -19,7 +16,7 @@ function Table({ columns, data, onRowClick }) {
       <table class="table" {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
-            <tr scope="col" className="" {...headerGroup.getHeaderGroupProps()}>
+            <tr className="" {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 // Add the sorting props to control sorting. For this example
                 // we can add them into the header props
@@ -63,7 +60,7 @@ function Table({ columns, data, onRowClick }) {
                   return (
                     <>
                       {cell.column.Header !== " " ? (
-                        cell.column.Header == "Assigned Date" ? (
+                        cell.column.Header === "Assigned Date" ? (
                           <>
                             <td {...cell.getCellProps()}>
                               {new Date(cell.value).toLocaleDateString("vi")}

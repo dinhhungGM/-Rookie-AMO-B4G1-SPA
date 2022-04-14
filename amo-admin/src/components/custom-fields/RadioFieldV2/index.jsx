@@ -1,7 +1,6 @@
 import { ErrorMessage } from "formik";
 import PropTypes from "prop-types";
 import React from "react";
-import Select from "react-select";
 import { Field } from "formik";
 import { FormFeedback, FormGroup, Label, Col } from "reactstrap";
 
@@ -23,25 +22,8 @@ RadioFieldV2.defaultProps = {
 };
 
 function RadioFieldV2(props) {
-  const { field, form, options, label, placeholder, disabled } = props;
-  const { name, value } = field;
-
-  const { errors, touched } = form;
-  const showError = errors[name] && touched[name];
-
-  const handleSelectedOptionChange = (selectedOption) => {
-    const selectedValue = selectedOption
-      ? selectedOption.value
-      : selectedOption;
-
-    const changeEvent = {
-      target: {
-        name: name,
-        value: selectedValue,
-      },
-    };
-    field.onChange(changeEvent);
-  };
+  const { field, options, label } = props;
+  const { name } = field;
 
   return (
     <FormGroup row>
@@ -53,7 +35,13 @@ function RadioFieldV2(props) {
       <Col className="d-flex flex-column">
         {options.map((opt, i) => (
           <label key={i}>
-            <Field type="radio" name={name} value={opt.value} className="myradio" style={{marginRight:"10px"}}/>
+            <Field
+              type="radio"
+              name={name}
+              value={opt.value}
+              className="myradio"
+              style={{ marginRight: "10px" }}
+            />
             <span>{opt.label}</span>
           </label>
         ))}

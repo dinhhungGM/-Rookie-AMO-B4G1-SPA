@@ -16,7 +16,7 @@ function Table({ columns, data, onRowClick, onSort }) {
       data,
       manualSortBy: true,
     },
-    useSortBy
+    useSortBy,
   );
   const { sort: Sort, desc: Desc } = useSelector((state) => state.user); // We don't want to render all 2000 rows for this example, so cap
   // it at 20 for this use case
@@ -29,7 +29,7 @@ function Table({ columns, data, onRowClick, onSort }) {
       <table class="table" {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
-            <tr scope="col" className="" {...headerGroup.getHeaderGroupProps()}>
+            <tr className="" {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 // Add the sorting props to control sorting. For this example
                 // we can add them into the header props

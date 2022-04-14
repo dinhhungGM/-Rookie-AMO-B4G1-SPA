@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import axiosClient from "../../api/axiosClient";
 
 const initialState = {
@@ -38,13 +37,13 @@ export const getReturnRequestListAsync = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 export const CreateReturnRequestAsync = createAsyncThunk(
   "returnrequest/createReturnRequest",
   async (values, { rejectWithValue }) => {
     try {
-      const user = localStorage.getItem("user")
+      const user = localStorage.getItem("user");
       const returnrequest = await axiosClient.post("api/returnrequest", {
         assignmentId: values,
         requestedBy: JSON.parse(user).profile.sub,
@@ -55,7 +54,7 @@ export const CreateReturnRequestAsync = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 
 export const acceptReturnRequestAsync = createAsyncThunk(
@@ -67,7 +66,7 @@ export const acceptReturnRequestAsync = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 export const deleteReturnRequestAsync = createAsyncThunk(
   "returnRequest/cancelRequest",
@@ -78,7 +77,7 @@ export const deleteReturnRequestAsync = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 
 const returnRequestSlice = createSlice({
@@ -112,6 +111,5 @@ const returnRequestSlice = createSlice({
   },
 });
 
-const { reducer, actions } = returnRequestSlice;
-// export const { onChangePageName, onChangeParam, onListChange } = actions;
+const { reducer } = returnRequestSlice;
 export default reducer;

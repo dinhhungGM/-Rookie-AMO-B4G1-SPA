@@ -36,41 +36,7 @@ export default function User() {
       transform: "translate(-50%, -50%)",
     },
   };
-  const Css = {
-    jsonTr: {
-      height: "25px",
-    },
-    jsonTd: {
-      padding: "5px",
-      borderSpacing: "2px",
-      borderRadius: "5px",
-    },
-    rowSpacer: {
-      height: "2px",
-    },
-    rootElement: {
-      padding: "5px",
-      borderSpacing: "2px",
-      backgroundColor: "#FFFFFF",
-      fontWeight: "bold",
-      fontFamily: "Arial",
-      borderRadius: "5px",
-    },
-    subElement: {
-      padding: "5px",
-      borderSpacing: "2px",
-      backgroundColor: "#DDDDDD",
-      fontWeight: "bold",
-      fontFamily: "Arial",
-      borderRadius: "5px",
-    },
-    dataCell: {
-      borderSpacing: "2px",
-      backgroundColor: "#FFFFFF",
-      fontFamily: "Arial",
-      borderRadius: "5px",
-    },
-  };
+
   const {
     users: UserList,
     userid: UserID,
@@ -79,7 +45,6 @@ export default function User() {
     totalItems: UsertotalItems,
     loading: UserLoading,
     listChange: ListChange,
-    isRelatetoAssignment: IsRelaToAssignment,
     filter: Filter,
     searchname: SearchName,
     sort: SortBy,
@@ -112,7 +77,6 @@ export default function User() {
         id: UserID,
       }),
     );
-    console.log(UserID);
   }, [
     dispatch,
     UserCurrentPage,
@@ -143,17 +107,13 @@ export default function User() {
   };
   const onSort = (e) => {
     if (e[0]) {
-      if (e[0].desc != Desc) {
+      if (e[0].desc !== Desc) {
         dispatch(setSort(e[0].id));
         dispatch(setDesc(e[0].desc));
       } else {
         dispatch(setSort(e[0].id));
         dispatch(setDesc(!e[0].desc));
       }
-      console.log(SortBy);
-    } else {
-      // dispatch(setSort(''))
-      // dispatch(setDesc(false))
     }
   };
   const onSelect = (selectedList, selectedItem) => {
@@ -162,12 +122,10 @@ export default function User() {
 
   const onRemove = (selectedList, removedItem) => {
     dispatch(setFilter(selectedList.map((x) => x.key).join(" ")));
-    console.log(Filter);
   };
 
   const onSearchSubmit = async (key, value) => {
     await dispatch(setSearch(key));
-    console.log(SearchName);
   };
   const openDeleteModal = async () => {
     setDeleteIsOpen(true);

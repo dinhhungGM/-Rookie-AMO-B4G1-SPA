@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Button } from "reactstrap";
 import ReactTable from "../../../components/ReactTable";
 import YesNoModal from "../../../components/rookiemodal/YesNoModal";
@@ -155,6 +155,7 @@ const ReturnRequestTable = ({ listitem, onRefresh, params, setparams }) => {
         }));
 
         break;
+      default:
     }
   };
   return (

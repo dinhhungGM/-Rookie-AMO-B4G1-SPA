@@ -92,8 +92,8 @@ const homeSlice = createSlice({
         state.loading = false;
       })
       .addCase(acceptAssignment.fulfilled, (state, action) => {
-        state.assignments.map((x) => {
-          if (x.id == state.assignmentId) {
+        state.assignments.forEach((x) => {
+          if (x.id === state.assignmentId) {
             x.state = "Accepted";
           }
         });

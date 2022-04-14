@@ -20,21 +20,7 @@ const initialState = {
   assignmentIdToDelete: null,
   preAsset: null,
   preUser: null,
-};
-const mapState = (object) => {
-  if (object) {
-    const listItem = object.map((x) => {
-      if (x.state === 2) {
-        x.state = "Accepted";
-      } else {
-        x.state = "Waiting for accept";
-      }
-      return x;
-    });
-
-    return { ...object, object: listItem };
-  }
-  return null;
+  count: 0,
 };
 
 export const updateAssignmentAsync = createAsyncThunk(
@@ -119,18 +105,17 @@ export const assignmentSlice = createSlice({
       state.preAsset = {
         ...state.preAsset,
         id: action.payload.id,
-        name: action.payload.name
-      }
+        name: action.payload.name,
+      };
     },
     setPreUser(state, action) {
       state.preUser = {
         ...state.preUser,
         id: action.payload.id,
-        name: action.payload.name
-      }
+        name: action.payload.name,
+      };
     },
     setParams(state, action) {
-      console.log(action.payload.key);
       switch (action.payload.key) {
         case "KeySearch":
           state.params.KeySearch = action.payload.value;
@@ -187,7 +172,6 @@ export const assignmentSlice = createSlice({
           return x;
         });
         state.assignments = action.payload.items;
-        console.log(state.assignments);
       })
       .addCase(getListAssignment.rejected, (state, action) => {
         state.loading = false;
@@ -244,7 +228,7 @@ export const {
   setParams,
   setAssignmentIdToDelete,
   setPreAsset,
-  setPreUser
+  setPreUser,
 } = assignmentSlice.actions;
 
 export default assignmentSlice.reducer;
