@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import InputField from "../../../components/custom-fields/InputField";
 import RadioField from "../../../components/custom-fields/RadioField";
 import SelectField from "../../../components/custom-fields/SelectField";
-import {useDispatch} from 'react-redux'
+import { useDispatch } from "react-redux";
 import { onChangePageName } from "../../home/homeSlice";
 
 UserForm.propTypes = {
@@ -18,7 +18,7 @@ UserForm.defaultProps = {
   onSubmit: null,
 };
 const TYPE_OPTIONS = [
-  { value: "Admin", label: "Administrator" },
+  { value: "Admin", label: "Admin" },
   { value: "Staff", label: "Staff" },
 ];
 const GENRE_OPTIONS = [
@@ -27,7 +27,7 @@ const GENRE_OPTIONS = [
 ];
 function UserForm(props) {
   const { initialValues, isAddMode } = props;
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const history = useHistory();
   function getAge(dateString) {
@@ -49,7 +49,7 @@ function UserForm(props) {
     if (m < 0 || (m === 0 && joinedDate.getDate() < birthday.getDate())) {
       age--;
     }
-    console.log(age)
+    console.log(age);
     return age;
   }
 
@@ -58,17 +58,23 @@ function UserForm(props) {
       .required("This field is required.")
       .email("Invalid email"),
     FirstName: Yup.string()
-    .required("This field is required.")
-    .test("FirstName", "Invalid First Name, it must have max length less than or equal 100 character and contain character from A-Z, a-z", (value) => {
-      if(value)
-        return value.length <= 100 && /^[a-zA-Z]+$/.test(value);
-    })
-    ,
-    LastName: Yup.string().required("This field is required.")
-    .test("LastName", "Invalid Last Name, it must have max length less than or equal 100 character and contain character from A-Z, a-z", (value) => {
-      if(value)
-        return value.length <= 100 && /^[a-zA-Z ]+$/.test(value);
-    }),
+      .required("This field is required.")
+      .test(
+        "FirstName",
+        "Invalid First Name, it must have max length less than or equal 100 character and contain character from A-Z, a-z",
+        (value) => {
+          if (value) return value.length <= 100 && /^[a-zA-Z]+$/.test(value);
+        }
+      ),
+    LastName: Yup.string()
+      .required("This field is required.")
+      .test(
+        "LastName",
+        "Invalid Last Name, it must have max length less than or equal 100 character and contain character from A-Z, a-z",
+        (value) => {
+          if (value) return value.length <= 100 && /^[a-zA-Z ]+$/.test(value);
+        }
+      ),
     Type: Yup.string().required("This field is required.").nullable(),
     DateOfBirth: Yup.string()
       .required("This field is required.")
@@ -103,7 +109,7 @@ function UserForm(props) {
               "JoinedDate",
               "User must be at least 18 years old",
               (value) => {
-                return getAge1(DateOfBirth,value) >= 18;
+                return getAge1(DateOfBirth, value) >= 18;
               }
             );
         }
@@ -174,14 +180,18 @@ function UserForm(props) {
               label="Date of Birth"
               placeholder="Eg: Wow nature ..."
             />
-            <RadioField options={GENRE_OPTIONS} name="Gender" label="Gender" id="gender"/>
+            <RadioField
+              options={GENRE_OPTIONS}
+              name="Gender"
+              label="Gender"
+              id="gender"
+            />
             <FastField
               name="JoinedDate"
               component={InputField}
               id="JoinedDate"
               type="date"
               label="Joined Date"
-              
               placeholder="Eg: Wow nature ..."
             />
             <FastField
@@ -193,25 +203,31 @@ function UserForm(props) {
               options={TYPE_OPTIONS}
             />
 
-            <FormGroup style={{
-              float: "right"
-            }}>
+            <FormGroup
+              style={{
+                float: "right",
+              }}
+            >
               <Button
                 type="submit"
                 id="submit"
                 disabled={!(formikProps.dirty && formikProps.isValid)}
                 color="danger"
                 style={{
-                  marginRight: "18px"
+                  marginRight: "18px",
                 }}
               >
                 {isSubmitting && <Spinner size="sm" />}
                 Save
               </Button>{" "}
-              <Button onClick={() => {
-                dispatch(onChangePageName("Manage User"))
-                history.push("/manageuser")
-              }} id="cancel" outline>
+              <Button
+                onClick={() => {
+                  dispatch(onChangePageName("Manage User"));
+                  history.push("/manageuser");
+                }}
+                id="cancel"
+                outline
+              >
                 Cancel
               </Button>
             </FormGroup>
