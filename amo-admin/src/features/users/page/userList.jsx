@@ -160,6 +160,13 @@ export default function User() {
     closeDeleteModal();
   };
 
+  const ConvertDate = (date) => {
+    if (date) {
+      const array = date.split("/");
+      return array[1] + "/" + array[0] + "/" + array[2];
+    }
+  };
+
   const handleRowClick = (dataRow) => {
     const codeStaff =
       dataRow.codeStaff == null ? "Code unavailable" : dataRow.codeStaff;
@@ -167,8 +174,8 @@ export default function User() {
       "Staff Code": codeStaff,
       "Full Name": dataRow.fullName,
       "User Name": dataRow.userName,
-      "Joined Date": dataRow.joinedDate,
-      "Birth Day": dataRow.dateOfBirth,
+      "Joined Date": ConvertDate(dataRow.joinedDate),
+      "Birth Day": ConvertDate(dataRow.dateOfBirth),
       Location: dataRow.location,
       Gender: dataRow.gender,
       Type: dataRow.type,
@@ -211,7 +218,6 @@ export default function User() {
           <Xcirclebtn
             onClick={() => {
               handleDisableUser(row.original.id);
-              console.log("abc");
             }}
             disabled={false}
           />

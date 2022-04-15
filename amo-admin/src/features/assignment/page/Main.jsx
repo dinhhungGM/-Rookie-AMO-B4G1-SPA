@@ -129,7 +129,7 @@ const Main = () => {
             wrapperClassName="assign-date-filter"
             customInput={<Input />}
             isClearable
-            dateFormat="dd/MM/yyyy"
+            dateFormat="MM/dd/yyyy"
             className="calendar-icon"
             clearButtonTitle="Clear"
             clearButtonClassName="clear-date-button"

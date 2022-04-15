@@ -89,7 +89,7 @@ function Table({ columns, data, onRowClick, onSort }) {
                         cell.column.Header === "Assigned Date" ? (
                           <>
                             <td {...cell.getCellProps()}>
-                              {new Date(cell.value).toLocaleDateString("vi")}
+                              {new Date(cell.value).toLocaleDateString("en")}
                             </td>
                           </>
                         ) : (

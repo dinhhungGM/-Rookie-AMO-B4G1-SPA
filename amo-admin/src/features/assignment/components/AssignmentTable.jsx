@@ -71,7 +71,7 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
       Specification: dataRow.asset.specification,
       "Assigned To": dataRow.userNameAssignedTo,
       "Assigned By": dataRow.userNameAssignedBy,
-      "Assigned Date": new Date(dataRow.assignedDate).toLocaleDateString("vi"),
+      "Assigned Date": new Date(dataRow.assignedDate).toLocaleDateString("en"),
       State: dataRow.state,
       Note: dataRow.note,
     });
@@ -185,7 +185,7 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
         </YesNoModal>
       ) : (
         <RookieModal
-          title={Id ? "Are You Sure?" : "Detail Assignment Information"}
+          title={Id ? "Are You Sure?" : "Detailed Assignment Information"}
           modalIsOpen={modalIsOpen}
           closeModal={closeModal}
           customStyles={customStyles}

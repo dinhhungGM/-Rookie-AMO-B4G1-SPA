@@ -19,6 +19,12 @@ function Table({ columns, data, onRowClick, onSort }) {
     useSortBy,
   );
   const { sort: Sort, desc: Desc } = useSelector((state) => state.user); // We don't want to render all 2000 rows for this example, so cap
+  const ConvertDate = (date) => {
+    if (date) {
+      const array = date.split("/");
+      return array[1] + "/" + array[0] + "/" + array[2];
+    }
+  };
   // it at 20 for this use case
   const firstPageRows = rows;
   useEffect(() => {
@@ -65,10 +71,18 @@ function Table({ columns, data, onRowClick, onSort }) {
                   return (
                     <>
                       {cell.column.Header !== " " ? (
-                        <td {...cell.getCellProps()}>
-                          {String(cell.value).substring(0, 20) +
-                            (String(cell.value).length > 20 ? "..." : "")}
-                        </td>
+                        cell.column.Header === "Joined Date" ? (
+                          <>
+                            <td {...cell.getCellProps()}>
+                              {ConvertDate(cell.value)}
+                            </td>
+                          </>
+                        ) : (
+                          <td {...cell.getCellProps()}>
+                            {String(cell.value).substring(0, 20) +
+                              (String(cell.value).length > 20 ? "..." : "")}
+                          </td>
+                        )
                       ) : (
                         <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                       )}
