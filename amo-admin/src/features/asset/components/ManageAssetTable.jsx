@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "reactstrap";
 import ReactTable from "../../../components/ReactTable";
 import DetailsComponent from "../../../components/DetailsComponent";
@@ -19,6 +19,7 @@ const stateArr = [
   "Recycled",
 ];
 const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
+  const { isCreatedOrEdited } = useSelector((state) => state.asset);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [assetInfor, setAssetInfor] = useState(null);
   const [deleteAsset, setDeleteAsset] = useState(null);
@@ -26,7 +27,9 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
     sortDirection: "none",
     accessor: "some_accessor",
   });
-
+  useEffect(() => {
+    setSort({ direction: params.direction, accessor: params.orderProperty });
+  }, [params]);
   const history = useHistory();
   function openModal() {
     setIsOpen(true);
@@ -52,13 +55,6 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
       Specification: dataRow.specification,
       History: <HistoryAssignment id={dataRow.id} />,
     });
-    const fetchhistoryAssignment = async (id) => {
-      const Params = { assetid: id };
-      //const res = await assignmentApi.getHistoryAssignment(Params);
-      //console.log('res', res)
-      //sethistoryAssignment(res);
-    };
-    fetchhistoryAssignment(dataRow.id);
     openModal();
   };
 
@@ -95,47 +91,30 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
     closeModal();
   };
 
-  const handleOnSort = (e) => {
-    if (e[0])
-      dispatch(
-        onChangeParam({
-          ...params,
-          OrderProperty: e[0].id,
-          Desc: e[0].desc,
-        }),
-      );
-    console.log(e);
-    console.log("called");
-  };
-
   const columns = [
     {
       Header: "Asset Code",
       id: "Code",
       accessor: "code",
-      sortDirection:
-        sort.accessor === "Code" ? sort.direction : params.direction,
+      sortDirection: sort.accessor === "Code" ? sort.direction : "none",
     },
     {
       Header: "Asset Name",
       id: "Name",
       accessor: "name",
-      sortDirection:
-        sort.accessor === "Name" ? sort.direction : params.direction,
+      sortDirection: sort.accessor === "Name" ? sort.direction : "none",
     },
     {
       Header: "Category",
       id: "Category",
       accessor: "category.name",
-      sortDirection:
-        sort.accessor === "Category" ? sort.direction : params.direction,
+      sortDirection: sort.accessor === "Category" ? sort.direction : "none",
     },
     {
       Header: "State",
       id: "State",
       accessor: (originalRow, rowIndex) => stateArr[originalRow.state],
-      sortDirection:
-        sort.accessor === "State" ? sort.direction : params.direction,
+      sortDirection: sort.accessor === "State" ? sort.direction : "none",
     },
     {
       Header: "Action",
@@ -179,14 +158,23 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
 
         break;
       case "DESC":
-        setSort({ direction: "none", accessor: column.id });
-        setparams((prev) => ({
-          ...prev,
-          orderProperty: column.id,
-          direction: "none",
-        }));
+        if (isCreatedOrEdited) {
+          setSort({ direction: "ASC", accessor: "UpdatedDate" });
+          setparams((prev) => ({
+            ...prev,
+            orderProperty: "UpdatedDate",
+            direction: "DESC",
+          }));
+        } else {
+          setSort({ direction: "none", accessor: column.id });
+          setparams((prev) => ({
+            ...prev,
+            orderProperty: column.id,
+            direction: "none",
+          }));
+        }
+
         break;
-      default:
     }
   };
   return (
@@ -194,7 +182,6 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
       <ReactTable
         columns={columns}
         data={listitem}
-        onSort={(e) => handleOnSort(e)}
         onRowClick={(e) => handleRowClick(e)}
         onHeaderClick={columnHeaderClick}
       ></ReactTable>
