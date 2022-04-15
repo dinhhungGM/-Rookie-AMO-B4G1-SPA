@@ -9,6 +9,7 @@ import RookieModal from "../../../components/rookiemodal/RookieModal";
 import YesNoModal from "../../../components/rookiemodal/YesNoModal";
 import DetailsComponent from "../../../components/DetailsComponent";
 import { setParams } from "../assignmentSlice";
+import { onChangePageName } from "../../home/homeSlice";
 import { CreateReturnRequestAsync } from "../../returnRequest/returnRequestSlice";
 import Table from "./TableList";
 import {
@@ -125,7 +126,10 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
       Cell: ({ row }) => (
         <div className="rookie-group-btn">
           <Editbtn
-            onClick={() => history.push(`/manageassignment/${row.original.id}`)}
+            onClick={() => {
+              dispatch(onChangePageName("Manage Assignment > Edit Assignment"));
+              history.push(`/manageassignment/${row.original.id}`);
+            }}
             disabled={row.original.state === "Accepted"}
           />
           <span style={{ marginLeft: "15px", marginRight: "15px" }}>
