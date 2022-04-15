@@ -86,9 +86,9 @@ const Main = () => {
           style={{ paddingTop: "10px", paddingBottom: "10px" }}
         >
           <Multiselect
+            showArrow
             placeholder="Filter by State"
             avoidHighlightFirstOption
-            hidePlaceholder
             displayValue="cat"
             onRemove={(selectedList, selectedItem) =>
               onRemove(selectedList, selectedItem)
@@ -151,7 +151,7 @@ const Main = () => {
               className="btn-user-text"
               onClick={() => {
                 dispatch(
-                  onChangePageName("Manage Assignment > Create New Assignment"),
+                  onChangePageName("Manage Assignment > Create New Assignment")
                 );
                 history.push("/manageassignment/create");
               }}

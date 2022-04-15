@@ -192,7 +192,7 @@
   border-radius: 5px !important;
   width: 175px !important;
   height: 39px !important;
-  margin-left: 20px !important;
+  margin-left: .25rem !important
 }
 .search-list-pop-up {
   float: right;

@@ -95,7 +95,6 @@ const Main = () => {
         <div id="filter-and-search-asset-grp__filter">
           <Multiselect
             showArrow
-            className="me-1"
             placeholder="Filter by State"
             avoidHighlightFirstOption
             displayValue="key"
