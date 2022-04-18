@@ -44,14 +44,16 @@ const AddEdit = () => {
     await dispatch(
       isAddMode
         ? createNewAssignmentAsync(postValue)
-        : updateAssignmentAsync(postValue),
+        : updateAssignmentAsync(postValue)
     );
     if (isAddMode) {
       dispatch(setParams({ key: "OrderProperty", value: "createdDate" }));
       dispatch(setParams({ key: "Desc", value: true }));
+      dispatch(setParams({ key: "Page", value: 0 }));
     } else {
       dispatch(setParams({ key: "OrderProperty", value: "updatedDate" }));
       dispatch(setParams({ key: "Desc", value: true }));
+      dispatch(setParams({ key: "Page", value: 0 }));
     }
     dispatch(onChangePageName("Manage Assignment"));
     history.push("/manageassignment");
