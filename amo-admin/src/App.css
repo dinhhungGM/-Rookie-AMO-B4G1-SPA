@@ -106,7 +106,7 @@
 .pagination li {
   float: left;
   transition: background-color 0.3s;
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
   height: 40px;
 }
 
@@ -117,15 +117,26 @@
   padding: 8px 16px;
 }
 
-.pagination li.active {
+/* .pagination li.active {
+  background-color: rgba(207, 35, 56, 1);
+  border: 1px solid rgba(207, 35, 56, 1);
+} */
+.page-item.active .page-link {
   background-color: rgba(207, 35, 56, 1);
   border: 1px solid rgba(207, 35, 56, 1);
 }
-
 .pagination li.active a {
   color: white;
 }
-
+.page-link:hover {
+  z-index: 2;
+  color: rgba(207, 35, 56, 1);
+  background-color: #e9ecef;
+  border-color: #dee2e6;
+}
+.page-link:focus {
+ box-shadow: none;
+}
 .disabled {
   pointer-events: none;
 }

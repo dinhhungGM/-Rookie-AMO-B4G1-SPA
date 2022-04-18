@@ -145,7 +145,7 @@ const HomeTable = ({ listitem, onRefresh }) => {
             onClick={(e) => handleCreateRequestReturing(e, row.original.id)}
             disabled={checkRequest(
               row.original.state,
-              row.original.returnRequestId,
+              row.original.returnRequestId
             )}
           />
         </div>
@@ -221,7 +221,7 @@ const HomeTable = ({ listitem, onRefresh }) => {
         )
       ) : (
         <RookieModal
-          title={Id ? "Are You Sure?" : "Assignment Details"}
+          title={Id ? "Are You Sure?" : "Detailed Assignment Information"}
           modalIsOpen={modalIsOpen}
           closeModal={closeModal}
           customStyles={customStyles}

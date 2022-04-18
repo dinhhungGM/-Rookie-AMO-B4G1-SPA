@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Multiselect from "multiselect-react-dropdown";
-import Pagination from "react-js-pagination";
 import ReturnRequestTable from "../components/ReturnRequestTable";
 import { useSelector, useDispatch } from "react-redux";
 import SearchField from "react-search-field";
@@ -8,6 +7,7 @@ import { Input } from "reactstrap";
 import { getReturnRequestListAsync } from "../returnRequestSlice";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import ReactPaginate from "react-paginate";
 const user = JSON.parse(localStorage.getItem("user"));
 
 const initialFilter = {
@@ -43,9 +43,9 @@ const Main = () => {
     setActivePage(1);
   };
 
-  const handlePageChange = (pageNumber) => {
-    setparams({ ...params, page: pageNumber });
-    setActivePage(pageNumber);
+  const handlePageChange = (e) => {
+    setparams({ ...params, page: e.selected + 1 });
+    setActivePage(e.selected + 1);
   };
 
   const onSearchSubmit = (key, value) => {
@@ -173,15 +173,25 @@ const Main = () => {
             params={params}
             setparams={setparams}
           ></ReturnRequestTable>
-          <Pagination
-            activePage={activePage}
-            itemsCountPerPage={5}
-            totalItemsCount={returnRequests.totalItems}
+          <ReactPaginate
+            nextLabel="Next"
+            onPageChange={(e) => handlePageChange(e)}
             pageRangeDisplayed={5}
-            hideFirstLastPages={true}
-            prevPageText="Previous"
-            nextPageText="Next"
-            onChange={(e) => handlePageChange(e)}
+            marginPagesDisplayed={1}
+            pageCount={returnRequests.totalPages}
+            previousLabel="Previous"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakLabel="..."
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            containerClassName="pagination"
+            activeClassName="active"
+            renderOnZeroPageCount={null}
           />
         </>
       )}

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Pagination from "react-js-pagination";
 import { Link } from "react-router-dom";
 //import { useDispatch } from 'react-redux';
 import SearchField from "react-search-field";
@@ -13,7 +12,7 @@ import AssignmentTable from "../components/AssignmentTable";
 import { onChangePageName } from "../../home/homeSlice";
 import { useHistory } from "react-router-dom";
 import { getListAssignment, setFilter, setParams } from "../assignmentSlice";
-
+import ReactPaginate from "react-paginate";
 const Main = () => {
   const {
     assignments: Assignment,
@@ -47,8 +46,8 @@ const Main = () => {
     }
   };
 
-  const handlePageChange = (pageNumber) => {
-    dispatch(setParams({ key: "Page", value: pageNumber }));
+  const handlePageChange = (e) => {
+    dispatch(setParams({ key: "Page", value: e.selected + 1 }));
   };
 
   const onSelect = (selectedList, selectedItem) => {
@@ -169,15 +168,26 @@ const Main = () => {
             setParams={true}
             Params={Params}
           />
-          <Pagination
-            activePage={Params.Page}
-            itemsCountPerPage={10}
-            totalItemsCount={TotalItems}
-            pageRangeDisplayed={TotalPages}
-            hideFirstLastPages={true}
-            prevPageText="Previous"
-            nextPageText="Next"
-            onChange={(e) => handlePageChange(e)}
+
+          <ReactPaginate
+            nextLabel="Next"
+            onPageChange={(e) => handlePageChange(e)}
+            pageRangeDisplayed={5}
+            marginPagesDisplayed={1}
+            pageCount={TotalPages}
+            previousLabel="Previous"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakLabel="..."
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            containerClassName="pagination"
+            activeClassName="active"
+            renderOnZeroPageCount={null}
           />
         </>
       )}

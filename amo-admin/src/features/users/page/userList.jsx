@@ -19,12 +19,11 @@ import DetailsComponent from "../../../components/DetailsComponent";
 import { Button } from "reactstrap";
 import RookieModal from "../../../components/rookiemodal/RookieModal";
 import YesNoModal from "../../../components/rookiemodal/YesNoModal";
-import Pagination from "react-js-pagination";
 import { Link, useHistory } from "react-router-dom";
 import Multiselect from "multiselect-react-dropdown";
 import UserTable from "../components/UserTable";
 import axiosClient from "../../../api/axiosClient";
-
+import ReactPaginate from "react-paginate";
 export default function User() {
   const customStyles = {
     content: {
@@ -75,7 +74,7 @@ export default function User() {
         sort: SortBy,
         desc: Desc,
         id: UserID,
-      }),
+      })
     );
   }, [
     dispatch,
@@ -87,8 +86,8 @@ export default function User() {
     Desc,
     UserID,
   ]);
-  const handlePageChange = (pageNumber) => {
-    dispatch(onChangePage(pageNumber));
+  const handlePageChange = (e) => {
+    dispatch(onChangePage(e.selected + 1));
   };
 
   const handleDisableUser = async (id) => {
@@ -315,7 +314,7 @@ export default function User() {
               onSort(e);
             }}
           ></UserTable>
-          <Pagination
+          {/* <Pagination
             activePage={UserCurrentPage}
             itemsCountPerPage={5}
             totalItemsCount={UsertotalItems}
@@ -324,6 +323,26 @@ export default function User() {
             prevPageText="Previous"
             nextPageText="Next"
             onChange={(e) => handlePageChange(e)}
+          /> */}
+          <ReactPaginate
+            nextLabel="Next"
+            onPageChange={(e) => handlePageChange(e)}
+            pageRangeDisplayed={5}
+            marginPagesDisplayed={1}
+            pageCount={UserTotalPages}
+            previousLabel="Previous"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakLabel="..."
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            containerClassName="pagination"
+            activeClassName="active"
+            renderOnZeroPageCount={null}
           />
         </div>
       ) : (
