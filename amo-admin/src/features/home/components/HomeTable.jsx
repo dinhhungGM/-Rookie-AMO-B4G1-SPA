@@ -174,10 +174,10 @@ const HomeTable = ({ listitem, onRefresh }) => {
                 color="danger"
                 onClick={() => handleCreateReturnRequest()}
               >
-                Create
+                Yes
               </Button>
               <Button onClick={() => closeModal()} id="cancelUserBtn">
-                Cancel
+                No
               </Button>
             </div>
           </YesNoModal>
@@ -211,7 +211,7 @@ const HomeTable = ({ listitem, onRefresh }) => {
                 color="danger"
                 onClick={() => handleSubmitDeclineAssign()}
               >
-                Delete
+                Decline
               </Button>
               <Button onClick={() => closeModal()} id="cancelUserBtn">
                 Cancel

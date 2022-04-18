@@ -41,8 +41,10 @@ const Main = () => {
   const handleAssignedDateOnClick = (value) => {
     if (value == null) {
       dispatch(setParams({ key: "AssignedDate", value: null }));
+      dispatch(setParams({ key: "Page", value: 0 }));
     } else {
       dispatch(setParams({ key: "AssignedDate", value: new Date(value) }));
+      dispatch(setParams({ key: "Page", value: 0 }));
     }
   };
 
@@ -52,14 +54,17 @@ const Main = () => {
 
   const onSelect = (selectedList, selectedItem) => {
     dispatch(setFilter({ value: selectedList.map((x) => x.key).join(" ") }));
+    dispatch(setParams({ key: "Page", value: 0 }));
   };
 
   const onRemove = (selectedList, removedItem) => {
     dispatch(setFilter({ value: selectedList.map((x) => x.key).join(" ") }));
+    dispatch(setParams({ key: "Page", value: 0 }));
   };
 
   const onSearchSubmit = (key, value) => {
     dispatch(setParams({ key: "KeySearch", value: key }));
+    dispatch(setParams({ key: "Page", value: 0 }));
   };
   const handleonRefresh = () => {
     setisRefresh(!isRefresh);
@@ -97,7 +102,7 @@ const Main = () => {
             }
             options={[
               {
-                cat: "Waiting Accept",
+                cat: "Waiting Acceptance",
                 key: "1",
               },
               {

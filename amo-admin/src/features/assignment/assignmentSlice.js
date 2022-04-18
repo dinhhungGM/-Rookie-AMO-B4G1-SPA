@@ -167,7 +167,7 @@ export const assignmentSlice = createSlice({
           if (x.state === 0) {
             x.state = "Accepted";
           } else {
-            x.state = "Waiting for accept";
+            x.state = "Waiting for Acceptance";
           }
           return x;
         });

@@ -8,7 +8,7 @@ import { onChangeParam, deleteAssetAsync } from "../assetSlice";
 import RookieModal from "../../../components/rookiemodal/RookieModal";
 import Xcirclebtn from "../../../components/Button/Xcirclebtn";
 import Editbtn from "../../../components/Button/Editbtn";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { onChangePageName } from "../../home/homeSlice";
 import HistoryAssignment from "../../../features/asset/components/HistoryAssignment";
 const stateArr = [
@@ -21,6 +21,7 @@ const stateArr = [
 const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
   const { isCreatedOrEdited } = useSelector((state) => state.asset);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [assetInfor, setAssetInfor] = useState(null);
   const [deleteAsset, setDeleteAsset] = useState(null);
   const [sort, setSort] = useState({
@@ -39,6 +40,17 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
     setAssetInfor(null);
     setDeleteAsset(null);
     setIsOpen(false);
+  }
+
+  function openNotification() {
+    setIsNotificationOpen(true);
+  }
+
+  function closeNotification() {
+    setAssetInfor(null);
+    setDeleteAsset(null);
+    setIsNotificationOpen(false);
+    closeModal();
   }
 
   const handleRowClick = (dataRow) => {
@@ -79,6 +91,11 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
     setDeleteAsset(id);
     setAssetInfor(null);
     openModal();
+  };
+  const handleOpenNotification = (id) => {
+    setDeleteAsset(id);
+    setAssetInfor(null);
+    openNotification();
   };
 
   const handleConfirmDeleteAsset = async () => {
@@ -129,9 +146,11 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
           />
           <Xcirclebtn
             onClick={() => {
-              handleDeleteAsset(row.original.id);
+              if (stateArr[row.original.state] === "Assigned")
+                handleOpenNotification(row.original.id);
+              else handleDeleteAsset(row.original.id);
             }}
-            disabled={stateArr[row.original.state] === "Assigned"}
+            disabled={false}
           />
         </div>
       ),
@@ -221,6 +240,31 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
         ) : (
           ""
         )}
+      </RookieModal>
+      <RookieModal
+        title={"Cannot Delete Asset"}
+        modalIsOpen={isNotificationOpen}
+        closeModal={closeNotification}
+        customStyles={customStyles}
+        isModalHeader={true}
+      >
+        <div
+          style={{
+            paddingTop: "10px",
+            paddingBottom: "20px",
+          }}
+        >
+          <div className="mb-3">
+            Cannot delete the asset because it belongs to one or more historical
+            assignments.
+            <br />
+            If the asset is not able to be used anymore please update its state
+            in{" "}
+            <Link to={"/manageasset/editasset/" + deleteAsset}>
+              Edit Asset page
+            </Link>
+          </div>
+        </div>
       </RookieModal>
     </>
   );

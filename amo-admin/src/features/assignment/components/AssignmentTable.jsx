@@ -142,7 +142,7 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
             onClick={(e) => handleCreateRequestReturing(e, row.original.id)}
             disabled={checkRequest(
               row.original.state,
-              row.original.returnRequestId,
+              row.original.returnRequestId
             )}
           />
         </div>
@@ -180,10 +180,10 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
                   : () => handleConfirmDisableAssignment()
               }
             >
-              {modalRequestIsOpen ? "Create" : "Delete"}
+              {modalRequestIsOpen ? "Yes" : "Delete"}
             </Button>
             <Button onClick={() => closeModal()} id="cancelUserBtn">
-              Cancel
+              {modalRequestIsOpen ? "No" : "Cancel"}
             </Button>
           </div>
         </YesNoModal>
