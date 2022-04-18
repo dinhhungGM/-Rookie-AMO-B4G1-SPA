@@ -327,6 +327,7 @@ export default function User() {
           <ReactPaginate
             nextLabel="Next"
             onPageChange={(e) => handlePageChange(e)}
+            forcePage={UserCurrentPage - 1}
             pageRangeDisplayed={5}
             marginPagesDisplayed={1}
             pageCount={UserTotalPages}

@@ -40,17 +40,17 @@ const Main = () => {
       state: selectedList.map((x) => x.cat).join(" "),
       page: 1,
     });
-    setActivePage(1);
+    setActivePage(0);
   };
 
   const handlePageChange = (e) => {
     setparams({ ...params, page: e.selected + 1 });
-    setActivePage(e.selected + 1);
+    setActivePage(e.selected);
   };
 
   const onSearchSubmit = (key, value) => {
     setparams({ ...params, keySearch: key, page: 1 });
-    setActivePage(1);
+    setActivePage(0);
   };
   const handleReturnDateOnClick = (value) => {
     ///console.log(new Date(value).toISOString());
@@ -174,6 +174,7 @@ const Main = () => {
             setparams={setparams}
           ></ReturnRequestTable>
           <ReactPaginate
+            forcePage={activePage}
             nextLabel="Next"
             onPageChange={(e) => handlePageChange(e)}
             pageRangeDisplayed={5}

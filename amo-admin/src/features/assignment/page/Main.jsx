@@ -170,6 +170,7 @@ const Main = () => {
           />
 
           <ReactPaginate
+            forcePage={Params.Page - 1}
             nextLabel="Next"
             onPageChange={(e) => handlePageChange(e)}
             pageRangeDisplayed={5}

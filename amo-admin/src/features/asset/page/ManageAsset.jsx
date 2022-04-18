@@ -23,6 +23,7 @@ const initialFilter = {
 
 export const sortAssetByUpdatedDate = () => {
   initialFilter.direction = "DESC";
+  initialFilter.orderProperty = "UpdatedDate";
 };
 
 const ManageAsset = () => {
@@ -44,7 +45,7 @@ const ManageAsset = () => {
       state: selectedList.map((x) => x.cat).join(" "),
       page: 1,
     });
-    setActivePage(1);
+    setActivePage(0);
   };
 
   const oncategoryChange = (selectedList) => {
@@ -53,17 +54,17 @@ const ManageAsset = () => {
       category: selectedList.map((x) => x.key).join(" "),
       page: 1,
     });
-    setActivePage(1);
+    setActivePage(0);
   };
 
   const handlePageChange = (e) => {
     setparams({ ...params, page: e.selected + 1 });
-    setActivePage(e.selected + 1);
+    setActivePage(e.selected);
   };
 
   const onSearchSubmit = (key, value) => {
     setparams({ ...params, keySearch: key, page: 1 });
-    setActivePage(1);
+    setActivePage(0);
   };
 
   const handleRefresh = () => {
@@ -251,6 +252,7 @@ const ManageAsset = () => {
           <ReactPaginate
             nextLabel="Next"
             onPageChange={(e) => handlePageChange(e)}
+            forcePage={activePage}
             pageRangeDisplayed={5}
             marginPagesDisplayed={1}
             pageCount={assets.totalPages}
