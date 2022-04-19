@@ -36,7 +36,7 @@ const DeleteAssetModal = ({ id, modalIsOpen, closeModal, onRefresh }) => {
   };
   return (
     <RookieModal
-      title={history.length === 0 ? "Are You Sure?" : "Cannot Delete Assetn"}
+      title={history.length === 0 ? "Are You Sure?" : "Cannot Delete Asset"}
       modalIsOpen={modalIsOpen}
       closeModal={closeModal}
       customStyles={customStyles}
