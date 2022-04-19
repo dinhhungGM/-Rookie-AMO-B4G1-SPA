@@ -29,6 +29,7 @@ code {
   position: relative;
   cursor: pointer;
   font-size: 13px !important;
+  white-space: nowrap;
 }
 
 .option label:before {

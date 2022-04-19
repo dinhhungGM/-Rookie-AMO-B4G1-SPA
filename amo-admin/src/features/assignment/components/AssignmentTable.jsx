@@ -52,8 +52,9 @@ const AssignmentTable = ({ listitem, onRefresh }) => {
   };
 
   const handleConfirmDisableAssignment = async () => {
-    dispatch(setAssignmentIdToDelete(Id));
-    dispatch(deleteAssignmentAsync(Id));
+    await dispatch(setAssignmentIdToDelete(Id));
+    await dispatch(deleteAssignmentAsync(Id));
+    onRefresh();
     closeModal();
   };
 
