@@ -18,6 +18,7 @@ const Main = () => {
     assignments: Assignment,
     totalPages: TotalPages,
     totalItems: TotalItems,
+    loading: Loading,
     params: Params,
   } = useSelector((state) => state.assignment);
 
@@ -155,7 +156,7 @@ const Main = () => {
               className="btn-user-text"
               onClick={() => {
                 dispatch(
-                  onChangePageName("Manage Assignment > Create New Assignment")
+                  onChangePageName("Manage Assignment > Create New Assignment"),
                 );
                 history.push("/manageassignment/create");
               }}
@@ -165,7 +166,7 @@ const Main = () => {
           </Button>
         </div>
       </div>
-      {Assignment && (
+      {!Loading ? (
         <>
           <AssignmentTable
             listitem={Assignment}
@@ -195,6 +196,10 @@ const Main = () => {
             activeClassName="active"
             renderOnZeroPageCount={null}
           />
+        </>
+      ) : (
+        <>
+          <p> Loading....</p>
         </>
       )}
     </div>
