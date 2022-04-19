@@ -103,7 +103,7 @@ const Main = () => {
             }
             options={[
               {
-                cat: "Waiting Acceptance",
+                cat: "Waiting for Acceptance",
                 key: "1",
               },
               {
@@ -156,7 +156,7 @@ const Main = () => {
               className="btn-user-text"
               onClick={() => {
                 dispatch(
-                  onChangePageName("Manage Assignment > Create New Assignment"),
+                  onChangePageName("Manage Assignment > Create New Assignment")
                 );
                 history.push("/manageassignment/create");
               }}

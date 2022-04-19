@@ -102,11 +102,12 @@ const ReturnRequestTable = ({ listitem, onRefresh, params, setparams }) => {
       sortDirection: sort.accessor === "State" ? sort.direction : "none",
     },
     {
-      Header: "Action",
+      Header: "",
+      id: "Action",
       Cell: ({ row }) => {
         //console.log(row);
         return (
-          <div className="rookie-group-btn">
+          <div className="rookie-group-btn" style={{ minWidth: "80px" }}>
             <Checkbtn
               disabled={stateArr[row.original.state] === "Completed"}
               onClick={() => {

@@ -8,7 +8,7 @@ function Table({ columns, data, onHeaderClick, onRowClick, scrollable }) {
         data,
         manualSortBy: true,
       },
-      useSortBy,
+      useSortBy
     );
 
   // We don't want to render all 2000 rows for this example, so cap
@@ -68,7 +68,7 @@ function Table({ columns, data, onHeaderClick, onRowClick, scrollable }) {
                 {row.cells.map((cell) => {
                   return (
                     <td {...cell.getCellProps()}>
-                      {cell.column.Header !== "Action"
+                      {cell.column.Header !== ""
                         ? String(cell.value).substring(0, 20) +
                           (String(cell.value).length > 20 ? "..." : "")
                         : cell.render("Cell")}

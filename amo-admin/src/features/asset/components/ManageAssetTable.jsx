@@ -116,7 +116,8 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
       sortDirection: sort.accessor === "State" ? sort.direction : "none",
     },
     {
-      Header: "Action",
+      Header: "",
+      id: "Action",
       Cell: ({ row }) => (
         <div className="rookie-group-btn">
           <Editbtn
