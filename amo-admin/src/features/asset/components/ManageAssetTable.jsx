@@ -11,6 +11,7 @@ import Editbtn from "../../../components/Button/Editbtn";
 import { Link, useHistory } from "react-router-dom";
 import { onChangePageName } from "../../home/homeSlice";
 import HistoryAssignment from "../../../features/asset/components/HistoryAssignment";
+import DeleteAssetModal from "./DeleteAssetModal";
 const stateArr = [
   "Available",
   "Not Available",
@@ -32,13 +33,13 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
     setSort({ direction: params.direction, accessor: params.orderProperty });
   }, [params]);
   const history = useHistory();
+
   function openModal() {
     setIsOpen(true);
   }
 
   function closeModal() {
-    setAssetInfor(null);
-    setDeleteAsset(null);
+    setAssetInfor({});
     setIsOpen(false);
   }
 
@@ -47,15 +48,17 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
   }
 
   function closeNotification() {
-    setAssetInfor(null);
     setDeleteAsset(null);
     setIsNotificationOpen(false);
-    closeModal();
   }
+
+  const handleOpenNotification = (id) => {
+    setDeleteAsset(id);
+    openNotification();
+  };
 
   const handleRowClick = (dataRow) => {
     const code = dataRow.code == null ? "Is unavailable" : dataRow.code;
-    console.log(dataRow);
 
     setAssetInfor({
       "Asset Code": code,
@@ -85,27 +88,6 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
 
   const handleChangePageName = (pagename) => {
     dispatch(onChangePageName(pagename));
-  };
-
-  const handleDeleteAsset = (id) => {
-    setDeleteAsset(id);
-    setAssetInfor(null);
-    openModal();
-  };
-  const handleOpenNotification = (id) => {
-    setDeleteAsset(id);
-    setAssetInfor(null);
-    openNotification();
-  };
-
-  const handleConfirmDeleteAsset = async () => {
-    try {
-      await dispatch(deleteAssetAsync({ id: deleteAsset }));
-    } catch (error) {
-      console.log("Failed to post user: ", error);
-    }
-    onRefresh();
-    closeModal();
   };
 
   const columns = [
@@ -145,12 +127,11 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
             }}
           />
           <Xcirclebtn
-            onClick={() => {
-              if (stateArr[row.original.state] === "Assigned")
-                handleOpenNotification(row.original.id);
-              else handleDeleteAsset(row.original.id);
+            onClick={(e) => {
+              e.stopPropagation();
+              handleOpenNotification(row.original.id);
             }}
-            disabled={false}
+            disabled={stateArr[row.original.state] === "Assigned"}
           />
         </div>
       ),
@@ -205,67 +186,20 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
         onHeaderClick={columnHeaderClick}
       ></ReactTable>
       <RookieModal
-        title={deleteAsset ? "Are You Sure?" : "Detailed Asset Information"}
+        title={"Detailed Asset Information"}
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}
         customStyles={customStyles}
         isModalHeader={true}
       >
-        {deleteAsset ? (
-          <div
-            style={{
-              paddingTop: "10px",
-              paddingBottom: "20px",
-            }}
-          >
-            <div className="mb-3">Do you want to delete this asset?</div>
-            <div className="d-flex">
-              <Button
-                color="danger"
-                onClick={() => handleConfirmDeleteAsset()}
-                className="me-2"
-              >
-                Delete
-              </Button>
-              <Button color="secondary" outline={true} onClick={closeModal}>
-                Cancel
-              </Button>
-            </div>
-          </div>
-        ) : assetInfor ? (
-          <>
-            <DetailsComponent list={assetInfor} />
-            {/* <HistoryAssignment data={historyAssignment} /> */}
-          </>
-        ) : (
-          ""
-        )}
+        <DetailsComponent list={assetInfor} />
       </RookieModal>
-      <RookieModal
-        title={"Cannot Delete Asset"}
+      <DeleteAssetModal
+        id={deleteAsset}
         modalIsOpen={isNotificationOpen}
         closeModal={closeNotification}
-        customStyles={customStyles}
-        isModalHeader={true}
-      >
-        <div
-          style={{
-            paddingTop: "10px",
-            paddingBottom: "20px",
-          }}
-        >
-          <div className="mb-3">
-            Cannot delete the asset because it belongs to one or more historical
-            assignments.
-            <br />
-            If the asset is not able to be used anymore please update its state
-            in{" "}
-            <Link to={"/manageasset/editasset/" + deleteAsset}>
-              Edit Asset page
-            </Link>
-          </div>
-        </div>
-      </RookieModal>
+        onRefresh={onRefresh}
+      ></DeleteAssetModal>
     </>
   );
 };
