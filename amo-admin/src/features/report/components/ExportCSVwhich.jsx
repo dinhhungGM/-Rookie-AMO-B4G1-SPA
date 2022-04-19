@@ -44,7 +44,7 @@ const ExportCSV = ({ csvData, fileName }) => {
   };
 
   return (
-    <Button variant="warning" onClick={(e) => exportToCSV(csvData, fileName)}>
+    <Button color="danger" onClick={(e) => exportToCSV(csvData, fileName)}>
       Export
     </Button>
   );
