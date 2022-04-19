@@ -1,6 +1,6 @@
 import { useTable, useSortBy } from "react-table";
 
-function Table({ columns, data, onHeaderClick, onRowClick, scrollable }) {
+function Table({ columns, data, onHeaderClick, onRowClick }) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable(
       {
@@ -16,18 +16,18 @@ function Table({ columns, data, onHeaderClick, onRowClick, scrollable }) {
   const firstPageRows = rows;
 
   return (
-    <>
+    <div
+      className="d-flex mb-3"
+      style={{
+        overflowX: "auto",
+      }}
+    >
       <table
-        className="table"
-        style={
-          scrollable
-            ? {
-                display: "block",
-                overflowX: "auto",
-                whiteSpace: "nowrap",
-              }
-            : {}
-        }
+        className="table mb-0"
+        style={{
+          overflowX: "auto",
+          whiteSpace: "nowrap",
+        }}
         {...getTableProps()}
       >
         <thead>
@@ -80,8 +80,7 @@ function Table({ columns, data, onHeaderClick, onRowClick, scrollable }) {
           })}
         </tbody>
       </table>
-      <br />
-    </>
+    </div>
   );
 }
 export default Table;

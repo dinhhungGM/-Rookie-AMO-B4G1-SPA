@@ -17,7 +17,7 @@ function Table({ columns, data, onRowClick, onSort }) {
       manualSortBy: true,
       disableSortRemove: true,
     },
-    useSortBy,
+    useSortBy
   );
   const { params: Params } = useSelector((state) => state.assignment); // We don't want to render all 2000 rows for this example, so cap
   // it at 20 for this use case
@@ -27,18 +27,18 @@ function Table({ columns, data, onRowClick, onSort }) {
     console.log(sortBy);
   }, [sortBy]);
   return (
-    <>
+    <div
+      className="d-flex mb-3"
+      style={{
+        overflowX: "auto",
+      }}
+    >
       <table
-        class="table"
-        style={
-          data.length !== 0
-            ? {
-                display: "block",
-                overflowX: "auto",
-                whiteSpace: "nowrap",
-              }
-            : {}
-        }
+        class="table mb-0"
+        style={{
+          overflowX: "auto",
+          whiteSpace: "nowrap",
+        }}
         {...getTableProps()}
       >
         <thead>
@@ -110,7 +110,7 @@ function Table({ columns, data, onRowClick, onSort }) {
         </tbody>
       </table>
       <br />
-    </>
+    </div>
   );
 }
 export default Table;
