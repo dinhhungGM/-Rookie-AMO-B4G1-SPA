@@ -107,24 +107,29 @@ function AssignmentForm(props) {
     ) {
       return false;
     }
-    if (!IsGreaterThanOrEqualToday(values.AssignedDate)) {
+    
+    if (!IsGreaterThanOrEqualToday(values.AssignedDate) && isAddMode) {
       return false;
     }
     return true;
   }
+
+
 
   const validationSchema = Yup.object().shape({
     AssetName: Yup.string().required("This field is required."),
     UserFullName: Yup.string().required("This field is required."),
     UserId: Yup.string().required("This field is required."),
     AssetId: Yup.string().required("This field is required."),
+
+    
     AssignedDate: Yup.string()
       .required("This field is required.")
       .test(
         "AssignedDate",
         "Must be greater than or equal to today",
         (value) => {
-          return IsGreaterThanOrEqualToday(value);
+          return true;
         }
       ),
     Note: Yup.string().test(
@@ -156,9 +161,17 @@ function AssignmentForm(props) {
         Note: assignment?.note,
         AssignmentId: assignment?.id
       })
+      dispatch(setPreAsset({
+        id: assignment?.assetId,
+        name: assignment?.asset?.name
+      }))
+      dispatch(setPreUser({
+        id: assignment?.assignedTo,
+        name: assignment?.userNameAssignedTo
+      }))
       
     }
-  }, [isAddMode, assignment, setInputValue]);
+  }, [dispatch, isAddMode, assignment, setInputValue]);
 
   return (
     <>
@@ -203,6 +216,7 @@ function AssignmentForm(props) {
                       type="date"
                       label="Assigned Date"
                       
+                      
                     />
 
                     <FastField
@@ -237,7 +251,7 @@ function AssignmentForm(props) {
                       component={InputField}
                       type="date"
                       label="Assigned Date"
-                      
+                      mode="edit"
                     />
                     <FastField
                       name="Note"
@@ -256,7 +270,7 @@ function AssignmentForm(props) {
                 >
                   <Button
                     type="submit"
-                    disabled={isAddMode ? !(checkSelectedValueValid(selectedValue) && formikProps.isValid) : !formikProps.isValid}
+                    disabled={isAddMode ? !(checkSelectedValueValid(selectedValue) && formikProps.isValid) : !checkSelectedValueValid(selectedValue)}
                     color="danger"
                     style={{
                       marginRight: "18px",

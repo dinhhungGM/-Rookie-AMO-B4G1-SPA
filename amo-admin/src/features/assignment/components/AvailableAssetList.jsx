@@ -67,7 +67,7 @@ const AvailableAssetList = ({
   const setCancelModal = () => {
     console.log(preAsset);
     onSelectValue(
-      preAsset === null ? "" : preAsset.id,
+      preAsset === null ? "" :  preAsset.id,
       preAsset === null ? "" : preAsset.name,
     );
     onClose();

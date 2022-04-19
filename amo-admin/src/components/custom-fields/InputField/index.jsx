@@ -21,11 +21,12 @@ InputField.defaultProps = {
 };
 
 function InputField(props) {
-  const { field, form, type, label, placeholder, disabled } = props;
+  const { field, form, type, label, placeholder, disabled, mode } = props;
   const { name } = field;
   const { errors, touched } = form;
   const showError = errors[name] && touched[name];
 
+  console.log(mode)
   return (
     <FormGroup className={`myformgroup `}>
       <div className="row myformgroup-row">
@@ -61,7 +62,7 @@ function InputField(props) {
               : { borderRadius: "7px" }
           }
           invalid={showError}
-          {...(name === "AssignedDate"
+          {...(name === "AssignedDate" && mode !== "edit"
             ? {
                 min: new Date().toISOString().split("T")[0],
               }
