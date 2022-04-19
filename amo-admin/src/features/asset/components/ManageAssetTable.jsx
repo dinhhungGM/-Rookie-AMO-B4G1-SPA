@@ -24,7 +24,7 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [assetInfor, setAssetInfor] = useState(null);
-  const [deleteAsset, setDeleteAsset] = useState(null);
+  const [deleteAsset, setDeleteAsset] = useState("");
   const [sort, setSort] = useState({
     sortDirection: "none",
     accessor: "some_accessor",
@@ -48,7 +48,7 @@ const ManageAssetTable = ({ listitem, onRefresh, params, setparams }) => {
   }
 
   function closeNotification() {
-    setDeleteAsset(null);
+    //setDeleteAsset("");
     setIsNotificationOpen(false);
   }
 

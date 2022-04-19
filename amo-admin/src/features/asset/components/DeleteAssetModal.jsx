@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import RookieModal from "../../../components/rookiemodal/RookieModal";
 import { getHistory, deleteAssetAsync } from "../assetSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
 const DeleteAssetModal = ({ id, modalIsOpen, closeModal, onRefresh }) => {
+  const firstRenderRef = useRef(true);
   const customStyles = {
     content: {
       top: "30%",
@@ -18,8 +19,12 @@ const DeleteAssetModal = ({ id, modalIsOpen, closeModal, onRefresh }) => {
   const { history } = useSelector((state) => state.asset);
   const dispatch = useDispatch();
   useEffect(() => {
+    if (firstRenderRef.current) {
+      firstRenderRef.current = false;
+      return;
+    }
     dispatch(getHistory({ id }));
-  }, [id, dispatch]);
+  }, [id]);
   const handleConfirmDeleteAsset = async () => {
     try {
       await dispatch(deleteAssetAsync({ id }));
