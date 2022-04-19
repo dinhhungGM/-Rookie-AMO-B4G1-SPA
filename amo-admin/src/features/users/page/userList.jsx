@@ -369,7 +369,7 @@ export default function User() {
         </YesNoModal>
       ) : (
         <RookieModal
-          title={"User Details"}
+          title={"Detailed User Information"}
           modalIsOpen={modalIsOpen}
           closeModal={closeModal}
           customStyles={customStyles}
