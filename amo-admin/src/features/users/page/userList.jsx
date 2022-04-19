@@ -9,6 +9,7 @@ import {
   setSearch,
   setSort,
   setDesc,
+  setLoading,
 } from "../userSlice";
 import { onChangePageName } from "../../home/homeSlice";
 import Editbtn from "../../../components/Button/Editbtn";
@@ -74,7 +75,7 @@ export default function User() {
         sort: SortBy,
         desc: Desc,
         id: UserID,
-      })
+      }),
     );
   }, [
     dispatch,

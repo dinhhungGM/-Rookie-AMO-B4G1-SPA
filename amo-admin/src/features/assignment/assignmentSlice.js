@@ -29,13 +29,13 @@ export const updateAssignmentAsync = createAsyncThunk(
     try {
       const response = await axiosClient.put(
         `api/assignment/${assignment.AssignmentId}`,
-        assignment
+        assignment,
       );
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 export const getAssignmentById = createAsyncThunk(
@@ -47,7 +47,7 @@ export const getAssignmentById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 export const createNewAssignmentAsync = createAsyncThunk(
@@ -60,7 +60,7 @@ export const createNewAssignmentAsync = createAsyncThunk(
       console.log(error);
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 export const getListAssignment = createAsyncThunk(
   "assignment/getListAssignment",
@@ -74,7 +74,7 @@ export const getListAssignment = createAsyncThunk(
       console.log(error);
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 
 export const deleteAssignmentAsync = createAsyncThunk(
@@ -86,7 +86,7 @@ export const deleteAssignmentAsync = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 export const assignmentSlice = createSlice({
   name: "assignment",
@@ -107,6 +107,9 @@ export const assignmentSlice = createSlice({
         id: action.payload.id,
         name: action.payload.name,
       };
+    },
+    setLoading(state, action) {
+      state.loading = true;
     },
     setPreUser(state, action) {
       state.preUser = {
@@ -172,6 +175,7 @@ export const assignmentSlice = createSlice({
           return x;
         });
         state.assignments = action.payload.items;
+        state.loading = false;
       })
       .addCase(getListAssignment.rejected, (state, action) => {
         state.loading = false;
@@ -207,7 +211,7 @@ export const assignmentSlice = createSlice({
         state.loading = false;
         console.log(state.assignmentIdToDelete);
         state.assignments = state.assignments.filter(
-          (x) => x.id !== state.assignmentIdToDelete
+          (x) => x.id !== state.assignmentIdToDelete,
         );
         state.assignmentIdToDelete = null;
         alert("Assignment deleted Successfully");
@@ -229,6 +233,7 @@ export const {
   setAssignmentIdToDelete,
   setPreAsset,
   setPreUser,
+  setLoading,
 } = assignmentSlice.actions;
 
 export default assignmentSlice.reducer;

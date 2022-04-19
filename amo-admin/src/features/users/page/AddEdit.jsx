@@ -9,6 +9,8 @@ import {
   setDesc,
   getUserById,
   updateUserAsync,
+  setLoading,
+  onChangePage,
 } from "../userSlice";
 import { createNewUserAsync } from "../userSlice";
 //import {onParamsChange} from '../userSlice';
@@ -26,11 +28,9 @@ const AddEdit = () => {
   const { userId } = useParams();
   //const Params = useSelector(state => state.user.Params);
   const isAddMode = !userId;
-  const { user: User } = useSelector(
-    (state) => state.user
-  );
+  const { user: User } = useSelector((state) => state.user);
   useEffect(() => {
-    if(userId){
+    if (userId) {
       dispatch(getUserById(userId));
     }
   }, [dispatch, userId]);
@@ -62,11 +62,15 @@ const AddEdit = () => {
       await dispatch(createNewUserAsync(values));
       dispatch(setSort("codeStaff"));
       dispatch(setDesc(true));
+      dispatch(onChangePage(0));
+      dispatch(setLoading());
       history.push("/manageuser");
     } else {
       await dispatch(updateUserAsync(values));
       dispatch(setUserId(values.Id));
       dispatch(setSort(""));
+      dispatch(setLoading());
+      dispatch(onChangePage(0));
       console.log("Edit mode");
       history.push("/manageuser");
     }
@@ -79,16 +83,15 @@ const AddEdit = () => {
         paddingRight: "30%",
       }}
     >
-      <div className="titleview mb-3" >
+      <div className="titleview mb-3">
         {isAddMode ? "Create New User" : "Edit User"}
       </div>
-     
-        <UserForm
-          isAddMode={isAddMode}
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-        />
-      
+
+      <UserForm
+        isAddMode={isAddMode}
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+      />
     </div>
   );
 };

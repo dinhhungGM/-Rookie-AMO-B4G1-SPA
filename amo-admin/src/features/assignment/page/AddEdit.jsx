@@ -10,6 +10,7 @@ import {
   getAssignmentById,
   updateAssignmentAsync,
   setParams,
+  setLoading,
 } from "../assignmentSlice";
 import { onChangePageName } from "../../home/homeSlice";
 
@@ -44,16 +45,18 @@ const AddEdit = () => {
     await dispatch(
       isAddMode
         ? createNewAssignmentAsync(postValue)
-        : updateAssignmentAsync(postValue)
+        : updateAssignmentAsync(postValue),
     );
     if (isAddMode) {
       dispatch(setParams({ key: "OrderProperty", value: "createdDate" }));
       dispatch(setParams({ key: "Desc", value: true }));
       dispatch(setParams({ key: "Page", value: 0 }));
+      dispatch(setLoading());
     } else {
       dispatch(setParams({ key: "OrderProperty", value: "updatedDate" }));
       dispatch(setParams({ key: "Desc", value: true }));
       dispatch(setParams({ key: "Page", value: 0 }));
+      dispatch(setLoading());
     }
     dispatch(onChangePageName("Manage Assignment"));
     history.push("/manageassignment");

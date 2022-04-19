@@ -43,7 +43,7 @@ export const getAllUsersAsync = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 
 export const createNewUserAsync = createAsyncThunk(
@@ -57,7 +57,7 @@ export const createNewUserAsync = createAsyncThunk(
       console.log(error);
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 export const getPagedUsersAsync = createAsyncThunk(
   "user/getPagedUsersAsync",
@@ -71,7 +71,7 @@ export const getPagedUsersAsync = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 export const disableUser = createAsyncThunk(
   "user/disableUser",
@@ -82,7 +82,7 @@ export const disableUser = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 
 export const getUserById = createAsyncThunk(
@@ -95,7 +95,7 @@ export const getUserById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 
 export const updateUserAsync = createAsyncThunk(
@@ -104,13 +104,13 @@ export const updateUserAsync = createAsyncThunk(
     try {
       const response = await axiosClientId4.put(
         `api/users/${values.Id}`,
-        values
+        values,
       );
       return response;
     } catch (error) {
       return rejectWithValue(error.response);
     }
-  }
+  },
 );
 
 export const userSlice = createSlice({
@@ -137,6 +137,9 @@ export const userSlice = createSlice({
     },
     setDesc(state, action) {
       state.desc = action.payload;
+    },
+    setLoading(state, action) {
+      state.loading = true;
     },
     setUserId(state, action) {
       state.userid = action.payload;
@@ -229,5 +232,6 @@ export const {
   setSortColumn,
   updateUser,
   resetState,
+  setLoading,
 } = userSlice.actions;
 export default userSlice.reducer;
